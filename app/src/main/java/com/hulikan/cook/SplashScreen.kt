@@ -1,6 +1,5 @@
 package com.hulikan.cook
 
-import android.annotation.SuppressLint
 import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +32,6 @@ import coil.request.ImageRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@SuppressLint("UseOfNonLambdaOffsetOverload")
 @Composable
 fun SplashScreen(navController: NavController){
     val scope = rememberCoroutineScope()
@@ -48,7 +46,7 @@ fun SplashScreen(navController: NavController){
         .build()
     LaunchedEffect(key1 = true) {
         scope.launch {
-            delay(3000)
+            delay(3300)
             navController.navigate("MainScreen")
         }
     }
@@ -68,7 +66,7 @@ fun SplashScreen(navController: NavController){
                 fontSize = 44.sp,
                 color = colorResource(id = R.color.broun),
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily(Font(R.font.kabarettdecordemothin))
+                fontFamily = FontFamily(Font(R.font.appetiteitalic))
             )
                 val gifPainter = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current)

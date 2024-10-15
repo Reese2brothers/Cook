@@ -16,6 +16,4 @@ fun ScreenStatusBar(userPreferenceColor: Color) {
             darkIcons = useDarkIcons
         )
     }
-
-
 }

@@ -14,7 +14,10 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
             SplashScreen(navController = navController)
         }
         composable("MainScreen") {
-            MainScreen()//(navController = navController)
+            MainScreen(navController = navController)
+        }
+        composable("ResourceScreen") {
+            ResourceScreen(navController = navController)
         }
     }
 }
