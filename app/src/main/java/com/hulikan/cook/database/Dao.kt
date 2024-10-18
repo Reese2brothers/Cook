@@ -8,14 +8,453 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MainDao {
+interface MainListDao {
     @Query("SELECT * FROM mainlist")
     fun getAll() : Flow<List<MainList>>
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertList(editEntity : MainList)
+    @Query("SELECT wordkey FROM mainlist")
+    suspend fun getAllKeys(): List<String>
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(mainList: MainList)
     @Delete
-    suspend fun deleteList(editEntity : MainList)
+    suspend fun deleteList(mainList : MainList)
     @Query("DELETE FROM mainlist")
     suspend fun deleteAll()
-
+    @Query("SELECT COUNT(*) FROM mainlist")
+    suspend fun getRowCount(): Int
 }
+
+@Dao
+interface OneDao {
+    @Query("SELECT * FROM one")
+    fun getAll() : Flow<List<One>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOne(one: One)
+    @Delete
+    suspend fun deleteOne(one: One)
+    @Query("DELETE FROM one")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwoDao {
+    @Query("SELECT * FROM two")
+    fun getAll() : Flow<List<Two>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwo(two: Two)
+    @Delete
+    suspend fun deleteTwo(two: Two)
+    @Query("DELETE FROM two")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThreeDao {
+    @Query("SELECT * FROM three")
+    fun getAll() : Flow<List<Three>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThree(three: Three)
+    @Delete
+    suspend fun deleteThree(three: Three)
+    @Query("DELETE FROM three")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FourDao {
+    @Query("SELECT * FROM four")
+    fun getAll() : Flow<List<Four>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFour(four: Four)
+    @Delete
+    suspend fun deleteFour(four: Four)
+    @Query("DELETE FROM four")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FiveDao {
+    @Query("SELECT * FROM five")
+    fun getAll() : Flow<List<Five>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFive(five: Five)
+    @Delete
+    suspend fun deleteFive(five: Five)
+    @Query("DELETE FROM five")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface SixDao {
+    @Query("SELECT * FROM six")
+    fun getAll() : Flow<List<Six>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSix(six: Six)
+
+    @Delete
+    suspend fun deleteSix(six: Six)
+
+    @Query("DELETE FROM six")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface SevenDao {
+    @Query("SELECT * FROM seven")
+    fun getAll() : Flow<List<Seven>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSeven(seven: Seven)
+
+    @Delete
+    suspend fun deleteSeven(seven: Seven)
+
+    @Query("DELETE FROM seven")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface EightDao {
+    @Query("SELECT * FROM eight")
+    fun getAll() : Flow<List<Eight>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertEight(eight: Eight)
+
+    @Delete
+    suspend fun deleteEight(eight: Eight)
+
+    @Query("DELETE FROM eight")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface NineDao {
+    @Query("SELECT * FROM nine")
+    fun getAll() : Flow<List<Nine>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNine(nine: Nine)
+
+    @Delete
+    suspend fun deleteNine(nine: Nine)
+
+    @Query("DELETE FROM nine")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TenDao {
+    @Query("SELECT * FROM ten")
+    fun getAll(): Flow<List<Ten>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTen(ten: Ten)
+
+    @Delete
+    suspend fun deleteTen(ten: Ten)
+
+    @Query("DELETE FROM ten")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ElevenDao {
+    @Query("SELECT * FROM eleven")
+    fun getAll(): Flow<List<Eleven>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertEleven(eleven: Eleven)
+
+    @Delete
+    suspend fun deleteEleven(eleven: Eleven)
+
+    @Query("DELETE FROM eleven")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwelveDao {
+    @Query("SELECT * FROM twelve")
+    fun getAll(): Flow<List<Twelve>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwelve(twelve: Twelve)
+
+    @Delete
+    suspend fun deleteTwelve(twelve: Twelve)
+
+    @Query("DELETE FROM twelve")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirteenDao {
+    @Query("SELECT * FROM thirteen")
+    fun getAll(): Flow<List<Thirteen>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirteen(thirteen: Thirteen)
+
+    @Delete
+    suspend fun deleteThirteen(thirteen: Thirteen)
+
+    @Query("DELETE FROM thirteen")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FourteenDao {
+    @Query("SELECT * FROM fourteen")
+    fun getAll(): Flow<List<Fourteen>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFourteen(fourteen: Fourteen)
+
+    @Delete
+    suspend fun deleteFourteen(fourteen: Fourteen)
+
+    @Query("DELETE FROM fourteen")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FifteenDao {
+    @Query("SELECT * FROM fifteen")
+    fun getAll(): Flow<List<Fifteen>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFifteen(fifteen: Fifteen)
+
+    @Delete
+    suspend fun deleteFifteen(fifteen: Fifteen)
+
+    @Query("DELETE FROM fifteen")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface SixteenDao {
+    @Query("SELECT * FROM sixteen")
+    fun getAll(): Flow<List<Sixteen>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSixteen(sixteen: Sixteen)
+
+    @Delete
+    suspend fun deleteSixteen(sixteen: Sixteen)
+
+    @Query("DELETE FROM sixteen")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface SeventeenDao {
+    @Query("SELECT * FROM seventeen")
+    fun getAll(): Flow<List<Seventeen>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSeventeen(seventeen: Seventeen)
+
+    @Delete
+    suspend fun deleteSeventeen(seventeen: Seventeen)
+
+    @Query("DELETE FROM seventeen")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface EighteenDao {
+    @Query("SELECT * FROM eighteen")
+    fun getAll(): Flow<List<Eighteen>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertEighteen(eighteen: Eighteen)
+
+    @Delete
+    suspend fun deleteEighteen(eighteen: Eighteen)
+
+    @Query("DELETE FROM eighteen")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface NineteenDao {
+    @Query("SELECT * FROM nineteen")
+    fun getAll(): Flow<List<Nineteen>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNineteen(nineteen: Nineteen)
+
+    @Delete
+    suspend fun deleteNineteen(nineteen: Nineteen)
+
+    @Query("DELETE FROM nineteen")
+    suspend fun deleteAll()
+}
+@Dao
+interface TwentyDao {
+    @Query("SELECT * FROM twenty")
+    fun getAll(): Flow<List<Twenty>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwenty(twenty: Twenty)
+
+    @Delete
+    suspend fun deleteTwenty(twenty: Twenty)
+
+    @Query("DELETE FROM twenty")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentyOneDao {
+    @Query("SELECT * FROM twentyOne")
+    fun getAll(): Flow<List<TwentyOne>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentyOne(twentyOne: TwentyOne)
+
+    @Delete
+    suspend fun deleteTwentyOne(twentyOne: TwentyOne)
+
+    @Query("DELETE FROM twentyOne")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentyTwoDao {
+    @Query("SELECT * FROM twentyTwo")
+    fun getAll(): Flow<List<TwentyTwo>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentyTwo(twentyTwo: TwentyTwo)
+
+    @Delete
+    suspend fun deleteTwentyTwo(twentyTwo: TwentyTwo)
+
+    @Query("DELETE FROM twentyTwo")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentyThreeDao {
+    @Query("SELECT * FROM twentyThree")
+    fun getAll(): Flow<List<TwentyThree>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentyThree(twentyThree: TwentyThree)
+
+    @Delete
+    suspend fun deleteTwentyThree(twentyThree: TwentyThree)
+
+    @Query("DELETE FROM twentyThree")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentyFourDao {
+    @Query("SELECT * FROM twentyFour")
+    fun getAll(): Flow<List<TwentyFour>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentyFour(twentyFour: TwentyFour)
+
+    @Delete
+    suspend fun deleteTwentyFour(twentyFour: TwentyFour)
+
+    @Query("DELETE FROM twentyFour")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentyFiveDao {
+    @Query("SELECT * FROM twentyFive")
+    fun getAll(): Flow<List<TwentyFive>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentyFive(twentyFive: TwentyFive)
+
+    @Delete
+    suspend fun deleteTwentyFive(twentyFive: TwentyFive)
+
+    @Query("DELETE FROM twentyFive")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentySixDao {
+    @Query("SELECT * FROM twentySix")
+    fun getAll(): Flow<List<TwentySix>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentySix(twentySix: TwentySix)
+
+    @Delete
+    suspend fun deleteTwentySix(twentySix: TwentySix)
+
+    @Query("DELETE FROM twentySix")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentySevenDao {
+    @Query("SELECT * FROM twentySeven")
+    fun getAll(): Flow<List<TwentySeven>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentySeven(twentySeven: TwentySeven)
+
+    @Delete
+    suspend fun deleteTwentySeven(twentySeven: TwentySeven)
+
+    @Query("DELETE FROM twentySeven")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentyEightDao {
+    @Query("SELECT * FROM twentyEight")
+    fun getAll(): Flow<List<TwentyEight>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentyEight(twentyEight: TwentyEight)
+
+    @Delete
+    suspend fun deleteTwentyEight(twentyEight: TwentyEight)
+
+    @Query("DELETE FROM twentyEight")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface TwentyNineDao {
+    @Query("SELECT * FROM twentyNine")
+    fun getAll(): Flow<List<TwentyNine>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTwentyNine(twentyNine: TwentyNine)
+
+    @Delete
+    suspend fun deleteTwentyNine(twentyNine: TwentyNine)
+
+    @Query("DELETE FROM twentyNine")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtyDao {
+    @Query("SELECT * FROM thirty")
+    fun getAll(): Flow<List<Thirty>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirty(thirty: Thirty)
+
+    @Delete
+    suspend fun deleteThirty(thirty: Thirty)
+
+    @Query("DELETE FROM thirty")
+    suspend fun deleteAll()
+}
+
+

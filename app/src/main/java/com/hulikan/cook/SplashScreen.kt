@@ -66,7 +66,7 @@ fun SplashScreen(navController: NavController){
                 fontSize = 44.sp,
                 color = colorResource(id = R.color.broun),
                 fontWeight = FontWeight.Bold,
-                fontFamily = FontFamily(Font(R.font.appetiteitalic))
+                fontFamily = FontFamily(Font(R.font.imprisha))
             )
                 val gifPainter = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current)
