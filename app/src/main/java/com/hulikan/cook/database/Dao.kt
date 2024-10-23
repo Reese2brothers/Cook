@@ -1,5 +1,6 @@
 package com.hulikan.cook.database
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -26,13 +27,22 @@ interface MainListDao {
 @Dao
 interface OneDao {
     @Query("SELECT * FROM one")
-    fun getAll() : Flow<List<One>>
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun getAll(): Flow<List<One>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertOne(one: One)
+
     @Delete
     suspend fun deleteOne(one: One)
+
     @Query("DELETE FROM one")
     suspend fun deleteAll()
+
+    @Query("SELECT images FROM one WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE one SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -45,6 +55,10 @@ interface TwoDao {
     suspend fun deleteTwo(two: Two)
     @Query("DELETE FROM two")
     suspend fun deleteAll()
+    @Query("SELECT images FROM two WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE two SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -57,6 +71,10 @@ interface ThreeDao {
     suspend fun deleteThree(three: Three)
     @Query("DELETE FROM three")
     suspend fun deleteAll()
+    @Query("SELECT images FROM three WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE three SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -69,6 +87,10 @@ interface FourDao {
     suspend fun deleteFour(four: Four)
     @Query("DELETE FROM four")
     suspend fun deleteAll()
+    @Query("SELECT images FROM four WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE four SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -81,6 +103,10 @@ interface FiveDao {
     suspend fun deleteFive(five: Five)
     @Query("DELETE FROM five")
     suspend fun deleteAll()
+    @Query("SELECT images FROM five WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE five SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -96,6 +122,10 @@ interface SixDao {
 
     @Query("DELETE FROM six")
     suspend fun deleteAll()
+    @Query("SELECT images FROM six WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE six SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -111,6 +141,10 @@ interface SevenDao {
 
     @Query("DELETE FROM seven")
     suspend fun deleteAll()
+    @Query("SELECT images FROM seven WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE seven SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -126,6 +160,10 @@ interface EightDao {
 
     @Query("DELETE FROM eight")
     suspend fun deleteAll()
+    @Query("SELECT images FROM eight WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE eight SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -141,6 +179,10 @@ interface NineDao {
 
     @Query("DELETE FROM nine")
     suspend fun deleteAll()
+    @Query("SELECT images FROM nine WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE nine SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -156,6 +198,10 @@ interface TenDao {
 
     @Query("DELETE FROM ten")
     suspend fun deleteAll()
+    @Query("SELECT images FROM ten WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE ten SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -171,6 +217,10 @@ interface ElevenDao {
 
     @Query("DELETE FROM eleven")
     suspend fun deleteAll()
+    @Query("SELECT images FROM eleven WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE eleven SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -186,6 +236,10 @@ interface TwelveDao {
 
     @Query("DELETE FROM twelve")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twelve WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twelve SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -201,6 +255,10 @@ interface ThirteenDao {
 
     @Query("DELETE FROM thirteen")
     suspend fun deleteAll()
+    @Query("SELECT images FROM thirteen WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE thirteen SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -216,6 +274,10 @@ interface FourteenDao {
 
     @Query("DELETE FROM fourteen")
     suspend fun deleteAll()
+    @Query("SELECT images FROM fourteen WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE fourteen SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -231,6 +293,10 @@ interface FifteenDao {
 
     @Query("DELETE FROM fifteen")
     suspend fun deleteAll()
+    @Query("SELECT images FROM fifteen WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE fifteen SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -246,6 +312,10 @@ interface SixteenDao {
 
     @Query("DELETE FROM sixteen")
     suspend fun deleteAll()
+    @Query("SELECT images FROM sixteen WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE sixteen SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -261,6 +331,10 @@ interface SeventeenDao {
 
     @Query("DELETE FROM seventeen")
     suspend fun deleteAll()
+    @Query("SELECT images FROM seventeen WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE seventeen SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -276,6 +350,10 @@ interface EighteenDao {
 
     @Query("DELETE FROM eighteen")
     suspend fun deleteAll()
+    @Query("SELECT images FROM eighteen WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE eighteen SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -291,6 +369,10 @@ interface NineteenDao {
 
     @Query("DELETE FROM nineteen")
     suspend fun deleteAll()
+    @Query("SELECT images FROM nineteen WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE nineteen SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 @Dao
 interface TwentyDao {
@@ -305,6 +387,10 @@ interface TwentyDao {
 
     @Query("DELETE FROM twenty")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twenty WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twenty SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -320,6 +406,10 @@ interface TwentyOneDao {
 
     @Query("DELETE FROM twentyOne")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentyone WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentyone SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -335,6 +425,10 @@ interface TwentyTwoDao {
 
     @Query("DELETE FROM twentyTwo")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentytwo WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentytwo SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -350,6 +444,10 @@ interface TwentyThreeDao {
 
     @Query("DELETE FROM twentyThree")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentythree WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentythree SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -365,6 +463,10 @@ interface TwentyFourDao {
 
     @Query("DELETE FROM twentyFour")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentyfour WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentyfour SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -380,6 +482,10 @@ interface TwentyFiveDao {
 
     @Query("DELETE FROM twentyFive")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentyfive WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentyfive SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -395,6 +501,10 @@ interface TwentySixDao {
 
     @Query("DELETE FROM twentySix")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentysix WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentysix SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -410,6 +520,10 @@ interface TwentySevenDao {
 
     @Query("DELETE FROM twentySeven")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentyseven WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentyseven SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -425,6 +539,10 @@ interface TwentyEightDao {
 
     @Query("DELETE FROM twentyEight")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentyeight WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentyeight SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -440,6 +558,10 @@ interface TwentyNineDao {
 
     @Query("DELETE FROM twentyNine")
     suspend fun deleteAll()
+    @Query("SELECT images FROM twentynine WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE twentynine SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 @Dao
@@ -455,6 +577,10 @@ interface ThirtyDao {
 
     @Query("DELETE FROM thirty")
     suspend fun deleteAll()
+    @Query("SELECT images FROM thirty WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+    @Query("UPDATE thirty SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
 }
 
 

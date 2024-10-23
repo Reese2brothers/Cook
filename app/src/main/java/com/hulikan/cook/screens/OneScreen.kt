@@ -1,10 +1,12 @@
 package com.hulikan.cook.screens
 
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,11 +21,11 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,8 +35,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -42,29 +48,48 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.room.Room
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.hulikan.cook.R
 import com.hulikan.cook.database.AppDatabase
-import com.hulikan.cook.database.MainList
+import com.hulikan.cook.database.One
 import com.hulikan.cook.database.OneLinks
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import java.net.URLEncoder
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun OneScreen(context : Context){
+fun OneScreen(context : Context, navController: NavController, title : String, content : String, image : String){
     val scope = rememberCoroutineScope()
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
     val itemsFlow: Flow<List<OneLinks>> = db.oneLinksDao().getAll()
+    val onelistFlow: Flow<List<One>> = db.oneDao().getAll()
     val links by itemsFlow.collectAsState(initial = emptyList())
+    val onelist by onelistFlow.collectAsState(initial = emptyList())
+
+    BackHandler {
+        navController.navigate("MainScreen")
+    }
     LaunchedEffect(links) {
         db.oneLinksDao().getAll()
     }
-
-    Column(modifier = Modifier.fillMaxSize().systemBarsPadding()){
-        Column(modifier = Modifier.fillMaxWidth().height(200.dp)) {
-            Row(modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .systemBarsPadding()){
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
                 verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "Ссылки на рецепты",
-                    modifier = Modifier.weight(1f).padding(start = 42.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 42.dp),
                     textAlign = TextAlign.Start,
                     fontSize = 18.sp,
                     color = colorResource(id = R.color.broun),
@@ -77,61 +102,232 @@ fun OneScreen(context : Context){
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_add_24),
                         contentDescription = "add",
-                        modifier = Modifier.size(35.dp).padding(end = 8.dp).clickable {
-
-                        },
+                        modifier = Modifier
+                            .size(35.dp)
+                            .padding(end = 8.dp)
+                            .clickable {
+                                navController.navigate("AddOneLinksScreen")
+                            },
                         tint = colorResource(R.color.broun)
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.venik),
                         contentDescription = "delete",
-                        modifier = Modifier.size(25.dp).clickable {
-
-                        },
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                scope.launch {
+                                    db
+                                        .oneLinksDao()
+                                        .deleteAll()
+                                }
+                            },
                         tint = colorResource(R.color.broun)
                     )
                 }
             }
-            Row(modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 32.dp, end = 32.dp).background(
-                colorResource(R.color.broun)
-            )) {}
-            LazyColumn(modifier = Modifier.fillMaxWidth().weight(1f).padding(top = 4.dp, bottom = 4.dp)) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .padding(start = 32.dp, end = 32.dp)
+                .background(
+                    colorResource(R.color.broun)
+                )) {}
+            LazyColumn(modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(top = 4.dp, bottom = 4.dp)) {
                 itemsIndexed(links) {index, item ->
-                    Card(modifier = Modifier.padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
-                        .fillMaxWidth().wrapContentHeight().background(Color.Transparent),
-                        shape = RoundedCornerShape(8.dp),
-                        elevation = 5.dp,
-                        border = BorderStroke(1.dp, color = colorResource(R.color.broun))
-                    ){
-                        Row(modifier = Modifier.fillMaxWidth(),
-                           verticalAlignment = Alignment.CenterVertically) {
+                    Column(modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(bottom = 4.dp)) {
+                        Row(modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(bottom = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically) {
                             Text(text = item.title,
-                                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                                textAlign = TextAlign.Start,
-                                fontSize = 18.sp,
+                                modifier = Modifier.padding(start = 8.dp, end = 4.dp).weight(1.5f),
+                                textAlign = TextAlign.Center,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
                                 color = colorResource(id = R.color.broun),
                                 fontFamily = FontFamily(Font(R.font.imprisha))
                             )
-                            Column(modifier = Modifier.fillMaxHeight().width(1.dp).padding(top = 4.dp, bottom = 4.dp)) {}
-                            Text(
-                                text = item.link,
-                                modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                                textAlign = TextAlign.Start,
-                                fontSize = 10.sp,
-                                color = Color.Blue,
-                                fontFamily = FontFamily(Font(R.font.imprisha)),
-                                textDecoration = TextDecoration.Underline
+                            val uriHandler = LocalUriHandler.current
+                            ClickableText(
+                                text = AnnotatedString(
+                                    text = item.link,
+                                    spanStyle = SpanStyle(
+                                        color = Color.Blue,
+                                        textDecoration = TextDecoration.Underline,
+                                        fontFamily = FontFamily(Font(R.font.imprisha)),
+                                        fontSize = 12.sp
+                                    )
+                                ),
+                                onClick = {
+                                    uriHandler.openUri(item.link)
+                                },
+                                modifier = Modifier.padding(start = 8.dp, end = 4.dp).weight(3.5f)
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.venik),
+                                contentDescription = "delete",
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .weight(0.5f)
+                                    .clickable {
+                                        scope.launch {
+                                            db
+                                                .oneLinksDao()
+                                                .deleteOneLinks(item)
+                                        }
+                                    },
+                                tint = colorResource(R.color.broun)
                             )
                         }
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .padding(start = 16.dp, end = 8.dp)
+                            .background(colorResource(R.color.red))){}
                     }
                 }
             }
         }
-        Row(modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 4.dp, end = 4.dp).background(
-            colorResource(R.color.broun)
-        )) {}
-        LazyColumn(modifier = Modifier.fillMaxWidth().weight(1f).padding(top = 4.dp, bottom = 4.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp)
+            .padding(start = 4.dp, end = 4.dp)
+            .background(
+                colorResource(R.color.broun)
+            )) {}
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight(),
+            verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "Ваши рецепты",
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 42.dp),
+                textAlign = TextAlign.Start,
+                fontSize = 18.sp,
+                color = colorResource(id = R.color.broun),
+                fontFamily = FontFamily(Font(R.font.imprisha))
+            )
+            Row(
+                modifier = Modifier.padding(end = 42.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_add_24),
+                    contentDescription = "add",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .padding(end = 8.dp)
+                        .clickable {
+                            navController.navigate("NewOneRecepiesScreen")
+                        },
+                    tint = colorResource(R.color.broun)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.venik),
+                    contentDescription = "delete",
+                    modifier = Modifier
+                        .size(25.dp)
+                        .clickable {
 
+                        },
+                    tint = colorResource(R.color.broun)
+                )
+            }
+        }
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp)
+            .padding(start = 32.dp, end = 32.dp)
+            .background(
+                colorResource(R.color.broun)
+            )) {}
+        LaunchedEffect(onelist) {
+            db.oneDao().getAll()
+        }
+        LazyColumn(modifier = Modifier.fillMaxWidth().weight(1f).padding(top = 4.dp, bottom = 4.dp)) {
+            itemsIndexed(onelist) {index, item ->
+                Card(modifier = Modifier.padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
+                    .fillMaxWidth().height(120.dp).background(Color.Transparent),
+                shape = CutCornerShape(bottomStart = 8.dp),
+                elevation = 5.dp,
+                border = BorderStroke(1.dp, color = colorResource(id = R.color.broun)),
+                    onClick = {
+                        val encodedTitle = URLEncoder.encode(item.title, "UTF-8")
+                        val encodedContent = URLEncoder.encode(item.content, "UTF-8")
+                        val encodedImages = URLEncoder.encode(item.images, "UTF-8") ?: R.drawable.baseline_add_photo_alternate_24.toString()
+                        navController.navigate("OneRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
+                    }
+                ){
+                    Row(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white)),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center){
+                        Box(
+                            modifier = Modifier.fillMaxHeight().weight(1f),
+                            contentAlignment = Alignment.TopEnd
+                        ) {
+                            Row(modifier = Modifier.fillMaxHeight().background(colorResource(R.color.white)),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center) {
+                                val firstImageUri = item.images.split(",")
+                                    .firstOrNull { it.startsWith("content://") }
+                                    ?.trim()
+                                    ?: item.images.split(",").firstOrNull()?.trim()
+                                val imageModel = if (firstImageUri.isNullOrEmpty()
+                                    || firstImageUri == R.drawable.baseline_add_photo_alternate_24.toString()) {
+                                    R.drawable.baseline_add_photo_alternate_24
+                                } else {
+                                    firstImageUri
+                                }
+                                AsyncImage(
+                                    model = ImageRequest.Builder(context)
+                                        .data(imageModel)
+                                        .crossfade(true)
+                                        .build(),
+                                    contentDescription = "choise_image",
+                                    modifier = Modifier.fillMaxHeight().width(150.dp).fillMaxHeight(),
+                                    contentScale = ContentScale.Crop
+                                )
+                                Text(
+                                    text = item.title,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .wrapContentHeight(Alignment.CenterVertically)
+                                        .padding(end = 8.dp),
+                                    textAlign = TextAlign.Center,
+                                    fontSize = 24.sp,
+                                    color = colorResource(id = R.color.broun),
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily(Font(R.font.imprisha))
+                                )
+                            }
+                        }
+                        Column(modifier = Modifier.fillMaxHeight(),
+                            verticalArrangement = Arrangement.SpaceBetween,
+                            horizontalAlignment = Alignment.CenterHorizontally){
+                            Text(
+                                text = "${index + 1}",
+                                modifier = Modifier.padding(end = 8.dp, top = 4.dp),
+                                textAlign = TextAlign.Center,
+                                fontSize = 12.sp,
+                                color = colorResource(id = R.color.broun),
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.venik),
+                                contentDescription = "delete",
+                                modifier = Modifier.size(30.dp).padding(end = 8.dp, bottom = 4.dp).clickable {
+                                        scope.launch {
+                                            db.oneDao().deleteOne(item)
+                                        }
+                                    },
+                                tint = colorResource(R.color.broun)
+                            )
+                        }
+                }
+            }
         }
     }
+}
 }

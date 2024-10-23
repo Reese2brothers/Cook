@@ -1,6 +1,8 @@
 package com.hulikan.cook
 
+import android.app.Activity
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,6 +39,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -64,6 +67,11 @@ fun MainScreen(context: Context, navController: NavController){
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
     val itemsFlow: Flow<List<MainList>> = db.mainListDao().getAll()
     val mainList by itemsFlow.collectAsState(initial = emptyList())
+    val activity = (LocalContext.current as? Activity)
+
+    BackHandler {
+        activity?.finishAffinity()
+    }
     LaunchedEffect(mainList) {
         db.mainListDao().getAll()
     }
@@ -95,7 +103,7 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                     onClick = {
                         when(item.wordkey){
                             "one" -> {
-                                navController.navigate("OneScreen")
+                                navController.navigate("OneScreen/${"пусто"}/${"пусто"}/${"пусто"}")
                             }
                             "two" -> {
                                 navController.navigate("TwoScreen")
