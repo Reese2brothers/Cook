@@ -1,6 +1,5 @@
 package com.hulikan.cook.database
 
-import android.util.Log
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -43,6 +42,12 @@ interface OneDao {
 
     @Query("UPDATE one SET images = :images WHERE title = :title")
     suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM one")
+    suspend fun getAllImages(): List<One>
+
+    @Query("UPDATE one SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
 }
 
 @Dao

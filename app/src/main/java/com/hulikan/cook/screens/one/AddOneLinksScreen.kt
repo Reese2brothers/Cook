@@ -1,4 +1,4 @@
-package com.hulikan.cook.screens.recepies
+package com.hulikan.cook.screens.one
 
 import android.content.Context
 import androidx.compose.foundation.background

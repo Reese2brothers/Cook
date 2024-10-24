@@ -1,4 +1,4 @@
-package com.hulikan.cook.screens.recepies
+package com.hulikan.cook.screens.one
 
 import android.Manifest
 import android.content.Context

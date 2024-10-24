@@ -1,6 +1,7 @@
-package com.hulikan.cook.screens
+package com.hulikan.cook.screens.one
 
 import android.content.Context
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -26,12 +27,16 @@ import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -69,6 +74,12 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
     val onelistFlow: Flow<List<One>> = db.oneDao().getAll()
     val links by itemsFlow.collectAsState(initial = emptyList())
     val onelist by onelistFlow.collectAsState(initial = emptyList())
+    val showDialog = remember { mutableStateOf(false) }
+    val showDialogTwo = remember { mutableStateOf(false) }
+    val showDialogThree = remember { mutableStateOf(false) }
+    val showDialogFour = remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf<OneLinks?>(null) }
+    var selectedItemTwo by remember { mutableStateOf<One?>(null) }
 
     BackHandler {
         navController.navigate("MainScreen")
@@ -112,18 +123,51 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.venik),
-                        contentDescription = "delete",
+                        contentDescription = "delete_all_links",
                         modifier = Modifier
                             .size(25.dp)
                             .clickable {
-                                scope.launch {
-                                    db
-                                        .oneLinksDao()
-                                        .deleteAll()
-                                }
+                                showDialog.value = true
                             },
                         tint = colorResource(R.color.broun)
                     )
+                    if (showDialog.value) {
+                        AlertDialog(
+                            onDismissRequest = {
+                                showDialog.value = false
+                            },
+                            containerColor = colorResource(id = R.color.white),
+                            title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                fontSize = 20.sp, fontWeight = FontWeight.Bold) },
+                            text = {
+                                Text("Вы действительно хотите удалить все ссылки?",
+                                    color = colorResource(id = R.color.broun)
+                                )
+                            },
+                            confirmButton = {
+                                Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                    containerColor = colorResource(id = R.color.broun)
+                                ),
+                                    onClick = {
+                                        scope.launch {
+                                            db.oneLinksDao().deleteAll()
+                                        }
+                                        showDialog.value = false
+                                    }) {
+                                    Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                }
+                            },
+                            dismissButton = {
+                                Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                    containerColor = colorResource(id = R.color.broun)
+                                ),
+                                    onClick = {
+                                        showDialog.value = false
+                                    }) {
+                                    Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                }
+                            })
+                    }
                 }
             }
             Row(modifier = Modifier
@@ -143,7 +187,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                             verticalAlignment = Alignment.CenterVertically) {
                             Text(text = item.title,
                                 modifier = Modifier.padding(start = 8.dp, end = 4.dp).weight(1.5f),
-                                textAlign = TextAlign.Center,
+                                textAlign = TextAlign.Start,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = colorResource(id = R.color.broun),
@@ -172,14 +216,50 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                     .size(18.dp)
                                     .weight(0.5f)
                                     .clickable {
-                                        scope.launch {
-                                            db
-                                                .oneLinksDao()
-                                                .deleteOneLinks(item)
-                                        }
+                                        showDialogTwo.value = true
+                                        selectedItem = item
                                     },
                                 tint = colorResource(R.color.broun)
                             )
+                            if (showDialogTwo.value) {
+                                AlertDialog(
+                                    onDismissRequest = {
+                                        showDialogTwo.value = false
+                                    },
+                                    containerColor = colorResource(id = R.color.white),
+                                    title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                        fontSize = 20.sp, fontWeight = FontWeight.Bold) },
+                                    text = {
+                                        Text("Вы действительно хотите удалить данную ссылку?",
+                                            color = colorResource(id = R.color.broun)
+                                        )
+                                    },
+                                    confirmButton = {
+                                        Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                            containerColor = colorResource(id = R.color.broun)
+                                        ),
+                                            onClick = {
+                                                scope.launch {
+                                                    selectedItem?.let {
+                                                        db.oneLinksDao().deleteOneLinks(it)
+                                                    }
+                                                }
+                                                showDialogTwo.value = false
+                                            }) {
+                                            Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                        }
+                                    },
+                                    dismissButton = {
+                                        Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                            containerColor = colorResource(id = R.color.broun)
+                                        ),
+                                            onClick = {
+                                                showDialogTwo.value = false
+                                            }) {
+                                            Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                        }
+                                    })
+                            }
                         }
                         Row(modifier = Modifier
                             .fillMaxWidth()
@@ -216,7 +296,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_add_24),
-                    contentDescription = "add",
+                    contentDescription = "add_recepies",
                     modifier = Modifier
                         .size(35.dp)
                         .padding(end = 8.dp)
@@ -227,14 +307,57 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.venik),
-                    contentDescription = "delete",
+                    contentDescription = "delete_all_recepies",
                     modifier = Modifier
                         .size(25.dp)
                         .clickable {
-
+                            showDialogFour.value = true
                         },
                     tint = colorResource(R.color.broun)
                 )
+                if (showDialogFour.value) {
+                    AlertDialog(
+                        onDismissRequest = {
+                            showDialogFour.value = false
+                        },
+                        containerColor = colorResource(id = R.color.white),
+                        title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                            fontSize = 20.sp, fontWeight = FontWeight.Bold) },
+                        text = {
+                            Text("Вы действительно хотите удалить все рецепты?",
+                                color = colorResource(id = R.color.broun)
+                            )
+                        },
+                        confirmButton = {
+                            Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                containerColor = colorResource(id = R.color.broun)
+                            ),
+                                onClick = {
+                                    scope.launch {
+                                        val allImageUris = db.oneDao().getAllImages().map { it.images }
+                                            .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                            .map { Uri.parse(it) }
+                                        db.oneDao().deleteAll()
+                                        allImageUris.forEach { imageUri ->
+                                            context.contentResolver.delete(imageUri, null, null)
+                                        }
+                                    }
+                                    showDialogFour.value = false
+                                }) {
+                                Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                            }
+                        },
+                        dismissButton = {
+                            Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                containerColor = colorResource(id = R.color.broun)
+                            ),
+                                onClick = {
+                                    showDialogFour.value = false
+                                }) {
+                                Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                            }
+                        })
+                }
             }
         }
         Row(modifier = Modifier
@@ -292,9 +415,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                 )
                                 Text(
                                     text = item.title,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .wrapContentHeight(Alignment.CenterVertically)
+                                    modifier = Modifier.fillMaxWidth().wrapContentHeight(Alignment.CenterVertically)
                                         .padding(end = 8.dp),
                                     textAlign = TextAlign.Center,
                                     fontSize = 24.sp,
@@ -316,14 +437,56 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                             )
                             Icon(
                                 painter = painterResource(id = R.drawable.venik),
-                                contentDescription = "delete",
+                                contentDescription = "delete_item",
                                 modifier = Modifier.size(30.dp).padding(end = 8.dp, bottom = 4.dp).clickable {
-                                        scope.launch {
-                                            db.oneDao().deleteOne(item)
-                                        }
+                                       showDialogThree.value = true
+                                       selectedItemTwo = item
                                     },
                                 tint = colorResource(R.color.broun)
                             )
+                            if (showDialogThree.value) {
+                                AlertDialog(
+                                    onDismissRequest = {
+                                        showDialogThree.value = false
+                                    },
+                                    containerColor = colorResource(id = R.color.white),
+                                    title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                        fontSize = 20.sp, fontWeight = FontWeight.Bold) },
+                                    text = {
+                                        Text("Вы действительно хотите удалить данный рецепт?",
+                                            color = colorResource(id = R.color.broun)
+                                        )
+                                    },
+                                    confirmButton = {
+                                        Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                            containerColor = colorResource(id = R.color.broun)
+                                        ),
+                                            onClick = {
+                                                scope.launch {
+                                                    val imageUrisToDelete = selectedItemTwo?.images?.split(",")
+                                                        ?.filter { it.isNotBlank() && it.startsWith("content://") }
+                                                        ?.map { Uri.parse(it) } ?: emptyList()
+                                                    selectedItemTwo?.let { db.oneDao().deleteOne(it) }
+                                                    imageUrisToDelete.forEach { imageUri ->
+                                                        context.contentResolver.delete(imageUri, null, null)
+                                                    }
+                                                }
+                                                showDialogThree.value = false
+                                            }) {
+                                            Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                        }
+                                    },
+                                    dismissButton = {
+                                        Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                            containerColor = colorResource(id = R.color.broun)
+                                        ),
+                                            onClick = {
+                                                showDialogThree.value = false
+                                            }) {
+                                            Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                        }
+                                    })
+                            }
                         }
                 }
             }

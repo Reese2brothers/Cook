@@ -2,6 +2,7 @@ package com.hulikan.cook
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -28,14 +29,18 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,6 +60,8 @@ import androidx.navigation.NavController
 import androidx.room.Room
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.MainList
+import com.hulikan.cook.database.One
+import com.hulikan.cook.database.OneLinks
 import com.hulikan.cook.viewmodels.MainViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -68,6 +75,8 @@ fun MainScreen(context: Context, navController: NavController){
     val itemsFlow: Flow<List<MainList>> = db.mainListDao().getAll()
     val mainList by itemsFlow.collectAsState(initial = emptyList())
     val activity = (LocalContext.current as? Activity)
+    val showDialog = remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf<MainList?>(null) }
 
     BackHandler {
         activity?.finishAffinity()
@@ -236,14 +245,58 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                             )
                             Icon(
                                 painter = painterResource(id = R.drawable.venik),
-                                contentDescription = "delete",
+                                contentDescription = "delete_item",
                                 modifier = Modifier.size(30.dp).padding(end = 8.dp, bottom = 4.dp).clickable {
-                                    scope.launch{
-                                        db.mainListDao().deleteList(item)
-                                    }
+                                   showDialog.value = true
+                                    selectedItem = item
                                 },
                                 tint = colorResource(R.color.broun)
                             )
+                            if (showDialog.value) {
+                                AlertDialog(
+                                    onDismissRequest = {
+                                        showDialog.value = false
+                                    },
+                                    containerColor = colorResource(id = R.color.white),
+                                    title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                        fontSize = 20.sp, fontWeight = FontWeight.Bold) },
+                                    text = {
+                                        Text("Вы действительно хотите удалить данный раздел?",
+                                            color = colorResource(id = R.color.broun)
+                                        )
+                                    },
+                                    confirmButton = {
+                                        Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                            containerColor = colorResource(id = R.color.broun)
+                                        ),
+                                            onClick = {
+                                                scope.launch{
+                                                    val allImageUris = db.oneDao().getAllImages().map { it.images }
+                                                        .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                        .map { Uri.parse(it) }
+                                                    db.oneDao().deleteAll()
+                                                    db.oneLinksDao().deleteAll()
+                                                    allImageUris.forEach { imageUri ->
+                                                        context.contentResolver.delete(imageUri, null, null)
+                                                    }
+                                                    selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                }
+                                                showDialog.value = false
+                                            }) {
+                                            Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                        }
+                                    },
+                                    dismissButton = {
+                                        Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                            containerColor = colorResource(id = R.color.broun)
+                                        ),
+                                            onClick = {
+                                                showDialog.value = false
+                                            }) {
+                                            Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                        }
+                                    })
+                            }
                         }
                     }
                 }

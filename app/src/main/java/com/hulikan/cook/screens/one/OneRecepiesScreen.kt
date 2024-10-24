@@ -1,4 +1,4 @@
-package com.hulikan.cook.screens.recepies
+package com.hulikan.cook.screens.one
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,6 +34,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -64,6 +67,7 @@ import com.hulikan.cook.database.AppDatabase
 import kotlinx.coroutines.launch
 import java.io.File
 import java.net.URLDecoder
+import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -83,6 +87,21 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
     var imagesString by rememberSaveable { mutableStateOf(decodedImage) }
     var listImages by remember { mutableStateOf<List<String>>(emptyList()) }
     var bigPhoto by rememberSaveable { mutableStateOf<Uri?>(null) }
+    val showDialog = remember { mutableStateOf(false) }
+    val showDialogTwo = remember { mutableStateOf(false) }
+    var selectedItemIndex by remember { mutableStateOf(0) }
+    val titleText = rememberSaveable { mutableStateOf("") }
+    val contentText = rememberSaveable { mutableStateOf("") }
+
+    BackHandler {
+        val encodedTitle = URLEncoder.encode(titleText.value, "UTF-8")
+        val encodedContent = URLEncoder.encode(contentText.value, "UTF-8")
+        val encodedImage = URLEncoder.encode(decodedImage, "UTF-8")
+
+        navController.navigate("OneScreen/$encodedTitle/$encodedContent/$encodedImage") {
+            popUpTo("OneScreen") { inclusive = true }
+        }
+    }
 
     LaunchedEffect(key1 = Unit) {
         listImages = if (decodedImage.isEmpty()) {
@@ -91,8 +110,16 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
             decodedImage.split(",").filter { it.isNotBlank() && it.startsWith("content://") }
         }
     }
+    LaunchedEffect(key1 = decodedTitle, key2 = decodedContent) {
+        scope.launch {
+            titleText.value = decodedTitle
+            contentText.value = decodedContent
+        }
+    }
     fun onDelete(imageUri: String) {
         scope.launch {
+            val uriToDelete = Uri.parse(imageUri)
+            context.contentResolver.delete(uriToDelete, null, null)
             listImages = listImages.filter { it != imageUri }
             imagesString = listImages.joinToString(",")
             if (imagesString.isBlank()) {
@@ -175,7 +202,7 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                     verticalAlignment = Alignment.CenterVertically,
                     modifier  = Modifier.fillMaxWidth()) {
                     Text(
-                        text = decodedTitle,
+                        text = titleText.value,
                         modifier = Modifier
                             .padding(start = 8.dp, end = 8.dp)
                             .wrapContentHeight()
@@ -196,7 +223,11 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                     .padding(end = 8.dp)
                                     .clickable {
                                         scope.launch {
-                                            navController.navigate("NewOneRecepiesScreen")
+                                            val encodedTitle = URLEncoder.encode(decodedTitle, "UTF-8")
+                                            val encodedContent = URLEncoder.encode(decodedContent, "UTF-8")
+                                            val encodedImage = URLEncoder.encode(decodedImage, "UTF-8")
+                                            navController.navigate("OneEditRecepiesScreen/$encodedTitle/$encodedContent/$encodedImage")
+                                            //navController.navigate("OneEditRecepiesScreen/$decodedTitle/$decodedContent/$decodedImage")
                                         }
                                     },
                                 tint = colorResource(R.color.broun)
@@ -210,12 +241,11 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                     .fillMaxHeight()
                     .weight(1f)) {
                     Text(
-                        text = decodedContent,
+                        text = contentText.value,
                         modifier = Modifier.padding(start = 8.dp, end = 8.dp).fillMaxSize().verticalScroll(rememberScrollState()),
                         textAlign = TextAlign.Start,
                         fontSize = 16.sp,
                         color = colorResource(id = R.color.broun),
-                        fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily(Font(R.font.imprisha))
                     )
                 }
@@ -259,15 +289,54 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                         painter = painterResource(id = R.drawable.venik),
                         contentDescription = "delete_all_photos",
                         modifier = Modifier.size(30.dp).clickable {
-                                scope.launch {
-                                    bigPhoto = null
-                                    imagesString = R.drawable.baseline_add_photo_alternate_24.toString()
-                                    listImages = emptyList()
-                                    db.oneDao().updateImages(decodedTitle, imagesString)
-                                }
+                            showDialogTwo.value = true
                             },
                         tint = colorResource(R.color.broun)
                     )
+                    if (showDialogTwo.value) {
+                        AlertDialog(
+                            onDismissRequest = {
+                                showDialogTwo.value = false
+                            },
+                            containerColor = colorResource(id = R.color.white),
+                            title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                fontSize = 20.sp, fontWeight = FontWeight.Bold) },
+                            text = {
+                                Text("Вы действительно хотите удалить все фото?",
+                                    color = colorResource(id = R.color.broun)
+                                )
+                            },
+                            confirmButton = {
+                                Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                    containerColor = colorResource(id = R.color.broun)
+                                ),
+                                    onClick = {
+                                        scope.launch {
+                                            bigPhoto = null
+                                            imagesString = R.drawable.baseline_add_photo_alternate_24.toString()
+                                            listImages.forEach { imageUriString ->
+                                                val imageUri = Uri.parse(imageUriString)
+                                                context.contentResolver.delete(imageUri, null, null)
+                                            }
+                                            listImages = emptyList()
+                                            db.oneDao().updateImages(decodedTitle, imagesString)
+                                        }
+                                        showDialogTwo.value = false
+                                    }) {
+                                    Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                }
+                            },
+                            dismissButton = {
+                                Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                    containerColor = colorResource(id = R.color.broun)
+                                ),
+                                    onClick = {
+                                        showDialogTwo.value = false
+                                    }) {
+                                    Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                }
+                            })
+                    }
                 }
 
                 LaunchedEffect(key1 = selectedImageUri, key2 = isImageCaptured) {
@@ -286,12 +355,6 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                         }
                     }
                    isImageCaptured = false
-                }
-                LaunchedEffect(key1 = decodedTitle, key2 = decodedContent) {
-                    scope.launch {
-                        val str = db.oneDao().getImagesByTitle(decodedTitle)
-                        listImages = str.split(",").filter { it.isNotBlank() && it.startsWith("content://") }
-                    }
                 }
 
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -319,22 +382,54 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                     contentScale = ContentScale.Crop
                                 )
                                 Box(
-                                    modifier = Modifier
-                                        .align(Alignment.BottomEnd)
-                                        .padding(4.dp)
-                                        .background(color = Color.White, shape = CircleShape)
-                                        .padding(4.dp)
+                                    modifier = Modifier.align(Alignment.BottomEnd).padding(4.dp)
+                                        .background(color = Color.White, shape = CircleShape).padding(4.dp).
+                                    clickable {
+                                        showDialog.value = true
+                                        selectedItemIndex = item
+                                    }
                                 ) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.venik),
                                         contentDescription = "delete_image",
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .clickable {
-                                                onDelete(listImages[item])
-                                            },
+                                        modifier = Modifier.size(20.dp),
                                         tint = colorResource(R.color.broun)
                                     )
+                                    if (showDialog.value) {
+                                        AlertDialog(
+                                            onDismissRequest = {
+                                                showDialog.value = false
+                                            },
+                                            containerColor = colorResource(id = R.color.white),
+                                            title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                                fontSize = 20.sp, fontWeight = FontWeight.Bold) },
+                                            text = {
+                                                Text("Вы действительно хотите удалить это фото?",
+                                                    color = colorResource(id = R.color.broun)
+                                                )
+                                            },
+                                            confirmButton = {
+                                                Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                                    containerColor = colorResource(id = R.color.broun)
+                                                ),
+                                                    onClick = {
+                                                        onDelete(listImages[selectedItemIndex])
+                                                        showDialog.value = false
+                                                    }) {
+                                                    Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                                }
+                                            },
+                                            dismissButton = {
+                                                Button(colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                                                    containerColor = colorResource(id = R.color.broun)
+                                                ),
+                                                    onClick = {
+                                                        showDialog.value = false
+                                                    }) {
+                                                    Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                                }
+                                            })
+                                    }
                                 }
                             }
                         }

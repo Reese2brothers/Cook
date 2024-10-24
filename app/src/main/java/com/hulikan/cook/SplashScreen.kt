@@ -46,7 +46,7 @@ fun SplashScreen(navController: NavController){
         .build()
     LaunchedEffect(key1 = true) {
         scope.launch {
-            delay(1300)
+            delay(2000)
             navController.navigate("MainScreen")
         }
     }

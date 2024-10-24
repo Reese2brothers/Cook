@@ -9,12 +9,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.hulikan.cook.screens.FiveScreen
 import com.hulikan.cook.screens.FourScreen
-import com.hulikan.cook.screens.OneScreen
+import com.hulikan.cook.screens.one.OneScreen
 import com.hulikan.cook.screens.ThreeScreen
 import com.hulikan.cook.screens.TwoScreen
-import com.hulikan.cook.screens.recepies.AddOneLinksScreen
-import com.hulikan.cook.screens.recepies.NewOneRecepiesScreen
-import com.hulikan.cook.screens.recepies.OneRecepiesScreen
+import com.hulikan.cook.screens.one.OneEditRecepiesScreen
+import com.hulikan.cook.screens.one.AddOneLinksScreen
+import com.hulikan.cook.screens.one.NewOneRecepiesScreen
+import com.hulikan.cook.screens.one.OneRecepiesScreen
 
 @Composable
 fun NavGraphNavigate(context : Context, navController: NavHostController) {
@@ -70,6 +71,18 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
             val content = backStackEntry.arguments?.getString("content") ?: ""
             val image = backStackEntry.arguments?.getString("image") ?: ""
             OneRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("OneEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            OneEditRecepiesScreen(context, navController, title, content, image)
         }
     }
 }
