@@ -91,6 +91,7 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager:0.30.1")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.30.1")
     implementation ("com.google.accompanist:accompanist-permissions:0.30.1")
+    implementation ("com.google.accompanist:accompanist-insets:0.28.0")
 
     // ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

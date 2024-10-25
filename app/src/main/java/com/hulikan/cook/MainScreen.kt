@@ -69,8 +69,6 @@ import java.net.URLEncoder
 
 @Composable
 fun MainScreen(context: Context, navController: NavController, title : String, image : String, wordkey : String){
-    //val viewModel: MainViewModel = viewModel()
-    //val list by viewModel.mainlist.collectAsState(initial = emptyList())
     val scope = rememberCoroutineScope()
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
     val itemsFlow: Flow<List<MainList>> = db.mainListDao().getAll()

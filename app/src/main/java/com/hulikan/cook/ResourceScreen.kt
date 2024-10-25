@@ -70,16 +70,17 @@ import java.net.URLEncoder
 @Composable
 fun ResourceScreen(context : Context, navController: NavController, title : String, image : String, wordkey : String){
     var decodedTitle = URLDecoder.decode(title, "UTF-8").let { if (it == "empty") "" else it }
+    val decodedImage = URLDecoder.decode(image, "UTF-8")
     val decodedWordkey = URLDecoder.decode(wordkey, "UTF-8")
     val currentText = rememberSaveable { mutableStateOf(decodedTitle) }
     val titleText = rememberSaveable { mutableStateOf("") }
-    val selectedImage = rememberSaveable { mutableStateOf(R.drawable.baseline_image_24) }
+    val selectedImage = rememberSaveable { mutableStateOf(if (decodedImage.isBlank()
+        || decodedImage == "no_image") R.drawable.baseline_image_24 else decodedImage.toInt()) }
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
     val mainListDao = db.mainListDao()
-    val showDialog = remember { mutableStateOf(false) }
     val wordKeys = listOf(
         "one", "two", "three", "four", "five",
         "six", "seven", "eight", "nine", "ten",

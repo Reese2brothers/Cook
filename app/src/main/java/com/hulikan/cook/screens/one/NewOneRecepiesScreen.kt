@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -61,6 +62,8 @@ import androidx.navigation.NavController
 import androidx.room.Room
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.hulikan.cook.R
@@ -125,186 +128,235 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
     }
 
     if (permissionState.allPermissionsGranted) {
-        Column(modifier = Modifier.fillMaxSize().systemBarsPadding().background(colorResource(R.color.white))){
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_save_24),
-                    contentDescription = "save",
-                    modifier = Modifier.size(30.dp).padding(end = 4.dp).clickable {
-                        if (titleText.value.isBlank() && contentText.value.isBlank()) {
-                            Toast.makeText(context, "Заполните пустые поля!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            scope.launch {
-                                val title = titleText.value
-                                val content = contentText.value
-                                val images = selectedImageUri?.toString() ?: R.drawable.baseline_add_photo_alternate_24.toString()
-
-                                db.oneDao().insertOne(One(title = title, content = content, images = images))
-
-                                val encodedTitle = URLEncoder.encode(title, "UTF-8")
-                                val encodedContent = URLEncoder.encode(content, "UTF-8")
-                                val encodedImageUri = if (selectedImageUri != null) {
-                                    URLEncoder.encode(selectedImageUri.toString(), "UTF-8")
-                                } else {
-                                    URLEncoder.encode(R.drawable.baseline_add_photo_alternate_24.toString(), "UTF-8")
-                                }
-                                navController.navigate("OneScreen/$encodedTitle/$encodedContent/$encodedImageUri")
-                            }
-                        }
-                    },
-                    tint = colorResource(R.color.broun)
+        ProvideWindowInsets {
+            Column(modifier = Modifier.fillMaxSize().systemBarsPadding().navigationBarsWithImePadding().background(
+                    colorResource(R.color.white)
                 )
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_add_a_photo_24),
-                    contentDescription = "camera",
-                    modifier = Modifier.size(27.dp).clickable {
-                        scope.launch{
-                            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-                            val storageDir: File = context.getExternalFilesDir(null)!!
-                            val photoFile = File.createTempFile(
-                                "JPEG_${timeStamp}_",
-                                ".jpg",
-                                storageDir
-                            )
-                            val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", photoFile)
-                            selectedImageUri = uri
-                            cameraLauncher.launch(uri)
-                        } },
-                    tint = colorResource(R.color.broun)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_add_photo_alternate_24),
-                    contentDescription = "gallery",
-                    modifier = Modifier.size(30.dp).clickable {
-                        scope.launch{
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                photoPickerLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_save_24),
+                        contentDescription = "save",
+                        modifier = Modifier.size(30.dp).padding(end = 4.dp).clickable {
+                            if (titleText.value.isBlank() && contentText.value.isBlank()) {
+                                Toast.makeText(
+                                    context,
+                                    "Заполните пустые поля!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
-                                legacyPhotoPickerLauncher.launch("image/*")
+                                scope.launch {
+                                    val title = titleText.value
+                                    val content = contentText.value
+                                    val images = selectedImageUri?.toString()
+                                        ?: R.drawable.baseline_add_photo_alternate_24.toString()
+
+                                    db.oneDao().insertOne(
+                                        One(
+                                            title = title,
+                                            content = content,
+                                            images = images
+                                        )
+                                    )
+
+                                    val encodedTitle = URLEncoder.encode(title, "UTF-8")
+                                    val encodedContent = URLEncoder.encode(content, "UTF-8")
+                                    val encodedImageUri = if (selectedImageUri != null) {
+                                        URLEncoder.encode(selectedImageUri.toString(), "UTF-8")
+                                    } else {
+                                        URLEncoder.encode(
+                                            R.drawable.baseline_add_photo_alternate_24.toString(),
+                                            "UTF-8"
+                                        )
+                                    }
+                                    navController.navigate("OneScreen/$encodedTitle/$encodedContent/$encodedImageUri")
+                                }
                             }
-                        } },
-                    tint = colorResource(R.color.broun)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.venik),
-                    contentDescription = "clear_big_photo",
-                    modifier = Modifier.size(30.dp).clickable {
-                        selectedImageUri = null
-                        bitmap = null
-                    },
-                    tint = colorResource(R.color.broun)
-                )
-            }
-            Box(modifier = Modifier.fillMaxWidth().height(180.dp)) {
-                Row(modifier = Modifier.fillMaxSize()) {
-                    bitmap?.let {
-                        val highQualityBitmap = it.copy(Bitmap.Config.ARGB_8888, true)
-                        highQualityBitmap.prepareToDraw()
-                        Image(
-                            bitmap = highQualityBitmap?.asImageBitmap()!!,
-                            contentDescription = "cameraBitmap",
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                    selectedImageUri?.let { uri ->
-                        AsyncImage(
-                            model = ImageRequest.Builder(context)
-                                .data(uri)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = "item_photo",
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
-                    } ?: run {
-                        Image(
-                            painter = painterResource(id = R.drawable.baseline_add_photo_alternate_24),
-                            contentDescription = "newphoto",
-                            Modifier.fillMaxSize().background(colorResource(R.color.white))
-                        )
+                        },
+                        tint = colorResource(R.color.broun)
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_add_a_photo_24),
+                        contentDescription = "camera",
+                        modifier = Modifier.size(27.dp).clickable {
+                            scope.launch {
+                                val timeStamp: String =
+                                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+                                val storageDir: File = context.getExternalFilesDir(null)!!
+                                val photoFile = File.createTempFile(
+                                    "JPEG_${timeStamp}_",
+                                    ".jpg",
+                                    storageDir
+                                )
+                                val uri = FileProvider.getUriForFile(
+                                    context,
+                                    "${context.packageName}.fileprovider",
+                                    photoFile
+                                )
+                                selectedImageUri = uri
+                                cameraLauncher.launch(uri)
+                            }
+                        },
+                        tint = colorResource(R.color.broun)
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_add_photo_alternate_24),
+                        contentDescription = "gallery",
+                        modifier = Modifier.size(30.dp).clickable {
+                            scope.launch {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    photoPickerLauncher.launch(
+                                        PickVisualMediaRequest(
+                                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                                        )
+                                    )
+                                } else {
+                                    legacyPhotoPickerLauncher.launch("image/*")
+                                }
+                            }
+                        },
+                        tint = colorResource(R.color.broun)
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.venik),
+                        contentDescription = "clear_big_photo",
+                        modifier = Modifier.size(30.dp).clickable {
+                            selectedImageUri = null
+                            bitmap = null
+                        },
+                        tint = colorResource(R.color.broun)
+                    )
+                }
+                Box(modifier = Modifier.fillMaxWidth().height(180.dp)) {
+                    Row(modifier = Modifier.fillMaxSize()) {
+                        bitmap?.let {
+                            val highQualityBitmap = it.copy(Bitmap.Config.ARGB_8888, true)
+                            highQualityBitmap.prepareToDraw()
+                            Image(
+                                bitmap = highQualityBitmap?.asImageBitmap()!!,
+                                contentDescription = "cameraBitmap",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        selectedImageUri?.let { uri ->
+                            AsyncImage(
+                                model = ImageRequest.Builder(context)
+                                    .data(uri)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = "item_photo",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        } ?: run {
+                            Image(
+                                painter = painterResource(id = R.drawable.baseline_add_photo_alternate_24),
+                                contentDescription = "newphoto",
+                                Modifier.fillMaxSize().background(colorResource(R.color.white))
+                            )
+                        }
                     }
                 }
-            }
-            Row(modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 4.dp, end = 4.dp)
-                .background(colorResource(R.color.broun))){}
-            Row(modifier  = Modifier.fillMaxWidth().weight(1f)) {
-                Column(modifier  = Modifier.fillMaxHeight().weight(2f)) {
-                    Box(modifier = Modifier.fillMaxWidth().wrapContentHeight()){
-                        TextField(
-                            colors = TextFieldDefaults.textFieldColors(
-                                containerColor = colorResource(id = R.color.white),
-                                cursorColor = colorResource(id = R.color.broun),
-                                unfocusedIndicatorColor = colorResource(id = R.color.broun),
-                                focusedIndicatorColor = colorResource(id = R.color.red),
-                                focusedTextColor = colorResource(id = R.color.broun),
-                                unfocusedTextColor = colorResource(id = R.color.broun)
-                            ),
-                            value = titleText.value, onValueChange = { newValue ->
-                                titleText.value = newValue
-                            },
-                            trailingIcon = null,
-                            placeholder = {
-                                Text("напишите название рецепта...", fontSize = 14.sp,
-                                    color = colorResource(id = R.color.broun))
-                            },
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Done
-                            ),
-                            keyboardActions = KeyboardActions(onDone = {
-                                keyboardController?.hide()
-                                focusManager.clearFocus()
-                            }),
-                            modifier = Modifier.wrapContentHeight().fillMaxWidth(),
-                            textStyle = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold,
-                                fontFamily = FontFamily(Font(R.font.imprisha)), textAlign = TextAlign.Start)
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.venik),
-                            contentDescription = "Clear title",
-                            modifier = Modifier.size(30.dp).padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
-                                .align(Alignment.TopEnd).clickable { titleText.value = "" },
-                            tint = colorResource(R.color.broun)
-                        )
-                    }
-                    Box(modifier= Modifier.fillMaxWidth().weight(1f)) {
-                        TextField( colors = TextFieldDefaults.textFieldColors(
-                            containerColor = colorResource(id = R.color.white),
-                            cursorColor = colorResource(id = R.color.broun),
-                            unfocusedIndicatorColor = colorResource(id = R.color.broun),
-                            focusedIndicatorColor = colorResource(id = R.color.red),
-                            focusedTextColor = colorResource(id = R.color.broun),
-                            unfocusedTextColor = colorResource(id = R.color.broun)
-                        ),
-                            value = contentText.value, onValueChange = { newValue ->
-                                contentText.value = newValue },
-                            trailingIcon = null,
-                            placeholder = {
-                                Text("напишите рецепт...", fontSize = 14.sp, color = colorResource(id = R.color.broun))
-                            },
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Done
-                            ),
-                            keyboardActions = KeyboardActions(onDone = {
-                                keyboardController?.hide()
-                                focusManager.clearFocus()
-                            }),
-                            modifier = Modifier.fillMaxHeight().fillMaxWidth(),
-                            textStyle = TextStyle(
-                                fontSize = 16.sp,
-                                fontFamily = FontFamily(Font(R.font.imprisha)),
-                                textAlign = TextAlign.Start
+                Row(
+                    modifier = Modifier.fillMaxWidth().height(1.dp)
+                        .padding(start = 4.dp, end = 4.dp)
+                        .background(colorResource(R.color.broun))
+                ) {}
+                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                    Column(modifier = Modifier.fillMaxHeight().weight(2f)) {
+                        Box(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+                            TextField(
+                                colors = TextFieldDefaults.textFieldColors(
+                                    containerColor = colorResource(id = R.color.white),
+                                    cursorColor = colorResource(id = R.color.broun),
+                                    unfocusedIndicatorColor = colorResource(id = R.color.broun),
+                                    focusedIndicatorColor = colorResource(id = R.color.red),
+                                    focusedTextColor = colorResource(id = R.color.broun),
+                                    unfocusedTextColor = colorResource(id = R.color.broun)
+                                ),
+                                value = titleText.value, onValueChange = { newValue ->
+                                    titleText.value = newValue
+                                },
+                                trailingIcon = null,
+                                placeholder = {
+                                    Text(
+                                        "напишите название рецепта...", fontSize = 14.sp,
+                                        color = colorResource(id = R.color.broun)
+                                    )
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Done
+                                ),
+                                keyboardActions = KeyboardActions(onDone = {
+                                    keyboardController?.hide()
+                                    focusManager.clearFocus()
+                                }),
+                                modifier = Modifier.wrapContentHeight().fillMaxWidth(),
+                                textStyle = TextStyle(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily(Font(R.font.imprisha)),
+                                    textAlign = TextAlign.Start
+                                )
                             )
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.venik),
-                            contentDescription = "Clear content",
-                            modifier = Modifier.size(30.dp).padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
-                                .align(Alignment.TopEnd).clickable { contentText.value = "" },
-                            tint = colorResource(R.color.broun)
-                        )
+                            Icon(
+                                painter = painterResource(id = R.drawable.venik),
+                                contentDescription = "Clear title",
+                                modifier = Modifier.size(30.dp)
+                                    .padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
+                                    .align(Alignment.TopEnd).clickable { titleText.value = "" },
+                                tint = colorResource(R.color.broun)
+                            )
+                        }
+                        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                            TextField(
+                                colors = TextFieldDefaults.textFieldColors(
+                                    containerColor = colorResource(id = R.color.white),
+                                    cursorColor = colorResource(id = R.color.broun),
+                                    unfocusedIndicatorColor = colorResource(id = R.color.broun),
+                                    focusedIndicatorColor = colorResource(id = R.color.red),
+                                    focusedTextColor = colorResource(id = R.color.broun),
+                                    unfocusedTextColor = colorResource(id = R.color.broun)
+                                ),
+                                value = contentText.value, onValueChange = { newValue ->
+                                    contentText.value = newValue
+                                },
+                                trailingIcon = null,
+                                placeholder = {
+                                    Text(
+                                        "напишите рецепт...",
+                                        fontSize = 14.sp,
+                                        color = colorResource(id = R.color.broun)
+                                    )
+                                },
+                                keyboardOptions = KeyboardOptions(
+                                    imeAction = ImeAction.Done
+                                ),
+                                keyboardActions = KeyboardActions(onDone = {
+                                    keyboardController?.hide()
+                                    focusManager.clearFocus()
+                                }),
+                                modifier = Modifier.fillMaxHeight().fillMaxWidth().imePadding(),
+                                textStyle = TextStyle(
+                                    fontSize = 16.sp,
+                                    fontFamily = FontFamily(Font(R.font.imprisha)),
+                                    textAlign = TextAlign.Start
+                                )
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.venik),
+                                contentDescription = "Clear content",
+                                modifier = Modifier.size(30.dp)
+                                    .padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
+                                    .align(Alignment.TopEnd).clickable { contentText.value = "" },
+                                tint = colorResource(R.color.broun)
+                            )
+                        }
                     }
                 }
             }
