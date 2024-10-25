@@ -24,12 +24,6 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
         composable("SplashScreen") {
             SplashScreen(navController = navController)
         }
-        composable("MainScreen") {
-            MainScreen(context, navController = navController)
-        }
-        composable("ResourceScreen") {
-            ResourceScreen(context, navController = navController)
-        }
         composable("NewOneRecepiesScreen") {
             NewOneRecepiesScreen(context, navController = navController)
         }
@@ -83,6 +77,30 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
             val content = backStackEntry.arguments?.getString("content") ?: ""
             val image = backStackEntry.arguments?.getString("image") ?: ""
             OneEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("ResourceScreen/{title}/{image}/{wordkey}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType },
+                navArgument("wordkey") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            val wordkey = backStackEntry.arguments?.getString("wordkey") ?: ""
+            ResourceScreen(context, navController, title, image, wordkey)
+        }
+        composable("MainScreen/{title}/{image}/{wordkey}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType },
+                navArgument("wordkey") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            val wordkey = backStackEntry.arguments?.getString("wordkey") ?: ""
+            MainScreen(context, navController, title, image, wordkey)
         }
     }
 }

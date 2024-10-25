@@ -1,6 +1,7 @@
 package com.hulikan.cook
 
 import android.content.Context
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -28,6 +29,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,11 +63,15 @@ import com.hulikan.cook.database.MainList
 import com.hulikan.cook.database.One
 import com.hulikan.cook.database.OneDao
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
+import java.net.URLEncoder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ResourceScreen(context : Context, navController: NavController){
-    val currentText = rememberSaveable { mutableStateOf("") }
+fun ResourceScreen(context : Context, navController: NavController, title : String, image : String, wordkey : String){
+    var decodedTitle = URLDecoder.decode(title, "UTF-8").let { if (it == "empty") "" else it }
+    val decodedWordkey = URLDecoder.decode(wordkey, "UTF-8")
+    val currentText = rememberSaveable { mutableStateOf(decodedTitle) }
     val titleText = rememberSaveable { mutableStateOf("") }
     val selectedImage = rememberSaveable { mutableStateOf(R.drawable.baseline_image_24) }
     val scope = rememberCoroutineScope()
@@ -73,7 +79,7 @@ fun ResourceScreen(context : Context, navController: NavController){
     val keyboardController = LocalSoftwareKeyboardController.current
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
     val mainListDao = db.mainListDao()
-    //val clickCount = remember { mutableStateOf(0) }
+    val showDialog = remember { mutableStateOf(false) }
     val wordKeys = listOf(
         "one", "two", "three", "four", "five",
         "six", "seven", "eight", "nine", "ten",
@@ -145,9 +151,6 @@ fun ResourceScreen(context : Context, navController: NavController){
                 ),
                 value = currentText.value, onValueChange = { newValue ->
                     currentText.value = newValue
-                    //viewModel.addToEditEntity(newValue)
-                    //imageSave.value = R.drawable.baseline_done_red
-                    //saveTextColor.value = R.color.red
                 },
                 trailingIcon = {
                         Icon(
@@ -198,25 +201,34 @@ fun ResourceScreen(context : Context, navController: NavController){
                 Button(modifier = Modifier.fillMaxWidth().height(150.dp).padding(start = 16.dp, end = 16.dp),
                     onClick = {
                         scope.launch {
-                            val title = titleText.value
-                            val image = selectedImage.value
-
-                            val existingKeys = mainListDao.getAllKeys()
-                            var wordKey: String? = null
-
-                            for (key in wordKeys) {
-                                if (!existingKeys.contains(key)) {
-                                    wordKey = key
-                                    break
+                            val titles = titleText.value
+                            val imagess = selectedImage.value
+                            val wordkeys = decodedWordkey
+                            val existingSection = mainListDao.getSectionByWordkey(wordkeys)
+                            if (existingSection != null) {
+                                mainListDao.updateSection(titles, imagess, wordkey)
+                                Toast.makeText(context, "Категория обновлена", Toast.LENGTH_SHORT).show()
+                            } else {
+                                var newWordKey: String? = null
+                                val existingKeys = mainListDao.getAllKeys()
+                                for (key in wordKeys) {
+                                    if (!existingKeys.contains(key)) {
+                                        newWordKey = key
+                                        break
+                                    }
+                                }
+                                if (newWordKey == null) {
+                                    Toast.makeText(context, "Больше ничего сохранить нельзя", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    val mainList = MainList(text = titles, image = imagess, wordkey = newWordKey)
+                                    mainListDao.insert(mainList)
+                                    Toast.makeText(context, "Новая категория сохранена", Toast.LENGTH_SHORT).show()
                                 }
                             }
-                            if (wordKey == null) {
-                                Toast.makeText(context, "Больше ничего сохранить нельзя", Toast.LENGTH_SHORT).show()
-                            } else {
-                                val mainList = MainList(text = title, image = image, wordkey = wordKey)
-                                mainListDao.insert(mainList)
-                                navController.navigate("MainScreen")
-                            }
+                            val encodedTitle = URLEncoder.encode(titles, "UTF-8")
+                            val encodedImage = URLEncoder.encode(imagess.toString(), "UTF-8")
+                            val encodedWordkey = URLEncoder.encode(decodedWordkey, "UTF-8")
+                            navController.navigate("MainScreen/$encodedTitle/$encodedImage/$encodedWordkey")
                         }
                     },
                     colors = ButtonDefaults.buttonColors(colorResource(R.color.white)),

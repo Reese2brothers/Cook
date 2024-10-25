@@ -31,6 +31,7 @@ import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.net.URLEncoder
 
 @Composable
 fun SplashScreen(navController: NavController){
@@ -47,7 +48,10 @@ fun SplashScreen(navController: NavController){
     LaunchedEffect(key1 = true) {
         scope.launch {
             delay(2000)
-            navController.navigate("MainScreen")
+            val encodedTitle = URLEncoder.encode("no_data", "UTF-8")
+            val encodedImage = URLEncoder.encode("no_image", "UTF-8")
+            val encodedWordkey = URLEncoder.encode("no_data", "UTF-8")
+            navController.navigate("MainScreen/$encodedTitle/$encodedImage/$encodedWordkey")
         }
     }
     Box(

@@ -227,7 +227,6 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                             val encodedContent = URLEncoder.encode(decodedContent, "UTF-8")
                                             val encodedImage = URLEncoder.encode(decodedImage, "UTF-8")
                                             navController.navigate("OneEditRecepiesScreen/$encodedTitle/$encodedContent/$encodedImage")
-                                            //navController.navigate("OneEditRecepiesScreen/$decodedTitle/$decodedContent/$decodedImage")
                                         }
                                     },
                                 tint = colorResource(R.color.broun)

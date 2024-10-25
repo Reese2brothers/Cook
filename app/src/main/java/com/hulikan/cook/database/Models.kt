@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class MainList(
     val text : String,
-    val image : Int,
-    val wordkey : String
+    var image : Int,
+    var wordkey : String
 )
 {
     @PrimaryKey(autoGenerate = true)

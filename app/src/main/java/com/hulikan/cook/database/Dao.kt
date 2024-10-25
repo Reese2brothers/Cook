@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,14 +14,20 @@ interface MainListDao {
     fun getAll() : Flow<List<MainList>>
     @Query("SELECT wordkey FROM mainlist")
     suspend fun getAllKeys(): List<String>
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(mainList: MainList)
+    @Update
+    suspend fun update(mainList: MainList)
     @Delete
     suspend fun deleteList(mainList : MainList)
     @Query("DELETE FROM mainlist")
     suspend fun deleteAll()
     @Query("SELECT COUNT(*) FROM mainlist")
     suspend fun getRowCount(): Int
+    @Query("SELECT * FROM mainlist WHERE wordkey = :wordkey")
+    suspend fun getSectionByWordkey(wordkey: String): MainList?
+    @Query("UPDATE or REPLACE mainlist SET text = :title, image = :image WHERE wordkey = :wordkey")
+    suspend fun updateSection(title: String, image: Int, wordkey: String)
 }
 
 @Dao

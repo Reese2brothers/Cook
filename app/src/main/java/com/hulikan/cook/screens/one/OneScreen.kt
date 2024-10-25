@@ -82,7 +82,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
     var selectedItemTwo by remember { mutableStateOf<One?>(null) }
 
     BackHandler {
-        navController.navigate("MainScreen")
+        navController.navigate("MainScreen/no_data/no_data/no_data")
     }
     LaunchedEffect(links) {
         db.oneLinksDao().getAll()

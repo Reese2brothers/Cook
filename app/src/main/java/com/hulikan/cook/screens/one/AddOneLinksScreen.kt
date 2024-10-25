@@ -1,6 +1,7 @@
 package com.hulikan.cook.screens.one
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -156,8 +157,12 @@ fun AddOneLinksScreen(context : Context, navController: NavController){
                 contentDescription = "save link",
                 modifier = Modifier.size(40.dp).padding(end = 8.dp).clickable {
                     scope.launch {
-                        db.oneLinksDao().insertOneLinks(OneLinks(title = titleText.value, link = linkText.value))
-                        navController.navigate("OneScreen/${titleText.value}/\"no_data\"/\"no_data\"")
+                        if(titleText.value.isNotBlank() && linkText.value.isNotBlank()){
+                            db.oneLinksDao().insertOneLinks(OneLinks(title = titleText.value, link = linkText.value))
+                            navController.navigate("OneScreen/${titleText.value}/\"no_data\"/\"no_data\"")
+                        } else {
+                            Toast.makeText(context, "Заполните все поля!", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     },
                 tint = colorResource(R.color.broun)
