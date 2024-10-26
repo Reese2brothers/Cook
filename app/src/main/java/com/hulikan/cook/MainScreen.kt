@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,9 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.Icon
@@ -38,11 +35,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.isEmpty
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -51,18 +50,12 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.room.Room
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.MainList
-import com.hulikan.cook.database.One
-import com.hulikan.cook.database.OneLinks
-import com.hulikan.cook.viewmodels.MainViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
@@ -78,6 +71,9 @@ fun MainScreen(context: Context, navController: NavController, title : String, i
     val showDialogTwo = remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<MainList?>(null) }
     var selectedItemTwo by remember { mutableStateOf<MainList?>(null) }
+    val isFavouritesEmpty by produceState<Boolean>(initialValue = true) {
+        value = db.favouritesDao().isEmpty() }
+    var favouritesCount by remember { mutableStateOf(0) }
 
     BackHandler {
         activity?.finishAffinity()
@@ -85,35 +81,61 @@ fun MainScreen(context: Context, navController: NavController, title : String, i
     LaunchedEffect(mainList) {
         db.mainListDao().getAll()
     }
+    LaunchedEffect(Unit) {
+        favouritesCount = db.favouritesDao().getCount()
+    }
 
 Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Row(modifier = Modifier.fillMaxWidth().height(40.dp),
-            horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically,){
+        Row(
+            modifier = Modifier.fillMaxWidth().height(40.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ){
+            Icon(painter = painterResource(  id = if (!isFavouritesEmpty) R.drawable.baseline_favorite_border
+                                      else R.drawable.baseline_favorite_red),
+                contentDescription = "favourite",
+                modifier = Modifier.padding(start = 16.dp).size(30.dp).clickable {
+                        navController.navigate("FavouriteScreen")
+                    },
+                tint = Color.Unspecified
+            )
+            Text(
+                text = "$favouritesCount",
+                modifier = Modifier.padding(end = 145.dp),
+                textAlign = TextAlign.Start,
+                fontSize = 14.sp,
+                color = colorResource(id = R.color.broun),
+                fontFamily = FontFamily(Font(R.font.imprisha))
+            )
             Text(
                 text = "КАТЕГОРИИ РЕЦЕПТОВ",
-                modifier = Modifier.padding(end = 100.dp),
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Start,
                 fontSize = 12.sp,
                 color = colorResource(id = R.color.broun),
                 fontFamily = FontFamily(Font(R.font.imprisha))
             )
             Icon(painter = painterResource(id = R.drawable.baseline_add_24),
                 contentDescription = "add_new_category",
-                modifier = Modifier.padding(end = 12.dp).size(35.dp)
-                    .clickable {
+                modifier = Modifier.padding(end = 12.dp).size(35.dp).clickable {
                         navController.navigate("ResourceScreen/${URLEncoder.encode("empty", "UTF-8")}/no_image/no_data")
                     },
                 tint = colorResource(R.color.broun)
             )
         }
-        Row(modifier = Modifier.fillMaxWidth().height(1.dp)
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp)
             .padding(start = 4.dp, end = 4.dp)
             .background(color = colorResource(R.color.broun))){}
-        LazyColumn(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+        LazyColumn(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()) {
             itemsIndexed(mainList) {index, item ->
-                Card(modifier = Modifier.padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp).fillMaxWidth().height(150.dp)
+                Card(modifier = Modifier
+                    .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
+                    .fillMaxWidth()
+                    .height(150.dp)
                     .background(Color.Transparent),
                     shape = CutCornerShape(bottomStart = 8.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
@@ -213,25 +235,34 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                         }
                     }
                 ) {
-                    Row(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white)),
+                    Row(modifier = Modifier
+                        .fillMaxSize()
+                        .background(colorResource(R.color.white)),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center){
                         Box(
-                            modifier = Modifier.fillMaxHeight().weight(1f),
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f),
                             contentAlignment = Alignment.TopEnd
                         ) {
-                            Row(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white)),
+                            Row(modifier = Modifier
+                                .fillMaxSize()
+                                .background(colorResource(R.color.white)),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center) {
                                 Image(
                                     painter = painterResource(id = item.image),
                                     contentDescription = "choise_image",
-                                    modifier = Modifier.fillMaxHeight().width(150.dp)
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .width(150.dp)
                                         .padding(top = 4.dp, bottom = 4.dp, start = 8.dp)
                                 )
                                 Text(
                                     text = item.text,
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxWidth()
                                         .wrapContentHeight(Alignment.CenterVertically)
                                         .padding(end = 8.dp),
                                     textAlign = TextAlign.Center,
@@ -256,10 +287,13 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.baseline_edit_24),
                                     contentDescription = "edit_item",
-                                    modifier = Modifier.size(30.dp).padding(end = 8.dp, bottom = 8.dp).clickable {
-                                        showDialogTwo.value = true
-                                        selectedItemTwo = item
-                                    },
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .padding(end = 8.dp, bottom = 8.dp)
+                                        .clickable {
+                                            showDialogTwo.value = true
+                                            selectedItemTwo = item
+                                        },
                                     tint = colorResource(R.color.broun)
                                 )
                                 if (showDialogTwo.value) {
@@ -303,10 +337,13 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.venik),
                                     contentDescription = "delete_item",
-                                    modifier = Modifier.size(30.dp).padding(end = 8.dp, bottom = 4.dp).clickable {
-                                        showDialog.value = true
-                                        selectedItem = item
-                                    },
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .padding(end = 8.dp, bottom = 4.dp)
+                                        .clickable {
+                                            showDialog.value = true
+                                            selectedItem = item
+                                        },
                                     tint = colorResource(R.color.broun)
                                 )
                                 if (showDialog.value) {

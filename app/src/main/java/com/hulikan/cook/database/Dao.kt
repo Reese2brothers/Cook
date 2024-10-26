@@ -31,6 +31,33 @@ interface MainListDao {
 }
 
 @Dao
+interface FavouritesDao {
+    @Query("SELECT * FROM favourites")
+    fun getAll(): Flow<List<Favourites>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFavourites(favourites: Favourites)
+
+    @Delete
+    suspend fun deleteFavourites(favourites: Favourites)
+
+    @Query("DELETE FROM favourites")
+    suspend fun deleteAll()
+
+    @Query("SELECT EXISTS(SELECT * FROM Favourites WHERE title = :title AND favouriteskey = :key)")
+    suspend fun isFavourite(title: String, key: String): Boolean
+
+    @Query("DELETE FROM Favourites WHERE title = :title AND favouriteskey = :key")
+    suspend fun deleteFavourite(title: String, key: String)
+
+    @Query("SELECT COUNT(*) FROM favourites")
+    suspend fun isEmpty(): Boolean
+
+    @Query("SELECT COUNT(*) FROM favourites")
+    suspend fun getCount(): Int
+}
+
+@Dao
 interface OneDao {
     @Query("SELECT * FROM one")
     fun getAll(): Flow<List<One>>
@@ -55,6 +82,12 @@ interface OneDao {
 
     @Query("UPDATE one SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
     suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM One")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM One")
+    suspend fun getContent(): String
 }
 
 @Dao

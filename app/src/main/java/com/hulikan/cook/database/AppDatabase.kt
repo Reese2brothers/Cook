@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [MainList::class, One::class, Two::class, Three::class, Four::class, Five::class,
+@Database(entities = [MainList::class, Favourites::class, One::class, Two::class, Three::class, Four::class, Five::class,
     Six::class, Seven::class, Eight::class, Nine::class, Ten::class, Eleven::class, Twelve::class,
     Thirteen::class, Fourteen::class, Fifteen::class, Sixteen::class, Seventeen::class, Eighteen::class,
     Nineteen::class, Twenty::class, TwentyOne::class, TwentyTwo::class, TwentyThree::class, TwentyFour::class,
@@ -16,16 +16,10 @@ import androidx.room.RoomDatabase
     FourteenLinks::class, FifteenLinks::class, SixteenLinks::class, SeventeenLinks::class,
     EighteenLinks::class, NineteenLinks::class, TwentyLinks::class, TwentyOneLinks::class, TwentyTwoLinks::class,
     TwentyThreeLinks::class, TwentyFourLinks::class, TwentyFiveLinks::class, TwentySixLinks::class,
-    TwentySevenLinks::class, TwentyEightLinks::class, TwentyNineLinks::class, ThirtyLinks::class,
-    OneImages::class, TwoImages::class, ThreeImages::class, FourImages::class, FiveImages::class,
-    SixImages::class, SevenImages::class, EightImages::class, NineImages::class, TenImages::class,
-    ElevenImages::class, TwelveImages::class, ThirteenImages::class, FourteenImages::class, FifteenImages::class,
-    SixteenImages::class, SeventeenImages::class, EighteenImages::class, NineteenImages::class, TwentyImages::class,
-    TwentyOneImages::class, TwentyTwoImages::class, TwentyThreeImages::class, TwentyFourImages::class,
-    TwentyFiveImages::class, TwentySixImages::class, TwentySevenImages::class, TwentyEightImages::class,
-    TwentyNineImages::class, ThirtyImages::class], version = 1)
+    TwentySevenLinks::class, TwentyEightLinks::class, TwentyNineLinks::class, ThirtyLinks::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun mainListDao(): MainListDao
+    abstract fun favouritesDao(): FavouritesDao
     abstract fun oneDao(): OneDao
     abstract fun twoDao(): TwoDao
     abstract fun threeDao(): ThreeDao
@@ -86,36 +80,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun twentyEightLinksDao(): TwentyEightLinksDao
     abstract fun twentyNineLinksDao(): TwentyNineLinksDao
     abstract fun thirtyLinksDao(): ThirtyLinksDao
-    abstract fun oneImagesDao(): OneImagesDao
-    abstract fun twoImagesDao(): TwoImagesDao
-    abstract fun threeImagesDao(): ThreeImagesDao
-    abstract fun fourImagesDao(): FourImagesDao
-    abstract fun fiveImagesDao(): FiveImagesDao
-    abstract fun sixImagesDao(): SixImagesDao
-    abstract fun sevenImagesDao(): SevenImagesDao
-    abstract fun eightImagesDao(): EightImagesDao
-    abstract fun nineImagesDao(): NineImagesDao
-    abstract fun tenImagesDao(): TenImagesDao
-    abstract fun elevenImagesDao(): ElevenImagesDao
-    abstract fun twelveImagesDao(): TwelveImagesDao
-    abstract fun thirteenImagesDao(): ThirteenImagesDao
-    abstract fun fourteenImagesDao(): FourteenImagesDao
-    abstract fun fifteenImagesDao(): FifteenImagesDao
-    abstract fun sixteenImagesDao(): SixteenImagesDao
-    abstract fun seventeenImagesDao(): SeventeenImagesDao
-    abstract fun eighteenImagesDao(): EighteenImagesDao
-    abstract fun nineteenImagesDao(): NineteenImagesDao
-    abstract fun twentyImagesDao(): TwentyImagesDao
-    abstract fun twentyOneImagesDao(): TwentyOneImagesDao
-    abstract fun twentyTwoImagesDao(): TwentyTwoImagesDao
-    abstract fun twentyThreeImagesDao(): TwentyThreeImagesDao
-    abstract fun twentyFourImagesDao(): TwentyFourImagesDao
-    abstract fun twentyFiveImagesDao(): TwentyFiveImagesDao
-    abstract fun twentySixImagesDao(): TwentySixImagesDao
-    abstract fun twentySevenImagesDao(): TwentySevenImagesDao
-    abstract fun twentyEightImagesDao(): TwentyEightImagesDao
-    abstract fun twentyNineImagesDao(): TwentyNineImagesDao
-    abstract fun thirtyImagesDao(): ThirtyImagesDao
 
     companion object {
         @Volatile

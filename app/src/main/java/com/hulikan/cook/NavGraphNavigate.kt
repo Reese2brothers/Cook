@@ -24,6 +24,9 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
         composable("SplashScreen") {
             SplashScreen(navController = navController)
         }
+        composable("FavouriteScreen") {
+            FavouriteScreen(context, navController = navController)
+        }
         composable("NewOneRecepiesScreen") {
             NewOneRecepiesScreen(context, navController = navController)
         }
@@ -42,6 +45,7 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
         composable("FiveScreen") {
             FiveScreen()
         }
+
         composable("OneScreen/{title}/{content}/{image}",
             arguments = listOf(
                 navArgument("title") { type = NavType.StringType },

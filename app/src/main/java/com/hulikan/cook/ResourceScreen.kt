@@ -1,7 +1,6 @@
 package com.hulikan.cook
 
 import android.content.Context
-import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -29,7 +28,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,7 +41,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -60,8 +57,6 @@ import androidx.navigation.NavController
 import androidx.room.Room
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.MainList
-import com.hulikan.cook.database.One
-import com.hulikan.cook.database.OneDao
 import kotlinx.coroutines.launch
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -162,7 +157,7 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                         )
                 },
                 placeholder = {
-                    Text("введите название раздела...", color = colorResource(id = R.color.broun))
+                    Text("введите название категории...", color = colorResource(id = R.color.broun))
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
@@ -201,35 +196,39 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                 }
                 Button(modifier = Modifier.fillMaxWidth().height(150.dp).padding(start = 16.dp, end = 16.dp),
                     onClick = {
-                        scope.launch {
-                            val titles = titleText.value
-                            val imagess = selectedImage.value
-                            val wordkeys = decodedWordkey
-                            val existingSection = mainListDao.getSectionByWordkey(wordkeys)
-                            if (existingSection != null) {
-                                mainListDao.updateSection(titles, imagess, wordkey)
-                                Toast.makeText(context, "Категория обновлена", Toast.LENGTH_SHORT).show()
-                            } else {
-                                var newWordKey: String? = null
-                                val existingKeys = mainListDao.getAllKeys()
-                                for (key in wordKeys) {
-                                    if (!existingKeys.contains(key)) {
-                                        newWordKey = key
-                                        break
+                        if (titleText.value.isBlank()) {
+                            Toast.makeText(context, "Введите название категории", Toast.LENGTH_SHORT).show()
+                        } else {
+                            scope.launch {
+                                val titles = titleText.value
+                                val imagess = selectedImage.value
+                                val wordkeys = decodedWordkey
+                                val existingSection = mainListDao.getSectionByWordkey(wordkeys)
+                                if (existingSection != null) {
+                                    mainListDao.updateSection(titles, imagess, wordkey)
+                                    Toast.makeText(context, "Категория обновлена", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    var newWordKey: String? = null
+                                    val existingKeys = mainListDao.getAllKeys()
+                                    for (key in wordKeys) {
+                                        if (!existingKeys.contains(key)) {
+                                            newWordKey = key
+                                            break
+                                        }
+                                    }
+                                    if (newWordKey == null) {
+                                        Toast.makeText(context, "Больше ничего сохранить нельзя", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        val mainList = MainList(text = titles, image = imagess, wordkey = newWordKey)
+                                        mainListDao.insert(mainList)
+                                        Toast.makeText(context, "Новая категория сохранена", Toast.LENGTH_SHORT).show()
                                     }
                                 }
-                                if (newWordKey == null) {
-                                    Toast.makeText(context, "Больше ничего сохранить нельзя", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    val mainList = MainList(text = titles, image = imagess, wordkey = newWordKey)
-                                    mainListDao.insert(mainList)
-                                    Toast.makeText(context, "Новая категория сохранена", Toast.LENGTH_SHORT).show()
-                                }
+                                val encodedTitle = URLEncoder.encode(titles, "UTF-8")
+                                val encodedImage = URLEncoder.encode(imagess.toString(), "UTF-8")
+                                val encodedWordkey = URLEncoder.encode(decodedWordkey, "UTF-8")
+                                navController.navigate("MainScreen/$encodedTitle/$encodedImage/$encodedWordkey")
                             }
-                            val encodedTitle = URLEncoder.encode(titles, "UTF-8")
-                            val encodedImage = URLEncoder.encode(imagess.toString(), "UTF-8")
-                            val encodedWordkey = URLEncoder.encode(decodedWordkey, "UTF-8")
-                            navController.navigate("MainScreen/$encodedTitle/$encodedImage/$encodedWordkey")
                         }
                     },
                     colors = ButtonDefaults.buttonColors(colorResource(R.color.white)),

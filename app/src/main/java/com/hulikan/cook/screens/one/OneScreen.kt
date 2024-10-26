@@ -34,6 +34,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -182,11 +183,19 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                 .weight(1f)
                 .padding(top = 4.dp, bottom = 4.dp)) {
                 itemsIndexed(links) {index, item ->
-                    Column(modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(bottom = 4.dp)) {
-                        Row(modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(bottom = 4.dp),
+                    Column(modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(bottom = 4.dp)) {
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(bottom = 4.dp),
                             verticalAlignment = Alignment.CenterVertically) {
                             Text(text = item.title,
-                                modifier = Modifier.padding(start = 8.dp, end = 4.dp).weight(1.5f),
+                                modifier = Modifier
+                                    .padding(start = 8.dp, end = 4.dp)
+                                    .weight(1.5f),
                                 textAlign = TextAlign.Start,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
@@ -207,7 +216,9 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                 onClick = {
                                     uriHandler.openUri(item.link)
                                 },
-                                modifier = Modifier.padding(start = 8.dp, end = 4.dp).weight(3.5f)
+                                modifier = Modifier
+                                    .padding(start = 8.dp, end = 4.dp)
+                                    .weight(3.5f)
                             )
                             Icon(
                                 painter = painterResource(id = R.drawable.venik),
@@ -370,7 +381,10 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
         LaunchedEffect(onelist) {
             db.oneDao().getAll()
         }
-        LazyColumn(modifier = Modifier.fillMaxWidth().weight(1f).padding(top = 4.dp, bottom = 4.dp)) {
+        LazyColumn(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f)
+            .padding(top = 4.dp, bottom = 4.dp)) {
             itemsIndexed(onelist) {index, item ->
                 Card(modifier = Modifier.padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
                     .fillMaxWidth().height(120.dp).background(Color.Transparent),
@@ -388,10 +402,14 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center){
                         Box(
-                            modifier = Modifier.fillMaxHeight().weight(1f),
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f),
                             contentAlignment = Alignment.TopEnd
                         ) {
-                            Row(modifier = Modifier.fillMaxHeight().background(colorResource(R.color.white)),
+                            Row(modifier = Modifier
+                                .fillMaxHeight()
+                                .background(colorResource(R.color.white)),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center) {
                                 val firstImageUri = item.images.split(",")
@@ -410,12 +428,17 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                         .crossfade(true)
                                         .build(),
                                     contentDescription = "choise_image",
-                                    modifier = Modifier.fillMaxHeight().width(150.dp).fillMaxHeight(),
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .width(150.dp)
+                                        .fillMaxHeight(),
                                     contentScale = ContentScale.Crop
                                 )
                                 Text(
                                     text = item.title,
-                                    modifier = Modifier.fillMaxWidth().wrapContentHeight(Alignment.CenterVertically)
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .wrapContentHeight(Alignment.CenterVertically)
                                         .padding(end = 8.dp),
                                     textAlign = TextAlign.Center,
                                     fontSize = 24.sp,
@@ -428,19 +451,32 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                         Column(modifier = Modifier.fillMaxHeight(),
                             verticalArrangement = Arrangement.SpaceBetween,
                             horizontalAlignment = Alignment.CenterHorizontally){
-                            Text(
-                                text = "${index + 1}",
-                                modifier = Modifier.padding(end = 8.dp, top = 4.dp),
-                                textAlign = TextAlign.Center,
-                                fontSize = 12.sp,
-                                color = colorResource(id = R.color.broun),
-                            )
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = "${index + 1}",
+                                    modifier = Modifier.padding(end = 8.dp, top = 4.dp),
+                                    textAlign = TextAlign.Center,
+                                    fontSize = 12.sp,
+                                    color = colorResource(id = R.color.broun),
+                                )
+                                val isFavourite by produceState<Boolean>(initialValue = false, item.title) {
+                                    value = db.favouritesDao().isFavourite(item.title, "OneRecepiesScreen")
+                                }
+                                Icon(
+                                    painter = painterResource(
+                                        id = if (isFavourite) R.drawable.baseline_favorite_red else R.drawable.baseline_favorite_border
+                                    ),
+                                    contentDescription = "show_favourites",
+                                    modifier = Modifier.size(25.dp).padding(end = 8.dp, bottom = 4.dp),
+                                    tint = Color.Unspecified
+                                )
+                            }
                             Icon(
                                 painter = painterResource(id = R.drawable.venik),
                                 contentDescription = "delete_item",
                                 modifier = Modifier.size(30.dp).padding(end = 8.dp, bottom = 4.dp).clickable {
-                                       showDialogThree.value = true
-                                       selectedItemTwo = item
+                                        showDialogThree.value = true
+                                        selectedItemTwo = item
                                     },
                                 tint = colorResource(R.color.broun)
                             )

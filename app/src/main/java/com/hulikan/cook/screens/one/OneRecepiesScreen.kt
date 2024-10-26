@@ -67,6 +67,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hulikan.cook.R
 import com.hulikan.cook.database.AppDatabase
+import com.hulikan.cook.database.Favourites
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
@@ -226,10 +227,7 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_edit_24),
                                 contentDescription = "edit",
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .padding(end = 8.dp)
-                                    .clickable {
+                                modifier = Modifier.size(30.dp).padding(end = 8.dp).clickable {
                                         scope.launch {
                                             val encodedTitle =
                                                 URLEncoder.encode(decodedTitle, "UTF-8")
@@ -241,6 +239,31 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                         }
                                     },
                                 tint = colorResource(R.color.broun)
+                            )
+                            var tints by remember { mutableStateOf(false) }
+
+                            LaunchedEffect(key1 = decodedTitle) { // Запускаем проверку при изменении decodedTitle
+                                tints = db.favouritesDao().isFavourite(decodedTitle, "OneRecepiesScreen")
+                            }
+                            Icon(
+                                painter = painterResource(id = if (tints) R.drawable.baseline_favorite_red
+                                else R.drawable.baseline_favorite_border),
+                                contentDescription = "favourite",
+                                modifier = Modifier.size(32.dp).padding(end = 8.dp).clickable {
+                                    scope.launch {
+                                        if (tints) {
+                                            // Если рецепт уже в избранном, удаляем его
+                                            db.favouritesDao().deleteFavourite(decodedTitle, "OneRecepiesScreen")
+                                        } else {
+                                            // Если рецепта нет в избранном, добавляем его
+                                            db.favouritesDao().insertFavourites(
+                                                Favourites(title = decodedTitle, content = decodedContent,
+                                                    images = decodedImage, favouriteskey = "OneRecepiesScreen"))
+                                        }
+                                        tints = !tints // Инвертируем значение tints при клике
+                                    }
+                                },
+                                tint = Color.Unspecified
                             )
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_share),
