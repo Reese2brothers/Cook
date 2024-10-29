@@ -30,7 +30,8 @@ data class Favourites(
 data class One(
     val title : String,
     val content : String,
-    val images : String
+    val images : String,
+    val videos : String
 )
 {
     @PrimaryKey(autoGenerate = true)

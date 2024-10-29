@@ -394,7 +394,12 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                     onClick = {
                         val encodedTitle = URLEncoder.encode(item.title, "UTF-8")
                         val encodedContent = URLEncoder.encode(item.content, "UTF-8")
-                        val encodedImages = URLEncoder.encode(item.images, "UTF-8") ?: R.drawable.baseline_add_photo_alternate_24.toString()
+                        //val encodedImages = URLEncoder.encode(item.images, "UTF-8") ?: R.drawable.baseline_add_photo_alternate_24.toString()
+                        val encodedImages = if (item.images.isEmpty()) {
+                            R.drawable.baseline_add_photo_alternate_24.toString() // или значение-заполнитель
+                        } else {
+                            URLEncoder.encode(item.images, "UTF-8") // Кодировать объединенную строку
+                        }
                         navController.navigate("OneRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
                     }
                 ){
@@ -505,6 +510,12 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                                     selectedItemTwo?.let { db.oneDao().deleteOne(it) }
                                                     imageUrisToDelete.forEach { imageUri ->
                                                         context.contentResolver.delete(imageUri, null, null)
+                                                    }
+                                                    val videoUrisToDelete = selectedItemTwo?.videos?.split(",")
+                                                        ?.filter { it.isNotBlank() && it.startsWith("content://") }
+                                                        ?.map { Uri.parse(it) } ?: emptyList()
+                                                    videoUrisToDelete.forEach { videoUri ->
+                                                        context.contentResolver.delete(videoUri, null, null)
                                                     }
                                                 }
                                                 showDialogThree.value = false

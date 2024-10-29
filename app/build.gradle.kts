@@ -64,6 +64,9 @@ dependencies {
     implementation(libs.androidx.foundation.android)
     implementation(libs.androidx.storage)
     implementation(libs.androidx.storage)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -110,4 +113,10 @@ dependencies {
     //noinspection GradleDependency
     implementation ("androidx.camera:camera-lifecycle:$camerax_version")
     implementation ("androidx.camera:camera-view:1.4.0-beta02")
+
+    //Video
+    implementation("androidx.media:media:1.6.0")
+    //Glide
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
 }

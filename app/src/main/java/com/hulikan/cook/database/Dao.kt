@@ -88,6 +88,27 @@ interface OneDao {
 
     @Query("SELECT content FROM One")
     suspend fun getContent(): String
+
+    @Query("UPDATE one SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM one WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE one SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM one WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM one WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE one SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE one SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
 }
 
 @Dao

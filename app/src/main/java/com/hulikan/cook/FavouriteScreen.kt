@@ -72,7 +72,8 @@ fun FavouriteScreen(context : Context, navController: NavController){
 Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
    horizontalAlignment = Alignment.CenterHorizontally ) {
     Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween) {
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = "Избранное",
             modifier = Modifier.padding(start = 150.dp),

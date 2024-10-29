@@ -159,7 +159,8 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                                         One(
                                             title = title,
                                             content = content,
-                                            images = images
+                                            images = images,
+                                            videos = ""
                                         )
                                     )
 
