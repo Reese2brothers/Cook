@@ -6,18 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.transition.Transition
 import android.util.Log
 import android.view.MotionEvent
-import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.VideoView
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -76,7 +71,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -88,7 +82,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.zIndex
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.navigation.NavController
@@ -100,7 +93,6 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.hulikan.cook.R
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.Favourites
-import com.hulikan.cook.database.One
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -112,12 +104,9 @@ import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.concurrent.write
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
-@SuppressLint("CoroutineCreationDuringComposition", "ClickableViewAccessibility",
-    "RememberReturnType"
-)
+@SuppressLint("CoroutineCreationDuringComposition", "ClickableViewAccessibility", "RememberReturnType")
 @Composable
 fun OneRecepiesScreen(context : Context, navController: NavController, title : String, content : String, image : String){
     val scope = rememberCoroutineScope()
@@ -128,14 +117,6 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
     var decodedImage = URLDecoder.decode(image, "UTF-8")
     var imagesString by rememberSaveable { mutableStateOf(decodedImage) }
     var listImages = remember { mutableStateListOf<String>() }
-    //var bigPhoto by rememberSaveable { mutableStateOf<Uri?>(null) }
-    var bigPhoto by rememberSaveable { mutableStateOf(listImages.firstOrNull()?.toUri() ?: Uri.EMPTY) }
-    //var bigPhoto by remember { mutableStateOf<Uri?>(db.oneDao().getImages(decodedTitle)?.split(",")?.firstOrNull()?.toUri()) }
-//    val bigPhoto by produceState<Uri?>(initialValue = null, key1 = decodedTitle) {
-//        withContext(Dispatchers.IO) {
-//            value = db.oneDao().getImages(decodedTitle)?.split(",")?.firstOrNull()?.toUri()
-//        }
-//    }
     val showDialog = remember { mutableStateOf(false) }
     val showDialogTwo = remember { mutableStateOf(false) }
     val showDialogThree = remember { mutableStateOf(false) }
@@ -153,7 +134,23 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
     var videoCount by remember { mutableStateOf(0) }
     var selectedVideoUri by remember { mutableStateOf<Uri?>(null) }
     var isVideoCaptured by remember { mutableStateOf(false) }
+    var bigPhoto by rememberSaveable { mutableStateOf<Any>(R.drawable.baseline_image_24) }
 
+    LaunchedEffect(Unit) {
+        scope.launch {
+            val imageString = db.oneDao().getImages(decodedTitle)
+            val newImages = imageString?.split(",")?.filter { it.isNotBlank() } ?: emptyList()
+            withContext(Dispatchers.Main) {
+                listImages.clear()
+                listImages.addAll(newImages)
+                bigPhoto = (if (listImages.isNotEmpty() && listImages.none { it.contains("content://") }) {
+                    R.drawable.baseline_image_24
+                } else {
+                    listImages.firstOrNull { it.startsWith("content://") }?.toUri()
+                })!!
+            }
+        }
+    }
     LaunchedEffect(key1 = decodedTitle) {
         scope.launch {
             videoCount = db.oneDao().getVideoCountByTitle(decodedTitle)
@@ -215,8 +212,8 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
             selectedImageUri?.let { uri ->
                 scope.launch {
                     val savedUri = saveImageToFile(context, uri)
-                    listImages.add(savedUri.toString()) // Добавить в listImages
-                    db.oneDao().appendImage(decodedTitle, savedUri.toString()) // Добавить в базу данных
+                    listImages.add(savedUri.toString())
+                    db.oneDao().appendImage(decodedTitle, savedUri.toString())
                     updateDatabaseWithImages(decodedTitle, listImages)
                 }
             }
@@ -228,8 +225,8 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
             uri?.let { originalUri ->
                 scope.launch {
                     val savedUri = saveImageToFile(context, originalUri)
-                    listImages.add(savedUri.toString()) // Добавить в listImages
-                    db.oneDao().appendImage(decodedTitle, savedUri.toString()) // Добавить в базу данных
+                    listImages.add(savedUri.toString())
+                    db.oneDao().appendImage(decodedTitle, savedUri.toString())
                     updateDatabaseWithImages(decodedTitle, listImages)
                 }
             }
@@ -241,8 +238,8 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
             uri?.let { originalUri ->
                 scope.launch {
                     val savedUri = saveImageToFile(context, originalUri)
-                    listImages.add(savedUri.toString()) // Добавить в listImages
-                    db.oneDao().appendImage(decodedTitle, savedUri.toString()) // Добавить в базу данных
+                    listImages.add(savedUri.toString())
+                    db.oneDao().appendImage(decodedTitle, savedUri.toString())
                     updateDatabaseWithImages(decodedTitle, listImages)
                 }
             }
@@ -308,19 +305,14 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
         }
     )
     BottomSheetScaffold(
-        modifier = Modifier
-            .systemBarsPadding()
-            .background(Color.Yellow),
+        modifier = Modifier.systemBarsPadding().background(Color.Yellow),
         scaffoldState = bottomSheetScaffoldState,
         sheetPeekHeight = 28.dp,
         sheetGesturesEnabled = true,
         sheetShape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
         sheetContent = {
             val sheetState = bottomSheetScaffoldState.bottomSheetState
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .height(600.dp)
-                .background(colorResource(R.color.lightbroun)),
+            Column(modifier = Modifier.fillMaxWidth().height(600.dp).background(colorResource(R.color.lightbroun)),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 val text = if (sheetState.isExpanded) {
@@ -329,32 +321,23 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                     "Потяните вверх чтобы открыть видео"
                 }
                 Text(text = text,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp),
+                    modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
                     textAlign = TextAlign.Center,
                     fontSize = 14.sp,
                     color = colorResource(id = R.color.broun),
                     fontFamily = FontFamily(Font(R.font.imprisha))
                 )
                 Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp, start = 8.dp, end = 8.dp)
-                        .wrapContentHeight()
-                        .background(Color.Transparent),
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, start = 8.dp, end = 8.dp)
+                        .wrapContentHeight().background(Color.Transparent),
                     shape = RoundedCornerShape(8.dp)
                 ){
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
+                    Row(modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                         horizontalArrangement = Arrangement.SpaceAround,
                         verticalAlignment = Alignment.CenterVertically) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier
-                                .weight(1f)
-                                .clickable {
+                            modifier = Modifier.weight(1f).clickable {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                         videoPickerLauncherNew.launch(
                                             PickVisualMediaRequest(
@@ -364,7 +347,8 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                     } else {
                                         videoPickerLauncherOld.launch("video/*")
                                     }
-                                }) {
+                                })
+                        {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_video_library),
                                 contentDescription = "add_video_from_gallery",
@@ -372,9 +356,7 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                 tint = colorResource(R.color.broun)
                             )
                             Text(text = "видео из галереи",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 4.dp, bottom = 4.dp),
+                                modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
                                 textAlign = TextAlign.Center,
                                 fontSize = 11.sp,
                                 color = colorResource(id = R.color.broun),
@@ -383,12 +365,11 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                         }
                         Column(horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier
-                                .weight(1f)
-                                .clickable {
+                            modifier = Modifier.weight(1f).clickable {
                                     val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
                                     videoCaptureLauncher.launch(intent)
-                                }) {
+                                })
+                        {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_videocamera),
                                 contentDescription = "add_video_from_camera",
@@ -396,9 +377,7 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                 tint = colorResource(R.color.broun)
                             )
                             Text(text = "видео с камеры",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 4.dp),
+                                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
                                 textAlign = TextAlign.Center,
                                 fontSize = 11.sp,
                                 color = colorResource(id = R.color.broun),
@@ -407,11 +386,10 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                         }
                         Column(horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier
-                                .weight(1f)
-                                .clickable {
+                            modifier = Modifier.weight(1f).clickable {
                                     showDialogThree.value = true
-                                }) {
+                                })
+                        {
                             Icon(
                                 painter = painterResource(id = R.drawable.venik),
                                 contentDescription = "delete all videos",
@@ -419,9 +397,7 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                 tint = colorResource(R.color.broun)
                             )
                             Text(text = "удалить все видео",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 4.dp, bottom = 4.dp),
+                                modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
                                 textAlign = TextAlign.Center,
                                 fontSize = 11.sp,
                                 color = colorResource(id = R.color.broun),
@@ -486,17 +462,11 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                         }
                     }
                 }
-                LazyColumn(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(top = 4.dp, bottom = 8.dp)){
+                LazyColumn(modifier = Modifier.fillMaxWidth().fillMaxHeight().padding(top = 4.dp, bottom = 8.dp)){
                     itemsIndexed(items = listVideos) { index, item ->
                         VideoPlayer(videoUri = item)
-                        Card(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 4.dp, start = 8.dp, end = 8.dp)
-                            .height(350.dp)
-                            .background(Color.Transparent),
+                        Card(modifier = Modifier.fillMaxWidth().padding(top = 4.dp, start = 8.dp, end = 8.dp)
+                            .height(350.dp).background(Color.Transparent),
                             shape = RoundedCornerShape(8.dp)
                         ) {
                             fun createThumbnailForVideo(videoUri: Uri): String? {
@@ -781,39 +751,15 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
             }
         },
     ) { innerPadding ->
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding()
-            .padding(innerPadding)) {
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .background(colorResource(R.color.white))){
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)) {
+        Column(modifier = Modifier.fillMaxSize().systemBarsPadding().padding(innerPadding)) {
+            Column(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white))){
+                Box(modifier = Modifier.fillMaxWidth().height(180.dp)) {
                     if(bigPhoto == null){
-                        if (listImages.isEmpty()) {
-                            Image(
-                                painter = painterResource(id = R.drawable.baseline_image_24),
+                            Image(painter = painterResource(id = R.drawable.baseline_image_24),
                                 contentDescription = "add_photo",
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .size(30.dp),
-                            )
-                        } else {
-                            AsyncImage(
-                                model = ImageRequest.Builder(context)
-                                    .data(listImages.first())
-                                    .crossfade(true)
-                                    .build(),
-                                contentDescription = "big_photo",
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
+                                modifier = Modifier.fillMaxSize().size(30.dp),)
                     } else {
-                        AsyncImage(
-                            model = ImageRequest.Builder(context)
+                        AsyncImage(model = ImageRequest.Builder(context)
                                 .data(bigPhoto)
                                 .crossfade(true)
                                 .build(),
@@ -824,26 +770,14 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                     }
 
                 }
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .padding(start = 4.dp, end = 4.dp)
-                    .background(colorResource(R.color.broun))){}
-                Row(modifier  = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)) {
-                    Column(modifier  = Modifier
-                        .fillMaxHeight()
-                        .weight(2f)) {
+                Row(modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 4.dp, end = 4.dp).background(colorResource(R.color.broun))){}
+                Row(modifier  = Modifier.fillMaxWidth().weight(1f)) {
+                    Column(modifier  = Modifier.fillMaxHeight().weight(2f)) {
                         Row(horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically,
                             modifier  = Modifier.fillMaxWidth()) {
-                            Text(
-                                text = titleText.value,
-                                modifier = Modifier
-                                    .padding(start = 8.dp, end = 8.dp)
-                                    .wrapContentHeight()
-                                    .weight(1f),
+                            Text(text = titleText.value,
+                                modifier = Modifier.padding(start = 8.dp, end = 8.dp).wrapContentHeight().weight(1f),
                                 textAlign = TextAlign.Start,
                                 fontSize = 20.sp,
                                 color = colorResource(id = R.color.broun),
@@ -852,23 +786,13 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                             )
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Row() {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.baseline_edit_24),
+                                    Icon(painter = painterResource(id = R.drawable.baseline_edit_24),
                                         contentDescription = "edit",
-                                        modifier = Modifier
-                                            .size(30.dp)
-                                            .padding(end = 8.dp)
-                                            .clickable {
+                                        modifier = Modifier.size(30.dp).padding(end = 8.dp).clickable {
                                                 scope.launch {
-                                                    val encodedTitle =
-                                                        URLEncoder.encode(decodedTitle, "UTF-8")
-                                                    val encodedContent =
-                                                        URLEncoder.encode(
-                                                            decodedContent,
-                                                            "UTF-8"
-                                                        )
-                                                    val encodedImage =
-                                                        URLEncoder.encode(decodedImage, "UTF-8")
+                                                    val encodedTitle = URLEncoder.encode(decodedTitle, "UTF-8")
+                                                    val encodedContent = URLEncoder.encode(decodedContent, "UTF-8")
+                                                    val encodedImage = URLEncoder.encode(decodedImage, "UTF-8")
                                                     navController.navigate("OneEditRecepiesScreen/$encodedTitle/$encodedContent/$encodedImage")
                                                 }
                                             },
@@ -876,57 +800,33 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                     )
                                     var tints by remember { mutableStateOf(false) }
 
-                                    LaunchedEffect(key1 = decodedTitle) { // Запускаем проверку при изменении decodedTitle
+                                    LaunchedEffect(key1 = decodedTitle) {
                                         tints = db.favouritesDao().isFavourite(decodedTitle, "OneRecepiesScreen")
                                     }
                                     Icon(
                                         painter = painterResource(id = if (tints) R.drawable.baseline_favorite_red
                                         else R.drawable.baseline_favorite_border),
                                         contentDescription = "favourite",
-                                        modifier = Modifier
-                                            .size(32.dp)
-                                            .padding(end = 8.dp)
-                                            .clickable {
+                                        modifier = Modifier.size(32.dp).padding(end = 8.dp).clickable {
                                                 scope.launch {
                                                     if (tints) {
-                                                        // Если рецепт уже в избранном, удаляем его
-                                                        db
-                                                            .favouritesDao()
-                                                            .deleteFavourite(
-                                                                decodedTitle,
-                                                                "OneRecepiesScreen"
-                                                            )
+                                                        db.favouritesDao().deleteFavourite(decodedTitle, "OneRecepiesScreen")
                                                     } else {
-                                                        // Если рецепта нет в избранном, добавляем его
-                                                        db
-                                                            .favouritesDao()
-                                                            .insertFavourites(
-                                                                Favourites(
-                                                                    title = decodedTitle,
-                                                                    content = decodedContent,
-                                                                    images = decodedImage,
-                                                                    favouriteskey = "OneRecepiesScreen"
-                                                                )
-                                                            )
+                                                        db.favouritesDao().insertFavourites(Favourites(title = decodedTitle,
+                                                            content = decodedContent, images = decodedImage, favouriteskey = "OneRecepiesScreen"))
                                                     }
-                                                    tints =
-                                                        !tints // Инвертируем значение tints при клике
+                                                    tints = !tints
                                                 }
                                             },
                                         tint = Color.Unspecified
                                     )
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.baseline_share),
+                                    Icon(painter = painterResource(id = R.drawable.baseline_share),
                                         contentDescription = "share_recepie",
-                                        modifier = Modifier
-                                            .size(30.dp)
-                                            .padding(end = 8.dp)
-                                            .clickable {
+                                        modifier = Modifier.size(30.dp).padding(end = 8.dp).clickable {
                                                 val maxLength = 1000
                                                 val firstImageUri =
                                                     if (listImages.isNotEmpty()) listImages[0] else null
-                                                val text =
-                                                    "Рецепт: $decodedTitle\n\nСодержание: $decodedContent"
+                                                val text = "Рецепт: $decodedTitle\n\nСодержание: $decodedContent"
                                                 if (text.length > maxLength) {
                                                     scope.launch {
                                                         val parts = text.chunked(maxLength)
@@ -1006,20 +906,12 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                 }
                             }
                         }
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .padding(start = 4.dp, end = 4.dp)
-                            .background(colorResource(R.color.broun))){}
-                        Box(modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)) {
+                        Row(modifier = Modifier.fillMaxWidth().height(1.dp).padding(start = 4.dp, end = 4.dp).background(colorResource(R.color.broun))){}
+                        Box(modifier = Modifier.fillMaxHeight().weight(1f)) {
                             Text(
                                 text = contentText.value,
-                                modifier = Modifier
-                                    .padding(start = 8.dp, end = 8.dp)
-                                    .fillMaxSize()
-                                    .verticalScroll(rememberScrollState()),
+                                modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                                    .fillMaxSize().verticalScroll(rememberScrollState()),
                                 textAlign = TextAlign.Start,
                                 fontSize = 16.sp,
                                 color = colorResource(id = R.color.broun),
@@ -1027,26 +919,16 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                             )
                         }
                     }
-                    Column(modifier = Modifier
-                        .fillMaxHeight()
-                        .width(1.dp)
-                        .padding(top = 4.dp, bottom = 4.dp)
-                        .background(colorResource(R.color.broun))){}
-                    Column(modifier  = Modifier
-                        .fillMaxHeight()
-                        .weight(1f)) {
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 4.dp, bottom = 4.dp),
+                    Column(modifier = Modifier.fillMaxHeight().width(1.dp).padding(top = 4.dp, bottom = 4.dp).background(colorResource(R.color.broun))){}
+                    Column(modifier  = Modifier.fillMaxHeight().weight(1f)) {
+                        Row(modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
                             horizontalArrangement = Arrangement.SpaceAround,
                             verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_add_a_photo_24),
                                 contentDescription = "camera",
-                                modifier = Modifier
-                                    .size(27.dp)
-                                    .clickable {
-                                        scope.launch {
+                                modifier = Modifier.size(27.dp).clickable {
+                                    scope.launch {
                                             val timeStamp: String = SimpleDateFormat(
                                                 "yyyyMMdd_HHmmss",
                                                 Locale.US
@@ -1069,12 +951,9 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                     },
                                 tint = colorResource(R.color.broun)
                             )
-                            Icon(
-                                painter = painterResource(id = R.drawable.baseline_add_photo_alternate_24),
+                            Icon(painter = painterResource(id = R.drawable.baseline_add_photo_alternate_24),
                                 contentDescription = "gallery",
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .clickable {
+                                modifier = Modifier.size(30.dp).clickable {
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                             photoPickerLauncher.launch(
                                                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
@@ -1085,12 +964,9 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                     },
                                 tint = colorResource(R.color.broun)
                             )
-                            Icon(
-                                painter = painterResource(id = R.drawable.venik),
+                            Icon(painter = painterResource(id = R.drawable.venik),
                                 contentDescription = "delete_all_photos",
-                                modifier = Modifier
-                                    .size(30.dp)
-                                    .clickable {
+                                modifier = Modifier.size(30.dp).clickable {
                                         showDialogTwo.value = true
                                     },
                                 tint = colorResource(R.color.broun)
@@ -1114,11 +990,18 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                         ),
                                             onClick = {
                                                 scope.launch {
-                                                    bigPhoto = null
                                                     imagesString = R.drawable.baseline_add_photo_alternate_24.toString()
                                                     listImages.forEach { imageUriString ->
-                                                        val imageUri = Uri.parse(imageUriString)
-                                                        context.contentResolver.delete(imageUri, null, null)
+                                                        if (imageUriString.startsWith("content://")) {
+                                                            val imageUri = Uri.parse(imageUriString)
+                                                            try {
+                                                                context.contentResolver.delete(imageUri, null, null)
+                                                            } catch (e: SecurityException) {
+                                                                Log.e("TAG", "Error deleting video file: ${e.message}")
+                                                            }
+                                                        } else {
+                                                            Log.d("TAG", "Skipping deletion for resource ID: $imageUriString")
+                                                        }
                                                     }
                                                     listImages = mutableStateListOf()
                                                     db.oneDao().updateImages(decodedTitle, imagesString)
