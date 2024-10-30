@@ -41,7 +41,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.isEmpty
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -102,7 +101,7 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
             )
             Text(
                 text = "$favouritesCount",
-                modifier = Modifier.padding(end = 145.dp),
+                modifier = Modifier.padding(end = 140.dp),
                 textAlign = TextAlign.Start,
                 fontSize = 14.sp,
                 color = colorResource(id = R.color.broun),
@@ -113,6 +112,7 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                 textAlign = TextAlign.Start,
                 fontSize = 12.sp,
                 color = colorResource(id = R.color.broun),
+                modifier = Modifier.padding(end = 8.dp),
                 fontFamily = FontFamily(Font(R.font.imprisha))
             )
             Icon(painter = painterResource(id = R.drawable.baseline_add_24),

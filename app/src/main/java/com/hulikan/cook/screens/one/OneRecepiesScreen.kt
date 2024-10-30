@@ -84,15 +84,19 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.room.Room
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
+import com.hulikan.cook.FullscreenActivity
+import com.hulikan.cook.FullscreenVideoScreen
 import com.hulikan.cook.R
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.Favourites
+import com.hulikan.cook.viewmodels.FullscreenViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -110,6 +114,7 @@ import java.util.Locale
 @Composable
 fun OneRecepiesScreen(context : Context, navController: NavController, title : String, content : String, image : String){
     val scope = rememberCoroutineScope()
+    val viewModel : FullscreenViewModel = viewModel()
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
     var selectedImageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     val decodedTitle = URLDecoder.decode(title, "UTF-8")
@@ -492,8 +497,7 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                 }
                                 return null
                             }
-                            Column(
-                                modifier = Modifier.fillMaxSize().background(colorResource(R.color.white)),
+                            Column(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white)),
                                 horizontalAlignment = Alignment.CenterHorizontally) {
                                 var mediaPlayer: MediaPlayer? by remember { mutableStateOf(null) }
                                 var isPlaying by remember { mutableStateOf(false) }
@@ -503,9 +507,13 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                 var newPosition by remember { mutableStateOf(0) }
                                 val thumbnailUri = remember(item) { createThumbnailForVideo(Uri.parse(item)) }
                                 LaunchedEffect(key1 = isPlaying) {
-                                    while (isPlaying && mediaPlayer != null && mediaPlayer?.isPlaying == true) {
-                                        videoPosition = mediaPlayer!!.currentPosition
-                                        delay(1000)
+                                    try {
+                                        while (isPlaying && mediaPlayer != null && mediaPlayer?.isPlaying == true) {
+                                            videoPosition = mediaPlayer!!.currentPosition
+                                            delay(1000)
+                                        }
+                                    } catch (e: Exception) {
+                                        Log.e("TAG", "Error in  LaunchedEffect: ${e.message}")
                                     }
                                 }
                                 LaunchedEffect(key1 = currentVideoUri) {
@@ -649,6 +657,19 @@ fun OneRecepiesScreen(context : Context, navController: NavController, title : S
                                     .background(colorResource(R.color.white)),
                                     horizontalArrangement = Arrangement.SpaceAround,
                                     verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(painter = painterResource(R.drawable.baseline_fullscreen),
+                                        contentDescription = "go_to_full_screen",
+                                        modifier = Modifier.size(30.dp).padding(start = 8.dp).clickable {
+//                                            viewModel.setVideoUri(item.toUri())
+//                                            context.startActivity(Intent(context, FullscreenActivity::class.java))
+                                            val intent = Intent(context, FullscreenActivity::class.java).apply {
+                                                putExtra("videoUri", item.toString())
+                                            }
+                                            context.startActivity(intent)
+                                            Log.d("TAG", "Video One URI: $item")
+
+                                        }
+                                    )
                                     Text(
                                         text = formatTime(videoPosition) + " / " + formatTime(videoDuration),
                                         modifier = Modifier.weight(0.7f),
