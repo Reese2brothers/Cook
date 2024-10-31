@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -57,9 +58,14 @@ fun AddOneLinksScreen(context : Context, navController: NavController){
     val titleText = rememberSaveable { mutableStateOf("") }
     val linkText = rememberSaveable { mutableStateOf("") }
 
-    Column(modifier = Modifier.fillMaxSize().systemBarsPadding().background(colorResource(R.color.white)),
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .systemBarsPadding()
+        .background(colorResource(R.color.white)),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.fillMaxWidth().height(24.dp))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(24.dp))
         Box(modifier = Modifier.fillMaxWidth()) {
             TextField(
                 colors = TextFieldDefaults.textFieldColors(
@@ -77,13 +83,16 @@ fun AddOneLinksScreen(context : Context, navController: NavController){
                     Icon(
                     painter = painterResource(id = R.drawable.venik),
                     contentDescription = "Clear content",
-                    modifier = Modifier.size(30.dp).padding(end = 8.dp).align(Alignment.TopEnd)
+                    modifier = Modifier
+                        .size(30.dp)
+                        .padding(end = 8.dp)
+                        .align(Alignment.TopEnd)
                         .clickable { titleText.value = "" },
                     tint = colorResource(R.color.broun)
                 ) },
                 placeholder = {
                     Text(
-                        "напишите название ссылки...",
+                        stringResource(R.string.links_name_link),
                         fontSize = 14.sp,
                         color = colorResource(id = R.color.broun)
                     )
@@ -103,7 +112,9 @@ fun AddOneLinksScreen(context : Context, navController: NavController){
                 )
             )
         }
-        Spacer(modifier = Modifier.fillMaxWidth().height(24.dp))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(24.dp))
         Box(modifier = Modifier.fillMaxWidth()) {
             TextField(
                 colors = TextFieldDefaults.textFieldColors(
@@ -121,14 +132,17 @@ fun AddOneLinksScreen(context : Context, navController: NavController){
                     Icon(
                         painter = painterResource(id = R.drawable.venik),
                         contentDescription = "Clear content",
-                        modifier = Modifier.size(30.dp).padding(end = 8.dp).align(Alignment.TopEnd)
+                        modifier = Modifier
+                            .size(30.dp)
+                            .padding(end = 8.dp)
+                            .align(Alignment.TopEnd)
                             .clickable { linkText.value = "" },
                         tint = colorResource(R.color.broun)
                     )
                 },
                 placeholder = {
                     Text(
-                        "вставьте ссылку...",
+                        stringResource(R.string.links_in_link),
                         fontSize = 14.sp,
                         color = colorResource(id = R.color.broun)
                     )
@@ -148,22 +162,42 @@ fun AddOneLinksScreen(context : Context, navController: NavController){
                 )
             )
         }
-        Spacer(modifier = Modifier.fillMaxWidth().height(24.dp))
-        Row(modifier = Modifier.fillMaxWidth().padding(end = 24.dp),
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(24.dp))
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 24.dp),
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_save_24),
                 contentDescription = "save link",
-                modifier = Modifier.size(40.dp).padding(end = 8.dp).clickable {
-                    scope.launch {
-                        if(titleText.value.isNotBlank() && linkText.value.isNotBlank()){
-                            db.oneLinksDao().insertOneLinks(OneLinks(title = titleText.value, link = linkText.value))
-                            navController.navigate("OneScreen/${titleText.value}/\"no_data\"/\"no_data\"")
-                        } else {
-                            Toast.makeText(context, "Заполните все поля!", Toast.LENGTH_SHORT).show()
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(end = 8.dp)
+                    .clickable {
+                        scope.launch {
+                            if (titleText.value.isNotBlank() && linkText.value.isNotBlank()) {
+                                db
+                                    .oneLinksDao()
+                                    .insertOneLinks(
+                                        OneLinks(
+                                            title = titleText.value,
+                                            link = linkText.value
+                                        )
+                                    )
+                                navController.navigate("OneScreen/${titleText.value}/\"no_data\"/\"no_data\"")
+                            } else {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        context.getString(R.string.toast_full_fields),
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
+                            }
                         }
-                    }
                     },
                 tint = colorResource(R.color.broun)
             )

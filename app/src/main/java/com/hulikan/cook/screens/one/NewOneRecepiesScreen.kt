@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -129,110 +130,134 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
 
     if (permissionState.allPermissionsGranted) {
         ProvideWindowInsets {
-            Column(modifier = Modifier.fillMaxSize().systemBarsPadding().navigationBarsWithImePadding().background(
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .systemBarsPadding()
+                .navigationBarsWithImePadding()
+                .background(
                     colorResource(R.color.white)
                 )
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 4.dp, bottom = 4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp, bottom = 4.dp),
                     horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_save_24),
                         contentDescription = "save",
-                        modifier = Modifier.size(30.dp).padding(end = 4.dp).clickable {
-                            if (titleText.value.isBlank() && contentText.value.isBlank()) {
-                                Toast.makeText(
-                                    context,
-                                    "Заполните пустые поля!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                scope.launch {
-                                    val title = titleText.value
-                                    val content = contentText.value
-                                    val images = selectedImageUri?.toString()
-                                        ?: R.drawable.baseline_add_photo_alternate_24.toString()
-
-                                    db.oneDao().insertOne(
-                                        One(
-                                            title = title,
-                                            content = content,
-                                            images = images,
-                                            videos = ""
+                        modifier = Modifier
+                            .size(30.dp)
+                            .padding(end = 4.dp)
+                            .clickable {
+                                if (titleText.value.isBlank() && contentText.value.isBlank()) {
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            context.getString(R.string.toast_full_empty_fields),
+                                            Toast.LENGTH_SHORT
                                         )
-                                    )
+                                        .show()
+                                } else {
+                                    scope.launch {
+                                        val title = titleText.value
+                                        val content = contentText.value
+                                        val images = selectedImageUri?.toString()
+                                            ?: R.drawable.baseline_add_photo_alternate_24.toString()
 
-                                    val encodedTitle = URLEncoder.encode(title, "UTF-8")
-                                    val encodedContent = URLEncoder.encode(content, "UTF-8")
-                                    val encodedImageUri = if (selectedImageUri != null) {
-                                        URLEncoder.encode(selectedImageUri.toString(), "UTF-8")
-                                    } else {
-                                        URLEncoder.encode(
-                                            R.drawable.baseline_add_photo_alternate_24.toString(),
-                                            "UTF-8"
-                                        )
+                                        db
+                                            .oneDao()
+                                            .insertOne(
+                                                One(
+                                                    title = title,
+                                                    content = content,
+                                                    images = images,
+                                                    videos = ""
+                                                )
+                                            )
+
+                                        val encodedTitle = URLEncoder.encode(title, "UTF-8")
+                                        val encodedContent = URLEncoder.encode(content, "UTF-8")
+                                        val encodedImageUri = if (selectedImageUri != null) {
+                                            URLEncoder.encode(selectedImageUri.toString(), "UTF-8")
+                                        } else {
+                                            URLEncoder.encode(
+                                                R.drawable.baseline_add_photo_alternate_24.toString(),
+                                                "UTF-8"
+                                            )
+                                        }
+                                        navController.navigate("OneScreen/$encodedTitle/$encodedContent/$encodedImageUri")
                                     }
-                                    navController.navigate("OneScreen/$encodedTitle/$encodedContent/$encodedImageUri")
                                 }
-                            }
-                        },
+                            },
                         tint = colorResource(R.color.broun)
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_add_a_photo_24),
                         contentDescription = "camera",
-                        modifier = Modifier.size(27.dp).clickable {
-                            scope.launch {
-                                val timeStamp: String =
-                                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-                                val storageDir: File = context.getExternalFilesDir(null)!!
-                                val photoFile = File.createTempFile(
-                                    "JPEG_${timeStamp}_",
-                                    ".jpg",
-                                    storageDir
-                                )
-                                val uri = FileProvider.getUriForFile(
-                                    context,
-                                    "${context.packageName}.fileprovider",
-                                    photoFile
-                                )
-                                selectedImageUri = uri
-                                cameraLauncher.launch(uri)
-                            }
-                        },
+                        modifier = Modifier
+                            .size(27.dp)
+                            .clickable {
+                                scope.launch {
+                                    val timeStamp: String =
+                                        SimpleDateFormat(
+                                            "yyyyMMdd_HHmmss",
+                                            Locale.US
+                                        ).format(Date())
+                                    val storageDir: File = context.getExternalFilesDir(null)!!
+                                    val photoFile = File.createTempFile(
+                                        "JPEG_${timeStamp}_",
+                                        ".jpg",
+                                        storageDir
+                                    )
+                                    val uri = FileProvider.getUriForFile(
+                                        context,
+                                        "${context.packageName}.fileprovider",
+                                        photoFile
+                                    )
+                                    selectedImageUri = uri
+                                    cameraLauncher.launch(uri)
+                                }
+                            },
                         tint = colorResource(R.color.broun)
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_add_photo_alternate_24),
                         contentDescription = "gallery",
-                        modifier = Modifier.size(30.dp).clickable {
-                            scope.launch {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    photoPickerLauncher.launch(
-                                        PickVisualMediaRequest(
-                                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable {
+                                scope.launch {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                        photoPickerLauncher.launch(
+                                            PickVisualMediaRequest(
+                                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                                            )
                                         )
-                                    )
-                                } else {
-                                    legacyPhotoPickerLauncher.launch("image/*")
+                                    } else {
+                                        legacyPhotoPickerLauncher.launch("image/*")
+                                    }
                                 }
-                            }
-                        },
+                            },
                         tint = colorResource(R.color.broun)
                     )
                     Icon(
                         painter = painterResource(id = R.drawable.venik),
                         contentDescription = "clear_big_photo",
-                        modifier = Modifier.size(30.dp).clickable {
-                            selectedImageUri = null
-                            bitmap = null
-                        },
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable {
+                                selectedImageUri = null
+                                bitmap = null
+                            },
                         tint = colorResource(R.color.broun)
                     )
                 }
-                Box(modifier = Modifier.fillMaxWidth().height(180.dp)) {
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp)) {
                     Row(modifier = Modifier.fillMaxSize()) {
                         bitmap?.let {
                             val highQualityBitmap = it.copy(Bitmap.Config.ARGB_8888, true)
@@ -258,19 +283,29 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                             Image(
                                 painter = painterResource(id = R.drawable.baseline_add_photo_alternate_24),
                                 contentDescription = "newphoto",
-                                Modifier.fillMaxSize().background(colorResource(R.color.white))
+                                Modifier
+                                    .fillMaxSize()
+                                    .background(colorResource(R.color.white))
                             )
                         }
                     }
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth().height(1.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
                         .padding(start = 4.dp, end = 4.dp)
                         .background(colorResource(R.color.broun))
                 ) {}
-                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
-                    Column(modifier = Modifier.fillMaxHeight().weight(2f)) {
-                        Box(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)) {
+                    Column(modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(2f)) {
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()) {
                             TextField(
                                 colors = TextFieldDefaults.textFieldColors(
                                     containerColor = colorResource(id = R.color.white),
@@ -286,7 +321,7 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                                 trailingIcon = null,
                                 placeholder = {
                                     Text(
-                                        "напишите название рецепта...", fontSize = 14.sp,
+                                        stringResource(R.string.new_name_recepie), fontSize = 14.sp,
                                         color = colorResource(id = R.color.broun)
                                     )
                                 },
@@ -297,7 +332,9 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                                     keyboardController?.hide()
                                     focusManager.clearFocus()
                                 }),
-                                modifier = Modifier.wrapContentHeight().fillMaxWidth(),
+                                modifier = Modifier
+                                    .wrapContentHeight()
+                                    .fillMaxWidth(),
                                 textStyle = TextStyle(
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold,
@@ -308,13 +345,17 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                             Icon(
                                 painter = painterResource(id = R.drawable.venik),
                                 contentDescription = "Clear title",
-                                modifier = Modifier.size(30.dp)
+                                modifier = Modifier
+                                    .size(30.dp)
                                     .padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
-                                    .align(Alignment.TopEnd).clickable { titleText.value = "" },
+                                    .align(Alignment.TopEnd)
+                                    .clickable { titleText.value = "" },
                                 tint = colorResource(R.color.broun)
                             )
                         }
-                        Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)) {
                             TextField(
                                 colors = TextFieldDefaults.textFieldColors(
                                     containerColor = colorResource(id = R.color.white),
@@ -330,7 +371,7 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                                 trailingIcon = null,
                                 placeholder = {
                                     Text(
-                                        "напишите рецепт...",
+                                        stringResource(R.string.new_enter_recepie),
                                         fontSize = 14.sp,
                                         color = colorResource(id = R.color.broun)
                                     )
@@ -342,7 +383,10 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                                     keyboardController?.hide()
                                     focusManager.clearFocus()
                                 }),
-                                modifier = Modifier.fillMaxHeight().fillMaxWidth().imePadding(),
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth()
+                                    .imePadding(),
                                 textStyle = TextStyle(
                                     fontSize = 16.sp,
                                     fontFamily = FontFamily(Font(R.font.imprisha)),
@@ -352,9 +396,11 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                             Icon(
                                 painter = painterResource(id = R.drawable.venik),
                                 contentDescription = "Clear content",
-                                modifier = Modifier.size(30.dp)
+                                modifier = Modifier
+                                    .size(30.dp)
                                     .padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
-                                    .align(Alignment.TopEnd).clickable { contentText.value = "" },
+                                    .align(Alignment.TopEnd)
+                                    .clickable { contentText.value = "" },
                                 tint = colorResource(R.color.broun)
                             )
                         }

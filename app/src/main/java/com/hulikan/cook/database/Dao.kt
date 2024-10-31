@@ -125,6 +125,39 @@ interface TwoDao {
     suspend fun getImagesByTitle(title: String): String
     @Query("UPDATE two SET images = :images WHERE title = :title")
     suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM two")
+    suspend fun getAllImages(): List<Two>
+
+    @Query("UPDATE two SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM Two")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM Two")
+    suspend fun getContent(): String
+
+    @Query("UPDATE two SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM two WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE two SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM two WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM two WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE two SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE two SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
 }
 
 @Dao
@@ -141,6 +174,39 @@ interface ThreeDao {
     suspend fun getImagesByTitle(title: String): String
     @Query("UPDATE three SET images = :images WHERE title = :title")
     suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM three")
+    suspend fun getAllImages(): List<Three>
+
+    @Query("UPDATE three SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM Three")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM Three")
+    suspend fun getContent(): String
+
+    @Query("UPDATE three SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM three WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE three SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM three WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM three WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE three SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE three SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
 }
 
 @Dao
@@ -157,6 +223,39 @@ interface FourDao {
     suspend fun getImagesByTitle(title: String): String
     @Query("UPDATE four SET images = :images WHERE title = :title")
     suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM four")
+    suspend fun getAllImages(): List<Four>
+
+    @Query("UPDATE four SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM Four")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM Four")
+    suspend fun getContent(): String
+
+    @Query("UPDATE four SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM four WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE four SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM four WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM four WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE four SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE four SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
 }
 
 @Dao
@@ -173,6 +272,39 @@ interface FiveDao {
     suspend fun getImagesByTitle(title: String): String
     @Query("UPDATE five SET images = :images WHERE title = :title")
     suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM five")
+    suspend fun getAllImages(): List<Five>
+
+    @Query("UPDATE five SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM Five")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM Five")
+    suspend fun getContent(): String
+
+    @Query("UPDATE five SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM five WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE five SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM five WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM five WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE five SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE five SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
 }
 
 @Dao

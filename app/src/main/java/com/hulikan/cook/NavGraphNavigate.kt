@@ -16,9 +16,10 @@ import com.hulikan.cook.screens.one.OneEditRecepiesScreen
 import com.hulikan.cook.screens.one.AddOneLinksScreen
 import com.hulikan.cook.screens.one.NewOneRecepiesScreen
 import com.hulikan.cook.screens.one.OneRecepiesScreen
+import com.hulikan.cook.viewmodels.SharedViewModel
 
 @Composable
-fun NavGraphNavigate(context : Context, navController: NavHostController) {
+fun NavGraphNavigate(context : Context, navController: NavHostController, sharedViewModel: SharedViewModel) {
 
     NavHost(navController = navController, startDestination = "SplashScreen") {
         composable("SplashScreen") {
@@ -33,18 +34,8 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
         composable("AddOneLinksScreen") {
             AddOneLinksScreen(context, navController = navController)
         }
-        composable("TwoScreen") {
-            TwoScreen()
-        }
-        composable("ThreeScreen") {
-            ThreeScreen()
-        }
-        composable("FourScreen") {
-            FourScreen()
-        }
-        composable("FiveScreen") {
-            FiveScreen()
-        }
+
+
 
         composable("OneScreen/{title}/{content}/{image}",
             arguments = listOf(
@@ -58,6 +49,57 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
             val image = backStackEntry.arguments?.getString("image") ?: ""
             OneScreen(context, navController, title, content, image)
         }
+        composable("TwoScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            TwoScreen(context, navController, title, content, image)
+        }
+        composable("ThreeScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            ThreeScreen(context, navController, title, content, image)
+        }
+        composable("FourScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FourScreen(context, navController, title, content, image)
+        }
+        composable("FiveScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FiveScreen(context, navController, title, content, image)
+        }
+
+
+
         composable("OneRecepiesScreen/{title}/{content}/{image}",
             arguments = listOf(
                 navArgument("title") { type = NavType.StringType },
@@ -68,7 +110,7 @@ fun NavGraphNavigate(context : Context, navController: NavHostController) {
             val title = backStackEntry.arguments?.getString("title") ?: ""
             val content = backStackEntry.arguments?.getString("content") ?: ""
             val image = backStackEntry.arguments?.getString("image") ?: ""
-            OneRecepiesScreen(context, navController, title, content, image)
+            OneRecepiesScreen(sharedViewModel, context, navController, title, content, image)
         }
         composable("OneEditRecepiesScreen/{title}/{content}/{image}",
             arguments = listOf(

@@ -1,5 +1,6 @@
 package com.hulikan.cook.screens
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.hulikan.cook.R
 
 @Composable
-fun FourScreen() {
+fun FourScreen(context : Context, navController: NavController, title : String, content : String, image : String) {
     Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
         Text(
             text = "fourscreen",

@@ -1,7 +1,6 @@
 package com.hulikan.cook
 
 import android.content.Context
-import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,11 +18,8 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -34,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -44,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -56,7 +52,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.Favourites
-import com.hulikan.cook.database.OneLinks
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 
@@ -69,13 +64,17 @@ fun FavouriteScreen(context : Context, navController: NavController){
     val showDialogTwo = remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<Favourites?>(null) }
 
-Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
+Column(modifier = Modifier
+    .fillMaxSize()
+    .systemBarsPadding(),
    horizontalAlignment = Alignment.CenterHorizontally ) {
-    Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
         Text(
-            text = "Избранное",
+            text = stringResource(R.string.favourite_favourite),
             modifier = Modifier.padding(start = 150.dp),
             textAlign = TextAlign.Start,
             fontSize = 20.sp,
@@ -85,9 +84,12 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
         Icon(
             painter = painterResource(id = R.drawable.venik),
             contentDescription = "delete_all_favourites",
-            modifier = Modifier.size(35.dp).padding(end = 8.dp).clickable {
-                showDialogTwo.value = true
-            },
+            modifier = Modifier
+                .size(35.dp)
+                .padding(end = 8.dp)
+                .clickable {
+                    showDialogTwo.value = true
+                },
             tint = colorResource(R.color.broun)
         )
         if (showDialogTwo.value) {
@@ -96,10 +98,12 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                     showDialogTwo.value = false
                 },
                 containerColor = colorResource(id = R.color.white),
-                title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                title = { Text(
+                    stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                     fontSize = 20.sp, fontWeight = FontWeight.Bold) },
                 text = {
-                    Text("Вы действительно хотите удалить все рецепты из избранного?",
+                    Text(
+                        stringResource(R.string.alert_delete_all_recipes_favourites),
                         color = colorResource(id = R.color.broun)
                     )
                 },
@@ -113,7 +117,7 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                             }
                             showDialogTwo.value = false
                         }) {
-                        Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                        Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                     }
                 },
                 dismissButton = {
@@ -123,7 +127,7 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                         onClick = {
                             showDialogTwo.value = false
                         }) {
-                        Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                        Text(stringResource(R.string.alert_cancel), color = colorResource(id = R.color.white), fontSize = 16.sp)
                     }
                 })
         }
@@ -137,8 +141,11 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
     }
     LazyColumn {
         itemsIndexed(listFavourites) { index, item ->
-            Card(modifier = Modifier.padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
-                .fillMaxWidth().height(120.dp).background(Color.Transparent),
+            Card(modifier = Modifier
+                .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
+                .fillMaxWidth()
+                .height(120.dp)
+                .background(Color.Transparent),
                 shape = CutCornerShape(bottomStart = 8.dp),
                 elevation = 5.dp,
                 border = BorderStroke(1.dp, color = colorResource(id = R.color.broun)),
@@ -149,19 +156,28 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                     when (item.favouriteskey) {
                         "OneRecepiesScreen" ->  navController.navigate("OneRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
                         "TwoRecepiesScreen" -> navController.navigate("TwoRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
+                        "ThreeRecepiesScreen" -> navController.navigate("ThreeRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
+                        "FourRecepiesScreen" -> navController.navigate("FourRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
+                        "FiveRecepiesScreen" -> navController.navigate("FiveRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
                         // ... другие экраны ...
                         else -> { /* Unknown favouriteskey */ }
                     }
                 }
             ){
-                Row(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white)),
+                Row(modifier = Modifier
+                    .fillMaxSize()
+                    .background(colorResource(R.color.white)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center){
                     Box(
-                        modifier = Modifier.fillMaxHeight().weight(1f),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(1f),
                         contentAlignment = Alignment.TopEnd
                     ) {
-                        Row(modifier = Modifier.fillMaxHeight().background(colorResource(R.color.white)),
+                        Row(modifier = Modifier
+                            .fillMaxHeight()
+                            .background(colorResource(R.color.white)),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center) {
                             val firstImageUri = remember(item.images) { item.images.split(",")
@@ -173,7 +189,10 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                                     .crossfade(true)
                                     .build(),
                                 contentDescription = "choise_image",
-                                modifier = Modifier.fillMaxHeight().width(120.dp).fillMaxHeight(),
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .width(120.dp)
+                                    .fillMaxHeight(),
                                 contentScale = ContentScale.Crop,
                                 placeholder = painterResource(R.drawable.baseline_image_24),
                                 error = painterResource(R.drawable.baseline_error)
@@ -205,10 +224,13 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                         Icon(
                             painter = painterResource(id = R.drawable.venik),
                             contentDescription = "delete_item_favourites",
-                            modifier = Modifier.size(30.dp).padding(end = 8.dp, bottom = 4.dp).clickable {
-                                showDialog.value = true
-                                selectedItem = item
-                            },
+                            modifier = Modifier
+                                .size(30.dp)
+                                .padding(end = 8.dp, bottom = 4.dp)
+                                .clickable {
+                                    showDialog.value = true
+                                    selectedItem = item
+                                },
                             tint = colorResource(R.color.broun)
                         )
                         if (showDialog.value) {
@@ -217,10 +239,12 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                                     showDialog.value = false
                                 },
                                 containerColor = colorResource(id = R.color.white),
-                                title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                title = { Text(
+                                    stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                                     fontSize = 20.sp, fontWeight = FontWeight.Bold) },
                                 text = {
-                                    Text("Вы действительно хотите удалить данный рецепт из избранного?",
+                                    Text(
+                                        stringResource(R.string.favourite_delete_recepie),
                                         color = colorResource(id = R.color.broun)
                                     )
                                 },
@@ -230,11 +254,14 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                                     ),
                                         onClick = {
                                             scope.launch {
-                                               db.favouritesDao().deleteFavourite(item.title, item.favouriteskey)
+                                                selectedItem?.let {
+                                                    db.favouritesDao().deleteFavourite(
+                                                        it.title, it.favouriteskey)
+                                                }
                                             }
                                             showDialog.value = false
                                         }) {
-                                        Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                        Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                     }
                                 },
                                 dismissButton = {
@@ -244,7 +271,7 @@ Column(modifier = Modifier.fillMaxSize().systemBarsPadding(),
                                         onClick = {
                                             showDialog.value = false
                                         }) {
-                                        Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                        Text(stringResource(R.string.alert_cancel), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                     }
                                 })
                         }

@@ -6,27 +6,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.captionBarPadding
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imeNestedScroll
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.systemGesturesPadding
-import androidx.compose.foundation.layout.waterfallPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.AlertDialog
@@ -46,6 +35,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -64,11 +54,19 @@ import kotlinx.coroutines.launch
 import java.net.URLDecoder
 import java.net.URLEncoder
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OneEditRecepiesScreen(context: Context, navController: NavController, title: String, content: String, image : String){
-    val decodedTitle = URLDecoder.decode(title, "UTF-8")
-    val decodedContent = URLDecoder.decode(content, "UTF-8")
+    val decodedTitle = try {
+        URLDecoder.decode(title, "UTF-8").replace("+", " ")
+    } catch (e: IllegalArgumentException) {
+        title.replace("+", " ")
+    }
+    val decodedContent = try {
+        URLDecoder.decode(content, "UTF-8").replace("+", " ")
+    } catch (e: IllegalArgumentException) {
+        content.replace("+", " ")
+    }
     val decodedImage = URLDecoder.decode(image, "UTF-8")
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -82,15 +80,22 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
 
     ProvideWindowInsets {
         Column(
-            modifier = Modifier.fillMaxSize().systemBarsPadding().padding(4.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .systemBarsPadding()
+                .padding(4.dp)
                 .navigationBarsWithImePadding(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             ) {
-                Box(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()) {
                     TextField(
                         colors = TextFieldDefaults.textFieldColors(
                             containerColor = colorResource(id = R.color.white),
@@ -111,7 +116,9 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                             keyboardController?.hide()
                             focusManager.clearFocus()
                         }),
-                        modifier = Modifier.fillMaxWidth().imePadding(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .imePadding(),
                         textStyle = TextStyle(
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
@@ -122,9 +129,11 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                     Icon(
                         painter = painterResource(id = R.drawable.venik),
                         contentDescription = "Clear title",
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier
+                            .size(30.dp)
                             .padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
-                            .align(Alignment.TopEnd).clickable { showDialogThree.value = true },
+                            .align(Alignment.TopEnd)
+                            .clickable { showDialogThree.value = true },
                         tint = colorResource(R.color.broun)
                     )
                     if (showDialogThree.value) {
@@ -134,14 +143,13 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                             },
                             containerColor = colorResource(id = R.color.white),
                             title = {
-                                Text(
-                                    "Подтверждение", color = colorResource(id = R.color.broun),
+                                Text(stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                                     fontSize = 20.sp, fontWeight = FontWeight.Bold
                                 )
                             },
                             text = {
                                 Text(
-                                    "Вы действительно хотите очистить весь текст?",
+                                    stringResource(R.string.alert_clear_text),
                                     color = colorResource(id = R.color.broun)
                                 )
                             },
@@ -154,7 +162,7 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                                         showDialogThree.value = false
                                     }) {
                                     Text(
-                                        "Да",
+                                        stringResource(R.string.alert_yes),
                                         color = colorResource(id = R.color.white),
                                         fontSize = 16.sp
                                     )
@@ -168,7 +176,7 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                                         showDialogThree.value = false
                                     }) {
                                     Text(
-                                        "Отмена",
+                                        stringResource(R.string.alert_cancel),
                                         color = colorResource(id = R.color.white),
                                         fontSize = 16.sp
                                     )
@@ -176,7 +184,9 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                             })
                     }
                 }
-                Box(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()) {
                     TextField(
                         colors = TextFieldDefaults.textFieldColors(
                             containerColor = colorResource(id = R.color.white),
@@ -197,7 +207,9 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                             keyboardController?.hide()
                             focusManager.clearFocus()
                         }),
-                        modifier = Modifier.fillMaxWidth().imePadding(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .imePadding(),
                         textStyle = TextStyle(
                             fontSize = 20.sp,
                             fontFamily = FontFamily(Font(R.font.imprisha)),
@@ -207,9 +219,11 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                     Icon(
                         painter = painterResource(id = R.drawable.venik),
                         contentDescription = "Clear title",
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier
+                            .size(30.dp)
                             .padding(top = 4.dp, bottom = 8.dp, end = 8.dp)
-                            .align(Alignment.TopEnd).clickable { showDialogTwo.value = true },
+                            .align(Alignment.TopEnd)
+                            .clickable { showDialogTwo.value = true },
                         tint = colorResource(R.color.broun)
                     )
                     if (showDialogTwo.value) {
@@ -220,13 +234,13 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                             containerColor = colorResource(id = R.color.white),
                             title = {
                                 Text(
-                                    "Подтверждение", color = colorResource(id = R.color.broun),
+                                    stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                                     fontSize = 20.sp, fontWeight = FontWeight.Bold
                                 )
                             },
                             text = {
                                 Text(
-                                    "Вы действительно хотите очистить весь текст?",
+                                    stringResource(R.string.alert_clear_text),
                                     color = colorResource(id = R.color.broun)
                                 )
                             },
@@ -239,7 +253,7 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                                         showDialogTwo.value = false
                                     }) {
                                     Text(
-                                        "Да",
+                                        stringResource(R.string.alert_yes),
                                         color = colorResource(id = R.color.white),
                                         fontSize = 16.sp
                                     )
@@ -253,7 +267,7 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                                         showDialogTwo.value = false
                                     }) {
                                     Text(
-                                        "Отмена",
+                                        stringResource(R.string.alert_cancel),
                                         color = colorResource(id = R.color.white),
                                         fontSize = 16.sp
                                     )
@@ -264,12 +278,16 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
             }
             Button(
                 onClick = { showDialog.value = true },
-                modifier = Modifier.wrapContentSize().padding(top = 32.dp, start = 16.dp, end = 16.dp),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(top = 32.dp, start = 16.dp, end = 16.dp),
                 colors = ButtonDefaults.buttonColors(colorResource(R.color.broun))
             ) {
                 Text(
-                    text = "Сохранить изменения",
-                    modifier = Modifier.padding(start = 8.dp, end = 8.dp).wrapContentHeight(),
+                    text = stringResource(R.string.edit_save_changes),
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 8.dp)
+                        .wrapContentHeight(),
                     textAlign = TextAlign.Center,
                     fontSize = 32.sp,
                     color = colorResource(id = R.color.white),
@@ -285,13 +303,13 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                     containerColor = colorResource(id = R.color.white),
                     title = {
                         Text(
-                            "Подтверждение", color = colorResource(id = R.color.broun),
+                            stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                             fontSize = 20.sp, fontWeight = FontWeight.Bold
                         )
                     },
                     text = {
                         Text(
-                            "Вы действительно хотите сохранить изменения?",
+                            stringResource(R.string.alert_save_changes),
                             color = colorResource(id = R.color.broun)
                         )
                     },
@@ -317,7 +335,7 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                                 }
                                 showDialog.value = false
                             }) {
-                            Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                            Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                         }
                     },
                     dismissButton = {
@@ -328,7 +346,7 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                                 showDialog.value = false
                             }) {
                             Text(
-                                "Отмена",
+                                stringResource(R.string.alert_yes),
                                 color = colorResource(id = R.color.white),
                                 fontSize = 16.sp
                             )

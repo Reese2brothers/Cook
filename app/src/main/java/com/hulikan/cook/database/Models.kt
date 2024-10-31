@@ -42,7 +42,8 @@ data class One(
 data class Two(
     val title : String,
     val content : String,
-    val images : String
+    val images : String,
+    val videos : String
 )
 {
     @PrimaryKey(autoGenerate = true)
@@ -53,7 +54,8 @@ data class Two(
 data class Three(
     val title : String,
     val content : String,
-    val images : String
+    val images : String,
+    val videos : String
 )
 {
     @PrimaryKey(autoGenerate = true)
@@ -64,7 +66,8 @@ data class Three(
 data class Four(
     val title : String,
     val content : String,
-    val images : String
+    val images : String,
+    val videos : String
 )
 {
     @PrimaryKey(autoGenerate = true)
@@ -75,7 +78,8 @@ data class Four(
 data class Five(
     val title : String,
     val content : String,
-    val images : String
+    val images : String,
+    val videos : String
 )
 {
     @PrimaryKey(autoGenerate = true)
@@ -86,7 +90,8 @@ data class Five(
 data class Six(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -96,7 +101,8 @@ data class Six(
 data class Seven(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -106,7 +112,8 @@ data class Seven(
 data class Eight(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -116,7 +123,8 @@ data class Eight(
 data class Nine(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -126,7 +134,8 @@ data class Nine(
 data class Ten(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -136,7 +145,8 @@ data class Ten(
 data class Eleven(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -146,7 +156,8 @@ data class Eleven(
 data class Twelve(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -156,7 +167,8 @@ data class Twelve(
 data class Thirteen(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -166,7 +178,8 @@ data class Thirteen(
 data class Fourteen(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -176,7 +189,8 @@ data class Fourteen(
 data class Fifteen(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -186,7 +200,8 @@ data class Fifteen(
 data class Sixteen(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -196,7 +211,8 @@ data class Sixteen(
 data class Seventeen(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -206,7 +222,8 @@ data class Seventeen(
 data class Eighteen(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -216,7 +233,8 @@ data class Eighteen(
 data class Nineteen(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -226,7 +244,8 @@ data class Nineteen(
 data class Twenty(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -236,7 +255,8 @@ data class Twenty(
 data class TwentyOne(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -246,7 +266,8 @@ data class TwentyOne(
 data class TwentyTwo(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -256,7 +277,8 @@ data class TwentyTwo(
 data class TwentyThree(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -266,7 +288,8 @@ data class TwentyThree(
 data class TwentyFour(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -276,7 +299,8 @@ data class TwentyFour(
 data class TwentyFive(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -286,7 +310,8 @@ data class TwentyFive(
 data class TwentySix(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -296,7 +321,8 @@ data class TwentySix(
 data class TwentySeven(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -306,7 +332,8 @@ data class TwentySeven(
 data class TwentyEight(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -316,7 +343,8 @@ data class TwentyEight(
 data class TwentyNine(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -326,7 +354,8 @@ data class TwentyNine(
 data class Thirty(
     val title: String,
     val content: String,
-    val images : String
+    val images : String,
+    val videos : String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

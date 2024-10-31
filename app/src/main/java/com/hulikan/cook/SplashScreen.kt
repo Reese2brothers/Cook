@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -60,12 +61,14 @@ fun SplashScreen(navController: NavController){
         Image(painter = painterResource(R.drawable.cooking), contentDescription = "cooking_photo",
             modifier = Modifier.fillMaxSize())
         Column(
-            modifier = Modifier.fillMaxSize().padding(top = 100.dp, bottom = 100.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 100.dp, bottom = 100.dp),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(
-                text = "Кулинария",
+                text = stringResource(R.string.splash_kulinaria),
                 modifier = Modifier.padding(4.dp),
                 fontSize = 44.sp,
                 color = colorResource(id = R.color.broun),

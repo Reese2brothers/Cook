@@ -45,6 +45,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.Font
@@ -98,7 +99,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                 .fillMaxWidth()
                 .wrapContentHeight(),
                 verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Ссылки на рецепты",
+                Text(text = stringResource(R.string.one_links_to_recepies),
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 42.dp),
@@ -138,10 +139,11 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                 showDialog.value = false
                             },
                             containerColor = colorResource(id = R.color.white),
-                            title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                            title = { Text(stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                                 fontSize = 20.sp, fontWeight = FontWeight.Bold) },
                             text = {
-                                Text("Вы действительно хотите удалить все ссылки?",
+                                Text(
+                                    stringResource(R.string.alert_delete_all_links),
                                     color = colorResource(id = R.color.broun)
                                 )
                             },
@@ -155,7 +157,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                         }
                                         showDialog.value = false
                                     }) {
-                                    Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                    Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                 }
                             },
                             dismissButton = {
@@ -165,7 +167,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                     onClick = {
                                         showDialog.value = false
                                     }) {
-                                    Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                    Text(stringResource(R.string.alert_cancel), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                 }
                             })
                     }
@@ -238,10 +240,11 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                         showDialogTwo.value = false
                                     },
                                     containerColor = colorResource(id = R.color.white),
-                                    title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                    title = { Text(stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                                         fontSize = 20.sp, fontWeight = FontWeight.Bold) },
                                     text = {
-                                        Text("Вы действительно хотите удалить данную ссылку?",
+                                        Text(
+                                            stringResource(R.string.alert_delete_link),
                                             color = colorResource(id = R.color.broun)
                                         )
                                     },
@@ -257,7 +260,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                                 }
                                                 showDialogTwo.value = false
                                             }) {
-                                            Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                            Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                         }
                                     },
                                     dismissButton = {
@@ -267,7 +270,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                             onClick = {
                                                 showDialogTwo.value = false
                                             }) {
-                                            Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                            Text(stringResource(R.string.alert_cancel), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                         }
                                     })
                             }
@@ -292,7 +295,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
             .fillMaxWidth()
             .wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Ваши рецепты",
+            Text(text = stringResource(R.string.one_your_recepies),
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = 42.dp),
@@ -332,10 +335,11 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                             showDialogFour.value = false
                         },
                         containerColor = colorResource(id = R.color.white),
-                        title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                        title = { Text(stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                             fontSize = 20.sp, fontWeight = FontWeight.Bold) },
                         text = {
-                            Text("Вы действительно хотите удалить все рецепты?",
+                            Text(
+                                stringResource(R.string.alert_delete_all_recepies),
                                 color = colorResource(id = R.color.broun)
                             )
                         },
@@ -355,7 +359,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                     }
                                     showDialogFour.value = false
                                 }) {
-                                Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                             }
                         },
                         dismissButton = {
@@ -365,7 +369,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                 onClick = {
                                     showDialogFour.value = false
                                 }) {
-                                Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                Text(stringResource(R.string.alert_cancel), color = colorResource(id = R.color.white), fontSize = 16.sp)
                             }
                         })
                 }
@@ -386,24 +390,28 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
             .weight(1f)
             .padding(top = 4.dp, bottom = 4.dp)) {
             itemsIndexed(onelist) {index, item ->
-                Card(modifier = Modifier.padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
-                    .fillMaxWidth().height(120.dp).background(Color.Transparent),
+                Card(modifier = Modifier
+                    .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
+                    .fillMaxWidth()
+                    .height(120.dp)
+                    .background(Color.Transparent),
                 shape = CutCornerShape(bottomStart = 8.dp),
                 elevation = 5.dp,
                 border = BorderStroke(1.dp, color = colorResource(id = R.color.broun)),
                     onClick = {
                         val encodedTitle = URLEncoder.encode(item.title, "UTF-8")
                         val encodedContent = URLEncoder.encode(item.content, "UTF-8")
-                        //val encodedImages = URLEncoder.encode(item.images, "UTF-8") ?: R.drawable.baseline_add_photo_alternate_24.toString()
                         val encodedImages = if (item.images.isEmpty()) {
-                            R.drawable.baseline_add_photo_alternate_24.toString() // или значение-заполнитель
+                            R.drawable.baseline_add_photo_alternate_24.toString()
                         } else {
-                            URLEncoder.encode(item.images, "UTF-8") // Кодировать объединенную строку
+                            URLEncoder.encode(item.images, "UTF-8")
                         }
                         navController.navigate("OneRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
                     }
                 ){
-                    Row(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white)),
+                    Row(modifier = Modifier
+                        .fillMaxSize()
+                        .background(colorResource(R.color.white)),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center){
                         Box(
@@ -472,14 +480,19 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                         id = if (isFavourite) R.drawable.baseline_favorite_red else R.drawable.baseline_favorite_border
                                     ),
                                     contentDescription = "show_favourites",
-                                    modifier = Modifier.size(25.dp).padding(end = 8.dp, bottom = 4.dp),
+                                    modifier = Modifier
+                                        .size(25.dp)
+                                        .padding(end = 8.dp, bottom = 4.dp),
                                     tint = Color.Unspecified
                                 )
                             }
                             Icon(
                                 painter = painterResource(id = R.drawable.venik),
                                 contentDescription = "delete_item",
-                                modifier = Modifier.size(30.dp).padding(end = 8.dp, bottom = 4.dp).clickable {
+                                modifier = Modifier
+                                    .size(30.dp)
+                                    .padding(end = 8.dp, bottom = 4.dp)
+                                    .clickable {
                                         showDialogThree.value = true
                                         selectedItemTwo = item
                                     },
@@ -491,10 +504,11 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                         showDialogThree.value = false
                                     },
                                     containerColor = colorResource(id = R.color.white),
-                                    title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                    title = { Text(stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                                         fontSize = 20.sp, fontWeight = FontWeight.Bold) },
                                     text = {
-                                        Text("Вы действительно хотите удалить данный рецепт?",
+                                        Text(
+                                            stringResource(R.string.alert_delete_recepie),
                                             color = colorResource(id = R.color.broun)
                                         )
                                     },
@@ -520,7 +534,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                                 }
                                                 showDialogThree.value = false
                                             }) {
-                                            Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                            Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                         }
                                     },
                                     dismissButton = {
@@ -530,7 +544,7 @@ fun OneScreen(context : Context, navController: NavController, title : String, c
                                             onClick = {
                                                 showDialogThree.value = false
                                             }) {
-                                            Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                            Text(stringResource(R.string.alert_cancel), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                         }
                                     })
                             }

@@ -45,6 +45,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -112,15 +113,20 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
         R.drawable.zhele
     )
 
-    Box(modifier = Modifier.fillMaxSize().systemBarsPadding()){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .systemBarsPadding()){
         Column(modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally){
-            Text(text = "выберите фотографию",
+            Text(text = stringResource(R.string.resources_choise_photo),
                 fontSize = 14.sp,
                 color = colorResource(id = R.color.broun),
                 modifier = Modifier.padding(top = 4.dp)
             )
-            LazyRow(modifier = Modifier.fillMaxWidth().height(160.dp).padding(top = 16.dp)) {
+            LazyRow(modifier = Modifier
+                .fillMaxWidth()
+                .height(160.dp)
+                .padding(top = 16.dp)) {
                 items(images) { image ->
                     Image(
                         painter = painterResource(id = image),
@@ -132,7 +138,10 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                                 selectedImage.value = image
                             }
                     )
-                    Column(modifier = Modifier.width(1.dp).fillMaxHeight().padding(top = 4.dp, bottom = 4.dp)
+                    Column(modifier = Modifier
+                        .width(1.dp)
+                        .fillMaxHeight()
+                        .padding(top = 4.dp, bottom = 4.dp)
                         .background(color = colorResource(R.color.broun))) {  }
                 }
             }
@@ -152,12 +161,15 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                         Icon(
                             painter = painterResource(id = R.drawable.venik),
                             contentDescription = "Clear text",
-                            modifier = Modifier.size(35.dp).padding(end = 8.dp).clickable { currentText.value = "" },
+                            modifier = Modifier
+                                .size(35.dp)
+                                .padding(end = 8.dp)
+                                .clickable { currentText.value = "" },
                             tint = colorResource(R.color.broun)
                         )
                 },
                 placeholder = {
-                    Text("введите название категории...", color = colorResource(id = R.color.broun))
+                    Text(stringResource(R.string.resources_enter_name_category), color = colorResource(id = R.color.broun))
                 },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
@@ -167,25 +179,39 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                     keyboardController?.hide()
                     focusManager.clearFocus()
                 }),
-                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
                 textStyle = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
             )
-            Column(modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
                 verticalArrangement = Arrangement.SpaceAround,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Card(modifier = Modifier.padding(start = 12.dp, end = 12.dp).fillMaxWidth().height(150.dp)
+                Card(modifier = Modifier
+                    .padding(start = 12.dp, end = 12.dp)
+                    .fillMaxWidth()
+                    .height(150.dp)
                     .background(Color.Transparent),
                     shape = CutCornerShape(bottomStart = 8.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
                     border = BorderStroke(1.dp, color = colorResource(id = R.color.broun))) {
-                    Row(modifier = Modifier.fillMaxSize().background(colorResource(R.color.white)),
+                    Row(modifier = Modifier
+                        .fillMaxSize()
+                        .background(colorResource(R.color.white)),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center){
                         Image(painter = painterResource(id = selectedImage.value), contentDescription = "choise_image",
-                            modifier = Modifier.fillMaxHeight().width(150.dp).padding(top = 4.dp, bottom = 4.dp, start = 8.dp))
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .width(150.dp)
+                                .padding(top = 4.dp, bottom = 4.dp, start = 8.dp))
                         Text(text = titleText.value,
-                            modifier = Modifier.fillMaxWidth()
-                                .wrapContentHeight(Alignment.CenterVertically).padding(end = 8.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight(Alignment.CenterVertically)
+                                .padding(end = 8.dp),
                             textAlign = TextAlign.Center,
                             fontSize = 30.sp,
                             color = colorResource(id = R.color.broun),
@@ -194,10 +220,13 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                         )
                     }
                 }
-                Button(modifier = Modifier.fillMaxWidth().height(150.dp).padding(start = 16.dp, end = 16.dp),
+                Button(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(start = 16.dp, end = 16.dp),
                     onClick = {
                         if (titleText.value.isBlank()) {
-                            Toast.makeText(context, "Введите название категории", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.resources_enter_name_category), Toast.LENGTH_SHORT).show()
                         } else {
                             scope.launch {
                                 val titles = titleText.value
@@ -206,7 +235,7 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                                 val existingSection = mainListDao.getSectionByWordkey(wordkeys)
                                 if (existingSection != null) {
                                     mainListDao.updateSection(titles, imagess, wordkey)
-                                    Toast.makeText(context, "Категория обновлена", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, context.getString(R.string.resources_category_updated), Toast.LENGTH_SHORT).show()
                                 } else {
                                     var newWordKey: String? = null
                                     val existingKeys = mainListDao.getAllKeys()
@@ -217,11 +246,11 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                                         }
                                     }
                                     if (newWordKey == null) {
-                                        Toast.makeText(context, "Больше ничего сохранить нельзя", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, context.getString(R.string.resources_nothing_to_save), Toast.LENGTH_SHORT).show()
                                     } else {
                                         val mainList = MainList(text = titles, image = imagess, wordkey = newWordKey)
                                         mainListDao.insert(mainList)
-                                        Toast.makeText(context, "Новая категория сохранена", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, context.getString(R.string.resources_new_category_saved), Toast.LENGTH_SHORT).show()
                                     }
                                 }
                                 val encodedTitle = URLEncoder.encode(titles, "UTF-8")
@@ -235,7 +264,7 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
                     border = BorderStroke(1.dp, colorResource(R.color.broun)),
                     shape = CutCornerShape(8.dp)
                 ) {
-                    Text(text = "Сохранить",
+                    Text(text = stringResource(R.string.resources_save),
                         fontSize = 44.sp,
                         color = colorResource(id = R.color.broun),
                         fontWeight = FontWeight.Bold,

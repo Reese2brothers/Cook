@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -84,17 +85,24 @@ fun MainScreen(context: Context, navController: NavController, title : String, i
         favouritesCount = db.favouritesDao().getCount()
     }
 
-Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
+Box(modifier = Modifier
+    .fillMaxSize()
+    .systemBarsPadding()) {
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
-            modifier = Modifier.fillMaxWidth().height(40.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ){
             Icon(painter = painterResource(  id = if (!isFavouritesEmpty) R.drawable.baseline_favorite_border
                                       else R.drawable.baseline_favorite_red),
                 contentDescription = "favourite",
-                modifier = Modifier.padding(start = 16.dp).size(30.dp).clickable {
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .size(30.dp)
+                    .clickable {
                         navController.navigate("FavouriteScreen")
                     },
                 tint = Color.Unspecified
@@ -108,7 +116,7 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                 fontFamily = FontFamily(Font(R.font.imprisha))
             )
             Text(
-                text = "КАТЕГОРИИ РЕЦЕПТОВ",
+                text = stringResource(R.string.main_category_of_recepies),
                 textAlign = TextAlign.Start,
                 fontSize = 12.sp,
                 color = colorResource(id = R.color.broun),
@@ -117,8 +125,18 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
             )
             Icon(painter = painterResource(id = R.drawable.baseline_add_24),
                 contentDescription = "add_new_category",
-                modifier = Modifier.padding(end = 12.dp).size(35.dp).clickable {
-                        navController.navigate("ResourceScreen/${URLEncoder.encode("empty", "UTF-8")}/no_image/no_data")
+                modifier = Modifier
+                    .padding(end = 12.dp)
+                    .size(35.dp)
+                    .clickable {
+                        navController.navigate(
+                            "ResourceScreen/${
+                                URLEncoder.encode(
+                                    "empty",
+                                    "UTF-8"
+                                )
+                            }/no_image/no_data"
+                        )
                     },
                 tint = colorResource(R.color.broun)
             )
@@ -302,10 +320,11 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                                             showDialogTwo.value = false
                                         },
                                         containerColor = colorResource(id = R.color.white),
-                                        title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                        title = { Text(stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                                             fontSize = 20.sp, fontWeight = FontWeight.Bold) },
                                         text = {
-                                            Text("Вы действительно хотите отредактировать категорию?",
+                                            Text(
+                                                stringResource(R.string.alert_edit_category),
                                                 color = colorResource(id = R.color.broun)
                                             )
                                         },
@@ -320,7 +339,7 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                                                     navController.navigate("ResourceScreen/$encodedTitle/$encodedImage/$encodedWordkey")
                                                     showDialogTwo.value = false
                                                 }) {
-                                                Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                                Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                             }
                                         },
                                         dismissButton = {
@@ -330,7 +349,7 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                                                 onClick = {
                                                     showDialogTwo.value = false
                                                 }) {
-                                                Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                                Text(stringResource(R.string.alert_cancel), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                             }
                                         })
                                 }
@@ -352,10 +371,12 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                                             showDialog.value = false
                                         },
                                         containerColor = colorResource(id = R.color.white),
-                                        title = { Text("Подтверждение", color = colorResource(id = R.color.broun),
+                                        title = { Text(
+                                            stringResource(R.string.alert_confirm), color = colorResource(id = R.color.broun),
                                             fontSize = 20.sp, fontWeight = FontWeight.Bold) },
                                         text = {
-                                            Text("Вы действительно хотите удалить данный раздел?",
+                                            Text(
+                                                stringResource(R.string.alert_delete_category),
                                                 color = colorResource(id = R.color.broun)
                                             )
                                         },
@@ -377,7 +398,7 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                                                     }
                                                     showDialog.value = false
                                                 }) {
-                                                Text("Да", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                                Text(stringResource(R.string.alert_yes), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                             }
                                         },
                                         dismissButton = {
@@ -387,7 +408,7 @@ Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
                                                 onClick = {
                                                     showDialog.value = false
                                                 }) {
-                                                Text("Отмена", color = colorResource(id = R.color.white), fontSize = 16.sp)
+                                                Text(stringResource(R.string.alert_cancel), color = colorResource(id = R.color.white), fontSize = 16.sp)
                                             }
                                         })
                                 }
