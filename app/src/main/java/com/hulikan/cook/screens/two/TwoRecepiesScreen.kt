@@ -1,4 +1,4 @@
-package com.hulikan.cook.screens.one
+package com.hulikan.cook.screens.two
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -95,6 +95,7 @@ import com.hulikan.cook.FullscreenActivity
 import com.hulikan.cook.R
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.Favourites
+import com.hulikan.cook.screens.one.saveImageToFile
 import com.hulikan.cook.viewmodels.SharedViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -111,7 +112,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @SuppressLint("CoroutineCreationDuringComposition", "ClickableViewAccessibility", "RememberReturnType")
 @Composable
-fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navController: NavController, title : String, content : String, image : String){
+fun TwoRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navController: NavController, title : String, content : String, image : String){
     val scope = rememberCoroutineScope()
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
     var selectedImageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
@@ -150,7 +151,6 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
     fun releaseMediaPlayer(mediaPlayer: MediaPlayer?) {
         try {
             mediaPlayer?.apply {
-                //stop()
                 reset()
                 release()
             }
@@ -160,7 +160,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
     }
     LaunchedEffect(Unit) {
         scope.launch {
-            val imageString = db.oneDao().getImages(decodedTitle)
+            val imageString = db.twoDao().getImages(decodedTitle)
             val newImages = imageString?.split(",")?.filter { it.isNotBlank() } ?: emptyList()
             withContext(Dispatchers.Main) {
                 listImages.clear()
@@ -175,12 +175,12 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
     }
     LaunchedEffect(key1 = decodedTitle) {
         scope.launch {
-            videoCount = db.oneDao().getVideoCountByTitle(decodedTitle)
+            videoCount = db.twoDao().getVideoCountByTitle(decodedTitle)
         }
     }
     LaunchedEffect(key1 = videoCount) {
         scope.launch {
-            videosString = db.oneDao().getVideosByTitle(decodedTitle) ?: ""
+            videosString = db.twoDao().getVideosByTitle(decodedTitle) ?: ""
             withContext(Dispatchers.Main) {
                 listVideos = videosString.split(",").filter { it.isNotBlank() && it.startsWith("content://") }
             }
@@ -188,7 +188,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
     }
     LaunchedEffect(key1 = Unit) {
         listImages.clear()
-        val imageString = db.oneDao().getImages(decodedTitle)
+        val imageString = db.twoDao().getImages(decodedTitle)
         val newImages = imageString?.split(",")?.filter { it.isNotBlank() } ?: emptyList()
         listImages.addAll(newImages)
     }
@@ -199,8 +199,8 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
         val encodedTitle = URLEncoder.encode(titleText.value, "UTF-8")
         val encodedContent = URLEncoder.encode(contentText.value, "UTF-8")
         val encodedImage = URLEncoder.encode(decodedImage, "UTF-8")
-        navController.navigate("OneScreen/$encodedTitle/$encodedContent/$encodedImage") {
-            popUpTo("OneScreen") { inclusive = true }
+        navController.navigate("TwoScreen/$encodedTitle/$encodedContent/$encodedImage") {
+            popUpTo("TwoScreen") { inclusive = true }
         }
     }
     LaunchedEffect(key1 = decodedTitle, key2 = decodedContent) {
@@ -213,8 +213,8 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
         val distinctImages = images.distinct()
         val imagessString = distinctImages.joinToString(",")
         scope.launch {
-            db.oneDao().clearImages(decodedTitle)
-            db.oneDao().updateImages(decodedTitle, imagessString)
+            db.twoDao().clearImages(decodedTitle)
+            db.twoDao().updateImages(decodedTitle, imagessString)
         }
     }
     fun onDelete(imageUri: String) {
@@ -226,7 +226,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
             if (imagesString.isBlank()) {
                 imagesString = R.drawable.baseline_add_photo_alternate_24.toString()
             }
-            db.oneDao().updateImages(decodedTitle, imagesString)
+            db.twoDao().updateImages(decodedTitle, imagesString)
             withContext(Dispatchers.IO) {
                 updateDatabaseWithImages(decodedTitle, listImages)
             }
@@ -238,7 +238,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                 scope.launch {
                     val savedUri = saveImageToFile(context, uri)
                     listImages.add(savedUri.toString())
-                    db.oneDao().appendImage(decodedTitle, savedUri.toString())
+                    db.twoDao().appendImage(decodedTitle, savedUri.toString())
                     updateDatabaseWithImages(decodedTitle, listImages)
                 }
             }
@@ -251,7 +251,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                 scope.launch {
                     val savedUri = saveImageToFile(context, originalUri)
                     listImages.add(savedUri.toString())
-                    db.oneDao().appendImage(decodedTitle, savedUri.toString())
+                    db.twoDao().appendImage(decodedTitle, savedUri.toString())
                     updateDatabaseWithImages(decodedTitle, listImages)
                 }
             }
@@ -264,7 +264,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                 scope.launch {
                     val savedUri = saveImageToFile(context, originalUri)
                     listImages.add(savedUri.toString())
-                    db.oneDao().appendImage(decodedTitle, savedUri.toString())
+                    db.twoDao().appendImage(decodedTitle, savedUri.toString())
                     updateDatabaseWithImages(decodedTitle, listImages)
                 }
             }
@@ -281,7 +281,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                     } else {
                         "$videosString,${savedUri.toString()}"
                     }
-                    db.oneDao().appendVideo(decodedTitle, savedUri.toString())
+                    db.twoDao().appendVideo(decodedTitle, savedUri.toString())
                     videoCount++
                     selectedVideoUri = savedUri
                     isVideoCaptured = true
@@ -300,7 +300,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                     } else {
                         "$videosString,${savedUri.toString()}"
                     }
-                    db.oneDao().appendVideo(decodedTitle, savedUri.toString())
+                    db.twoDao().appendVideo(decodedTitle, savedUri.toString())
                     videoCount++
                     selectedVideoUri = savedUri
                     isVideoCaptured = true
@@ -320,7 +320,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                         } else {
                             "$videosString,${savedUri.toString()}"
                         }
-                        db.oneDao().appendVideo(decodedTitle, savedUri.toString())
+                        db.twoDao().appendVideo(decodedTitle, savedUri.toString())
                         videoCount++
                         selectedVideoUri = savedUri
                         isVideoCaptured = true
@@ -489,7 +489,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                                     }
                                                 }
                                                 videosString = ""
-                                                db.oneDao().updateVideos(decodedTitle, videosString)
+                                                db.twoDao().updateVideos(decodedTitle, videosString)
                                                 withContext(Dispatchers.Main) {
                                                     listVideos = emptyList()
                                                 }
@@ -743,7 +743,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                         textAlign = TextAlign.Center
                                     )
                                     Icon(painter = if (isPlaying) painterResource(R.drawable.baseline_video_pause)
-                                        else painterResource(R.drawable.baseline_video_play),
+                                    else painterResource(R.drawable.baseline_video_play),
                                         contentDescription = if (isPlaying) "Pause" else "Play",
                                         modifier = Modifier
                                             .size(30.dp)
@@ -808,7 +808,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                                             }
                                                             val updatedList = videosString.split(",").filter { it != selectedItem }
                                                             videosString = updatedList.joinToString(",")
-                                                            db.oneDao().updateVideos(decodedTitle, videosString)
+                                                            db.twoDao().updateVideos(decodedTitle, videosString)
                                                             withContext(Dispatchers.Main) {
                                                                 listVideos = listVideos.filter { it != selectedItem }
                                                                 if (currentVideoUri == selectedItem) {
@@ -852,16 +852,16 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                     .fillMaxWidth()
                     .height(180.dp)) {
                     if(bigPhoto == null){
-                            Image(painter = painterResource(id = R.drawable.baseline_image_24),
-                                contentDescription = "add_photo",
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .size(30.dp),)
+                        Image(painter = painterResource(id = R.drawable.baseline_image_24),
+                            contentDescription = "add_photo",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .size(30.dp),)
                     } else {
                         AsyncImage(model = ImageRequest.Builder(context)
-                                .data(bigPhoto)
-                                .crossfade(true)
-                                .build(),
+                            .data(bigPhoto)
+                            .crossfade(true)
+                            .build(),
                             contentDescription = "big_photo",
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
@@ -909,7 +909,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                                         URLEncoder.encode(decodedContent, "UTF-8")
                                                     val encodedImage =
                                                         URLEncoder.encode(decodedImage, "UTF-8")
-                                                    navController.navigate("OneEditRecepiesScreen/$encodedTitle/$encodedContent/$encodedImage")
+                                                    navController.navigate("TwoEditRecepiesScreen/$encodedTitle/$encodedContent/$encodedImage")
                                                 }
                                             },
                                         tint = colorResource(R.color.broun)
@@ -917,7 +917,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                     var tints by remember { mutableStateOf(false) }
 
                                     LaunchedEffect(key1 = decodedTitle) {
-                                        tints = db.favouritesDao().isFavourite(decodedTitle, "OneRecepiesScreen")
+                                        tints = db.favouritesDao().isFavourite(decodedTitle, "TwoRecepiesScreen")
                                     }
                                     Icon(
                                         painter = painterResource(id = if (tints) R.drawable.baseline_favorite_red
@@ -933,7 +933,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                                             .favouritesDao()
                                                             .deleteFavourite(
                                                                 decodedTitle,
-                                                                "OneRecepiesScreen"
+                                                                "TwoRecepiesScreen"
                                                             )
                                                     } else {
                                                         db
@@ -943,7 +943,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                                                     title = decodedTitle,
                                                                     content = decodedContent,
                                                                     images = decodedImage,
-                                                                    favouriteskey = "OneRecepiesScreen"
+                                                                    favouriteskey = "TwoRecepiesScreen"
                                                                 )
                                                             )
                                                     }
@@ -1163,7 +1163,7 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                                         }
                                                     }
                                                     listImages = mutableStateListOf()
-                                                    db.oneDao().updateImages(decodedTitle, imagesString)
+                                                    db.twoDao().updateImages(decodedTitle, imagesString)
                                                 }
                                                 showDialogTwo.value = false
                                             }) {
@@ -1205,8 +1205,8 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                                         Box(modifier = Modifier.fillMaxSize()) {
                                             AsyncImage(
                                                 model = ImageRequest.Builder(context)
-                                                        .data(item)
-                                                        .crossfade(true).build(),
+                                                    .data(item)
+                                                    .crossfade(true).build(),
                                                 contentDescription = "item_photo",
                                                 modifier = Modifier.fillMaxSize(),
                                                 contentScale = ContentScale.Crop
@@ -1279,14 +1279,14 @@ fun OneRecepiesScreen(sharedViewModel: SharedViewModel, context : Context, navCo
                 }
             }
             Card(modifier = Modifier.fillMaxWidth(), onClick = {
-                    scope.launch {
-                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                            bottomSheetScaffoldState.bottomSheetState.expand()
-                        } else {
-                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                        }
+                scope.launch {
+                    if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                        bottomSheetScaffoldState.bottomSheetState.expand()
+                    } else {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
                     }
-                }) {}
+                }
+            }) {}
         }
     }
 
@@ -1339,4 +1339,3 @@ fun Bitmap.toByteArray(): ByteArray {
     compress(Bitmap.CompressFormat.JPEG, 100, stream)
     return stream.toByteArray()
 }
-

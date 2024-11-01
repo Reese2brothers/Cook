@@ -1,11 +1,10 @@
-package com.hulikan.cook.screens.one
+package com.hulikan.cook.screens.three
 
 import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -56,7 +55,7 @@ import java.net.URLEncoder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OneEditRecepiesScreen(context: Context, navController: NavController, title: String, content: String, image : String){
+fun ThreeEditRecepiesScreen(context: Context, navController: NavController, title: String, content: String, image : String){
     val decodedTitle = try {
         URLDecoder.decode(title, "UTF-8").replace("+", " ")
     } catch (e: IllegalArgumentException) {
@@ -320,7 +319,7 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                             onClick = {
                                 scope.launch {
                                     scope.launch {
-                                        db.oneDao().updateRecepie(
+                                        db.threeDao().updateRecepie(
                                             titleText.value,
                                             contentText.value,
                                             decodedTitle,
@@ -331,7 +330,7 @@ fun OneEditRecepiesScreen(context: Context, navController: NavController, title:
                                     val updatedContent =
                                         URLEncoder.encode(contentText.value, "UTF-8")
                                     val updatedImage = URLEncoder.encode(decodedImage, "UTF-8")
-                                    navController.navigate("OneRecepiesScreen/$updatedTitle/$updatedContent/$updatedImage")
+                                    navController.navigate("ThreeRecepiesScreen/$updatedTitle/$updatedContent/$updatedImage")
                                 }
                                 showDialog.value = false
                             }) {

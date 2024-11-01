@@ -1,4 +1,4 @@
-package com.hulikan.cook.screens
+package com.hulikan.cook.screens.four
 
 import android.content.Context
 import androidx.compose.foundation.layout.Box
@@ -22,11 +22,12 @@ import androidx.navigation.NavController
 import com.hulikan.cook.R
 
 @Composable
-fun FiveScreen(context : Context, navController: NavController, title : String, content : String, image : String) {
+fun FourScreen(context : Context, navController: NavController, title : String, content : String, image : String) {
     Box(modifier = Modifier.fillMaxSize().systemBarsPadding()) {
         Text(
-            text = "fivescreen",
-            modifier = Modifier.fillMaxWidth().padding(end = 8.dp),
+            text = "fourscreen",
+            modifier = Modifier.fillMaxWidth()
+                .wrapContentHeight(Alignment.CenterVertically).padding(end = 8.dp),
             textAlign = TextAlign.Center,
             fontSize = 30.sp,
             color = colorResource(id = R.color.broun),
