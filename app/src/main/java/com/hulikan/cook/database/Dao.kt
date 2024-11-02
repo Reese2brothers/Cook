@@ -1606,4 +1606,1091 @@ interface ThirtyDao {
     suspend fun clearImages(title: String)
 }
 
+@Dao
+interface ThirtyOneDao {
+    @Query("SELECT * FROM thirtyone")
+    fun getAll(): Flow<List<ThirtyOne>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyOne(thirtyOne: ThirtyOne)
+
+    @Delete
+    suspend fun deleteThirtyOne(thirtyOne: ThirtyOne)
+
+    @Query("DELETE FROM thirtyone")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtyone WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtyone SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtyone")
+    suspend fun getAllImages(): List<ThirtyOne>
+
+    @Query("UPDATE thirtyone SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM thirtyone")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtyone")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtyone SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtyone WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtyone SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtyone WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtyone WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtyone SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtyone SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface ThirtyTwoDao {
+    @Query("SELECT * FROM thirtytwo")
+    fun getAll(): Flow<List<ThirtyTwo>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyTwo(thirtyTwo: ThirtyTwo)
+
+    @Delete
+    suspend fun deleteThirtyTwo(thirtyTwo: ThirtyTwo)
+
+    @Query("DELETE FROM thirtytwo")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtytwo WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtytwo SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtytwo")
+    suspend fun getAllImages(): List<ThirtyTwo>
+
+    @Query("UPDATE thirtytwo SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(
+        newTitle: String,
+        newContent: String,
+        oldTitle: String,
+        currentImage: String
+    )
+
+    @Query("SELECT title FROM thirtytwo")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtytwo")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtytwo SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtytwo WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtytwo SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtytwo WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtytwo WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtytwo SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtytwo SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface ThirtyThreeDao {
+    @Query("SELECT * FROM thirtythree")
+    fun getAll(): Flow<List<ThirtyThree>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyThree(thirtyThree: ThirtyThree)
+
+    @Delete
+    suspend fun deleteThirtyThree(thirtyThree: ThirtyThree)
+
+    @Query("DELETE FROM thirtythree")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtythree WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtythree SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtythree")
+    suspend fun getAllImages(): List<ThirtyThree>
+
+    @Query("UPDATE thirtythree SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM thirtythree")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtythree")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtythree SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtythree WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtythree SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtythree WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtythree WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtythree SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtythree SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface ThirtyFourDao {
+    @Query("SELECT * FROM thirtyFour")
+    fun getAll(): Flow<List<ThirtyFour>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyFour(thirtyFour: ThirtyFour)
+
+    @Delete
+    suspend fun deleteThirtyFour(thirtyFour: ThirtyFour)
+
+    @Query("DELETE FROM thirtyFour")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtyFour WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtyFour SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtyFour")
+    suspend fun getAllImages(): List<ThirtyFour>
+
+    @Query("UPDATE thirtyFour SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM thirtyFour")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtyFour")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtyFour SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtyFour WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtyFour SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtyFour WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtyFour WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtyFour SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtyFour SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface ThirtyFiveDao {
+    @Query("SELECT * FROM thirtyFive")
+    fun getAll(): Flow<List<ThirtyFive>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyFive(thirtyFive: ThirtyFive)
+
+    @Delete
+    suspend fun deleteThirtyFive(thirtyFive: ThirtyFive)
+
+    @Query("DELETE FROM thirtyFive")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtyFive WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtyFive SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtyFive")
+    suspend fun getAllImages(): List<ThirtyFive>
+
+    @Query("UPDATE thirtyFive SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM thirtyFive")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtyFive")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtyFive SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtyFive WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtyFive SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtyFive WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtyFive WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtyFive SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtyFive SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface ThirtySixDao {
+    @Query("SELECT * FROM thirtySix")
+    fun getAll(): Flow<List<ThirtySix>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtySix(thirtySix: ThirtySix)
+
+    @Delete
+    suspend fun deleteThirtySix(thirtySix: ThirtySix)
+
+    @Query("DELETE FROM thirtySix")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtySix WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtySix SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtySix")
+    suspend fun getAllImages(): List<ThirtySix>
+
+    @Query("UPDATE thirtySix SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM thirtySix")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtySix")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtySix SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtySix WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtySix SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtySix WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtySix WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtySix SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtySix SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface ThirtySevenDao {
+    @Query("SELECT * FROM thirtySeven")
+    fun getAll(): Flow<List<ThirtySeven>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtySeven(thirtySeven: ThirtySeven)
+
+    @Delete
+    suspend fun deleteThirtySeven(thirtySeven: ThirtySeven)
+
+    @Query("DELETE FROM thirtySeven")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtySeven WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtySeven SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtySeven")
+    suspend fun getAllImages(): List<ThirtySeven>
+
+    @Query("UPDATE thirtySeven SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM thirtySeven")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtySeven")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtySeven SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtySeven WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtySeven SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtySeven WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtySeven WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtySeven SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtySeven SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface ThirtyEightDao {
+    @Query("SELECT * FROM thirtyEight")
+    fun getAll(): Flow<List<ThirtyEight>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyEight(thirtyEight: ThirtyEight)
+
+    @Delete
+    suspend fun deleteThirtyEight(thirtyEight: ThirtyEight)
+
+    @Query("DELETE FROM thirtyEight")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtyEight WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtyEight SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtyEight")
+    suspend fun getAllImages(): List<ThirtyEight>
+
+    @Query("UPDATE thirtyEight SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM thirtyEight")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtyEight")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtyEight SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtyEight WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtyEight SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtyEight WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtyEight WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtyEight SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtyEight SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface ThirtyNineDao {
+    @Query("SELECT * FROM thirtyNine")
+    fun getAll(): Flow<List<ThirtyNine>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyNine(thirtyNine: ThirtyNine)
+
+    @Delete
+    suspend fun deleteThirtyNine(thirtyNine: ThirtyNine)
+
+    @Query("DELETE FROM thirtyNine")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM thirtyNine WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE thirtyNine SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM thirtyNine")
+    suspend fun getAllImages(): List<ThirtyNine>
+
+    @Query("UPDATE thirtyNine SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM thirtyNine")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM thirtyNine")
+    suspend fun getContent(): String
+
+    @Query("UPDATE thirtyNine SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM thirtyNine WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE thirtyNine SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM thirtyNine WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM thirtyNine WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE thirtyNine SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE thirtyNine SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortyDao {
+    @Query("SELECT * FROM forty")
+    fun getAll(): Flow<List<Forty>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertForty(forty: Forty)
+
+    @Delete
+    suspend fun deleteForty(forty: Forty)
+
+    @Query("DELETE FROM forty")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM forty WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE forty SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM forty")
+    suspend fun getAllImages(): List<Forty>
+
+    @Query("UPDATE forty SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM forty")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM forty")
+    suspend fun getContent(): String
+
+    @Query("UPDATE forty SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM forty WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE forty SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM forty WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM forty WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE forty SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE forty SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortyOneDao {
+    @Query("SELECT * FROM fortyOne")
+    fun getAll(): Flow<List<FortyOne>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyOne(fortyOne: FortyOne)
+
+    @Delete
+    suspend fun deleteFortyOne(fortyOne: FortyOne)
+
+    @Query("DELETE FROM fortyOne")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortyOne WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortyOne SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortyOne")
+    suspend fun getAllImages(): List<FortyOne>
+
+    @Query("UPDATE fortyOne SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortyOne")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortyOne")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortyOne SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortyOne WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortyOne SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortyOne WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortyOne WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortyOne SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortyOne SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortyTwoDao {
+    @Query("SELECT * FROM fortyTwo")
+    fun getAll(): Flow<List<FortyTwo>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyTwo(fortyTwo: FortyTwo)
+
+    @Delete
+    suspend fun deleteFortyTwo(fortyTwo: FortyTwo)
+
+    @Query("DELETE FROM fortyTwo")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortyTwo WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortyTwo SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortyTwo")
+    suspend fun getAllImages(): List<FortyTwo>
+
+    @Query("UPDATE fortyTwo SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortyTwo")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortyTwo")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortyTwo SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortyTwo WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortyTwo SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortyTwo WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortyTwo WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortyTwo SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortyTwo SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortyThreeDao {
+    @Query("SELECT * FROM fortyThree")
+    fun getAll(): Flow<List<FortyThree>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyThree(fortyThree: FortyThree)
+
+    @Delete
+    suspend fun deleteFortyThree(fortyThree: FortyThree)
+
+    @Query("DELETE FROM fortyThree")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortyThree WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortyThree SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortyThree")
+    suspend fun getAllImages(): List<FortyThree>
+
+    @Query("UPDATE fortyThree SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortyThree")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortyThree")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortyThree SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortyThree WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortyThree SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortyThree WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortyThree WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortyThree SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortyThree SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortyFourDao {
+    @Query("SELECT * FROM fortyFour")
+    fun getAll(): Flow<List<FortyFour>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyFour(fortyFour: FortyFour)
+
+    @Delete
+    suspend fun deleteFortyFour(fortyFour: FortyFour)
+
+    @Query("DELETE FROM fortyFour")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortyFour WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortyFour SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortyFour")
+    suspend fun getAllImages(): List<FortyFour>
+
+    @Query("UPDATE fortyFour SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortyFour")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortyFour")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortyFour SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortyFour WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortyFour SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortyFour WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortyFour WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortyFour SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortyFour SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortyFiveDao {
+    @Query("SELECT * FROM fortyFive")
+    fun getAll(): Flow<List<FortyFive>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyFive(fortyFive: FortyFive)
+
+    @Delete
+    suspend fun deleteFortyFive(fortyFive: FortyFive)
+
+    @Query("DELETE FROM fortyFive")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortyFive WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortyFive SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortyFive")
+    suspend fun getAllImages(): List<FortyFive>
+
+    @Query("UPDATE fortyFive SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortyFive")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortyFive")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortyFive SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortyFive WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortyFive SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortyFive WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortyFive WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortyFive SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortyFive SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortySixDao {
+    @Query("SELECT * FROM fortySix")
+    fun getAll(): Flow<List<FortySix>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortySix(fortySix: FortySix)
+
+    @Delete
+    suspend fun deleteFortySix(fortySix: FortySix)
+
+    @Query("DELETE FROM fortySix")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortySix WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortySix SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortySix")
+    suspend fun getAllImages(): List<FortySix>
+
+    @Query("UPDATE fortySix SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortySix")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortySix")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortySix SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortySix WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortySix SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortySix WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortySix WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortySix SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortySix SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortySevenDao {
+    @Query("SELECT * FROM fortySeven")
+    fun getAll(): Flow<List<FortySeven>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortySeven(fortySeven: FortySeven)
+
+    @Delete
+    suspend fun deleteFortySeven(fortySeven: FortySeven)
+
+    @Query("DELETE FROM fortySeven")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortySeven WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortySeven SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortySeven")
+    suspend fun getAllImages(): List<FortySeven>
+
+    @Query("UPDATE fortySeven SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortySeven")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortySeven")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortySeven SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortySeven WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortySeven SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortySeven WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortySeven WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortySeven SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortySeven SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortyEightDao {
+    @Query("SELECT * FROM fortyEight")
+    fun getAll(): Flow<List<FortyEight>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyEight(fortyEight: FortyEight)
+
+    @Delete
+    suspend fun deleteFortyEight(fortyEight: FortyEight)
+
+    @Query("DELETE FROM fortyEight")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortyEight WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortyEight SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortyEight")
+    suspend fun getAllImages(): List<FortyEight>
+
+    @Query("UPDATE fortyEight SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortyEight")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortyEight")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortyEight SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortyEight WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortyEight SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortyEight WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortyEight WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortyEight SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortyEight SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FortyNineDao {
+    @Query("SELECT * FROM fortyNine")
+    fun getAll(): Flow<List<FortyNine>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyNine(fortyNine: FortyNine)
+
+    @Delete
+    suspend fun deleteFortyNine(fortyNine: FortyNine)
+
+    @Query("DELETE FROM fortyNine")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fortyNine WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fortyNine SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fortyNine")
+    suspend fun getAllImages(): List<FortyNine>
+
+    @Query("UPDATE fortyNine SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fortyNine")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fortyNine")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fortyNine SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fortyNine WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fortyNine SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fortyNine WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fortyNine WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fortyNine SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fortyNine SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+@Dao
+interface FiftyDao {
+    @Query("SELECT * FROM fifty")
+    fun getAll(): Flow<List<Fifty>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFifty(fifty: Fifty)
+
+    @Delete
+    suspend fun deleteFifty(fifty: Fifty)
+
+    @Query("DELETE FROM fifty")
+    suspend fun deleteAll()
+
+    @Query("SELECT images FROM fifty WHERE title = :title")
+    suspend fun getImagesByTitle(title: String): String
+
+    @Query("UPDATE fifty SET images = :images WHERE title = :title")
+    suspend fun updateImages(title: String, images: String)
+
+    @Query("SELECT * FROM fifty")
+    suspend fun getAllImages(): List<Fifty>
+
+    @Query("UPDATE fifty SET title = :newTitle, content = :newContent, images = :currentImage WHERE title = :oldTitle")
+    suspend fun updateRecepie(newTitle: String, newContent: String, oldTitle: String, currentImage: String)
+
+    @Query("SELECT title FROM fifty")
+    suspend fun getTitle(): String
+
+    @Query("SELECT content FROM fifty")
+    suspend fun getContent(): String
+
+    @Query("UPDATE fifty SET videos = :videos WHERE title = :title")
+    suspend fun updateVideos(title: String, videos: String)
+
+    @Query("SELECT videos FROM fifty WHERE title = :title")
+    suspend fun getVideosByTitle(title: String): String
+
+    @Query("UPDATE fifty SET videos = CASE WHEN videos IS NULL OR videos = '' THEN :newVideo ELSE videos || ',' || :newVideo END WHERE title = :title")
+    suspend fun appendVideo(title: String, newVideo: String)
+
+    @Query("SELECT COUNT(*) FROM fifty WHERE title = :title")
+    suspend fun getVideoCountByTitle(title: String): Int
+
+    @Query("SELECT images FROM fifty WHERE title = :title")
+    suspend fun getImages(title: String): String?
+
+    @Query("UPDATE fifty SET images = CASE WHEN images IS NULL OR images = '' THEN :images ELSE images || ',' || :images END WHERE title = :title")
+    suspend fun appendImage(title: String, images: String)
+
+    @Query("UPDATE fifty SET images = '' WHERE title = :title")
+    suspend fun clearImages(title: String)
+}
+
+
+
 

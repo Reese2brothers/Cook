@@ -250,6 +250,66 @@ Box(modifier = Modifier
                             "thirty" -> {
                                 navController.navigate("ThirtyScreen/${"пусто"}/${"пусто"}/${"пусто"}")
                             }
+                            "thirtyone" -> {
+                                navController.navigate("ThirtyOneScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "thirtytwo" -> {
+                                navController.navigate("ThirtyTwoScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "thirtythree" -> {
+                                navController.navigate("ThirtyThreeScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "thirtyfour" -> {
+                                navController.navigate("ThirtyFourScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "thirtyfive" -> {
+                                navController.navigate("ThirtyFiveScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "thirtysix" -> {
+                                navController.navigate("ThirtySixScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "thirtyseven" -> {
+                                navController.navigate("ThirtySevenScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "thirtyeight" -> {
+                                navController.navigate("ThirtyEightScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "thirtynine" -> {
+                                navController.navigate("ThirtyNineScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "forty" -> {
+                                navController.navigate("FortyScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortyone" -> {
+                                navController.navigate("FortyOneScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortytwo" -> {
+                                navController.navigate("FortyTwoScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortythree" -> {
+                                navController.navigate("FortyThreeScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortyfour" -> {
+                                navController.navigate("FortyFourScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortyfive" -> {
+                                navController.navigate("FortyFiveScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortysix" -> {
+                                navController.navigate("FortySixScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortyseven" -> {
+                                navController.navigate("FortySevenScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortyeight" -> {
+                                navController.navigate("FortyEightScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fortynine" -> {
+                                navController.navigate("FortyNineScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
+                            "fifty" -> {
+                                navController.navigate("FiftyScreen/${"пусто"}/${"пусто"}/${"пусто"}")
+                            }
                         }
                     }
                 ) {
@@ -295,7 +355,7 @@ Box(modifier = Modifier
                             verticalArrangement = Arrangement.SpaceBetween,
                             horizontalAlignment = Alignment.CenterHorizontally){
                             Text(
-                                text = "${index + 1}/30",
+                                text = "${index + 1}/50",
                                 modifier = Modifier.padding(end = 8.dp, top = 4.dp),
                                 textAlign = TextAlign.Center,
                                 fontSize = 12.sp,
@@ -770,6 +830,266 @@ Box(modifier = Modifier
                                                                     .map { Uri.parse(it) }
                                                                 db.thirtyDao().deleteAll()
                                                                 db.thirtyLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtyone" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtyOneDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtyOneDao().deleteAll()
+                                                                db.thirtyOneLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtytwo" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtyTwoDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtyTwoDao().deleteAll()
+                                                                db.thirtyTwoLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtythree" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtyThreeDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtyThreeDao().deleteAll()
+                                                                db.thirtyThreeLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtyfour" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtyFourDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtyFourDao().deleteAll()
+                                                                db.thirtyFourLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtyfive" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtyFiveDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtyFiveDao().deleteAll()
+                                                                db.thirtyFiveLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtysix" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtySixDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtySixDao().deleteAll()
+                                                                db.thirtySixLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtyseven" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtySevenDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtySevenDao().deleteAll()
+                                                                db.thirtySevenLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtyeight" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtyEightDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtyEightDao().deleteAll()
+                                                                db.thirtyEightLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "thirtynine" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.thirtyNineDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.thirtyNineDao().deleteAll()
+                                                                db.thirtyNineLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "forty" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortyDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortyDao().deleteAll()
+                                                                db.fortyLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortyone" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortyOneDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortyOneDao().deleteAll()
+                                                                db.fortyOneLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortytwo" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortyTwoDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortyTwoDao().deleteAll()
+                                                                db.fortyTwoLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortythree" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortyThreeDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortyThreeDao().deleteAll()
+                                                                db.fortyThreeLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortyfour" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortyFourDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortyFourDao().deleteAll()
+                                                                db.fortyFourLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortyfive" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortyFiveDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortyFiveDao().deleteAll()
+                                                                db.fortyFiveLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortysix" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortySixDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortySixDao().deleteAll()
+                                                                db.fortySixLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortyseven" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortySevenDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortySevenDao().deleteAll()
+                                                                db.fortySevenLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortyeight" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortyEightDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortyEightDao().deleteAll()
+                                                                db.fortyEightLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fortynine" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fortyNineDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fortyNineDao().deleteAll()
+                                                                db.fortyNineLinksDao().deleteAll()
+                                                                allImageUris.forEach { imageUri ->
+                                                                    context.contentResolver.delete(imageUri, null, null)
+                                                                }
+                                                                selectedItem?.let { db.mainListDao().deleteList(it) }
+                                                            }
+                                                        }
+                                                        "fifty" -> {
+                                                            scope.launch {
+                                                                val allImageUris = db.fiftyDao().getAllImages().map { it.images }
+                                                                    .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
+                                                                    .map { Uri.parse(it) }
+                                                                db.fiftyDao().deleteAll()
+                                                                db.fiftyLinksDao().deleteAll()
                                                                 allImageUris.forEach { imageUri ->
                                                                     context.contentResolver.delete(imageUri, null, null)
                                                                 }

@@ -275,3 +275,183 @@ data class ThirtyLinks(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }
+
+@Entity
+data class ThirtyOneLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyTwoLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyThreeLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyFourLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyFiveLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtySixLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtySevenLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyEightLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyNineLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyOneLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyTwoLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyThreeLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyFourLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyFiveLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortySixLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortySevenLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyEightLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyNineLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FiftyLinks(
+    val title: String,
+    val link: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}

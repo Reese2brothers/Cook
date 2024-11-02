@@ -360,3 +360,223 @@ data class Thirty(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 }
+
+@Entity
+data class ThirtyOne(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyTwo(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyThree(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyFour(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyFive(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtySix(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtySeven(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyEight(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class ThirtyNine(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class Forty(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyOne(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyTwo(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyThree(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyFour(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyFive(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortySix(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortySeven(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyEight(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class FortyNine(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
+
+@Entity
+data class Fifty(
+    val title: String,
+    val content: String,
+    val images: String,
+    val videos: String
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}

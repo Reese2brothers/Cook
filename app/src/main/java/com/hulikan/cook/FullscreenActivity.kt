@@ -21,12 +21,16 @@ import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import com.hulikan.cook.viewmodels.FullscreenViewModel
+import com.hulikan.cook.viewmodels.SharedViewModel
 
 class FullscreenActivity : ComponentActivity() {
+    private lateinit var sharedViewModel: SharedViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
             val viewModel = ViewModelProvider(this, SavedStateViewModelFactory(application, this)).get(FullscreenViewModel::class.java)
             val videoUriString = intent.getStringExtra("videoUri")
             if (videoUriString != null) {
@@ -35,7 +39,15 @@ class FullscreenActivity : ComponentActivity() {
             FullscreenVideoScreen(viewModel)
         }
     }
+    override fun onPause() {
+        super.onPause()
+        sharedViewModel.clearMediaPlayer()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        sharedViewModel.clearMediaPlayer()
+    }
 }
 
 @Composable

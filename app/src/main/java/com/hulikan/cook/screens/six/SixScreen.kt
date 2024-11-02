@@ -1,4 +1,4 @@
-package com.hulikan.cook.screens.four
+package com.hulikan.cook.screens.six
 
 import android.content.Context
 import android.net.Uri
@@ -61,33 +61,33 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.hulikan.cook.R
 import com.hulikan.cook.database.AppDatabase
-import com.hulikan.cook.database.Four
-import com.hulikan.cook.database.FourLinks
+import com.hulikan.cook.database.Six
+import com.hulikan.cook.database.SixLinks
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun FourScreen(context : Context, navController: NavController, title : String, content : String, image : String){
+fun SixScreen(context : Context, navController: NavController, title : String, content : String, image : String){
     val scope = rememberCoroutineScope()
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
-    val itemsFlow: Flow<List<FourLinks>> = db.fourLinksDao().getAll()
-    val fourlistFlow: Flow<List<Four>> = db.fourDao().getAll()
+    val itemsFlow: Flow<List<SixLinks>> = db.sixLinksDao().getAll()
+    val sixlistFlow: Flow<List<Six>> = db.sixDao().getAll()
     val links by itemsFlow.collectAsState(initial = emptyList())
-    val fourlist by fourlistFlow.collectAsState(initial = emptyList())
+    val sixlist by sixlistFlow.collectAsState(initial = emptyList())
     val showDialog = remember { mutableStateOf(false) }
     val showDialogTwo = remember { mutableStateOf(false) }
     val showDialogThree = remember { mutableStateOf(false) }
     val showDialogFour = remember { mutableStateOf(false) }
-    var selectedItem by remember { mutableStateOf<FourLinks?>(null) }
-    var selectedItemTwo by remember { mutableStateOf<Four?>(null) }
+    var selectedItem by remember { mutableStateOf<SixLinks?>(null) }
+    var selectedItemTwo by remember { mutableStateOf<Six?>(null) }
 
     BackHandler {
         navController.navigate("MainScreen/no_data/no_data/no_data")
     }
     LaunchedEffect(links) {
-        db.fourLinksDao().getAll()
+        db.sixLinksDao().getAll()
     }
     Column(modifier = Modifier
         .fillMaxSize()
@@ -119,7 +119,7 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
                             .size(35.dp)
                             .padding(end = 8.dp)
                             .clickable {
-                                navController.navigate("AddFourLinksScreen")
+                                navController.navigate("AddSixLinksScreen")
                             },
                         tint = colorResource(R.color.broun)
                     )
@@ -153,7 +153,7 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
                                 ),
                                     onClick = {
                                         scope.launch {
-                                            db.fourLinksDao().deleteAll()
+                                            db.sixLinksDao().deleteAll()
                                         }
                                         showDialog.value = false
                                     }) {
@@ -255,7 +255,7 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
                                             onClick = {
                                                 scope.launch {
                                                     selectedItem?.let {
-                                                        db.fourLinksDao().deleteFourLinks(it)
+                                                        db.sixLinksDao().deleteSixLinks(it)
                                                     }
                                                 }
                                                 showDialogTwo.value = false
@@ -315,7 +315,7 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
                         .size(35.dp)
                         .padding(end = 8.dp)
                         .clickable {
-                            navController.navigate("NewFourRecepiesScreen")
+                            navController.navigate("NewSixRecepiesScreen")
                         },
                     tint = colorResource(R.color.broun)
                 )
@@ -349,10 +349,10 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
                             ),
                                 onClick = {
                                     scope.launch {
-                                        val allImageUris = db.fourDao().getAllImages().map { it.images }
+                                        val allImageUris = db.sixDao().getAllImages().map { it.images }
                                             .flatMap { it.split(",").filter { it.isNotBlank() && it.startsWith("content://") } }
                                             .map { Uri.parse(it) }
-                                        db.fourDao().deleteAll()
+                                        db.sixDao().deleteAll()
                                         allImageUris.forEach { imageUri ->
                                             context.contentResolver.delete(imageUri, null, null)
                                         }
@@ -382,14 +382,14 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
             .background(
                 colorResource(R.color.broun)
             )) {}
-        LaunchedEffect(fourlist) {
-            db.oneDao().getAll()
+        LaunchedEffect(sixlist) {
+            db.sixDao().getAll()
         }
         LazyColumn(modifier = Modifier
             .fillMaxWidth()
             .weight(1f)
             .padding(top = 4.dp, bottom = 4.dp)) {
-            itemsIndexed(fourlist) {index, item ->
+            itemsIndexed(sixlist) {index, item ->
                 Card(modifier = Modifier
                     .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
                     .fillMaxWidth()
@@ -406,7 +406,7 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
                         } else {
                             URLEncoder.encode(item.images, "UTF-8")
                         }
-                        navController.navigate("FourRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
+                        navController.navigate("SixRecepiesScreen/$encodedTitle/$encodedContent/$encodedImages")
                     }
                 ){
                     Row(modifier = Modifier
@@ -473,7 +473,7 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
                                     color = colorResource(id = R.color.broun),
                                 )
                                 val isFavourite by produceState<Boolean>(initialValue = false, item.title) {
-                                    value = db.favouritesDao().isFavourite(item.title, "FourRecepiesScreen")
+                                    value = db.favouritesDao().isFavourite(item.title, "SixRecepiesScreen")
                                 }
                                 Icon(
                                     painter = painterResource(
@@ -521,7 +521,7 @@ fun FourScreen(context : Context, navController: NavController, title : String, 
                                                     val imageUrisToDelete = selectedItemTwo?.images?.split(",")
                                                         ?.filter { it.isNotBlank() && it.startsWith("content://") }
                                                         ?.map { Uri.parse(it) } ?: emptyList()
-                                                    selectedItemTwo?.let { db.fourDao().deleteFour(it) }
+                                                    selectedItemTwo?.let { db.sixDao().deleteSix(it) }
                                                     imageUrisToDelete.forEach { imageUri ->
                                                         context.contentResolver.delete(imageUri, null, null)
                                                     }

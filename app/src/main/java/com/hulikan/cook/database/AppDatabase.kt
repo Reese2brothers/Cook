@@ -10,13 +10,23 @@ import androidx.room.RoomDatabase
     Thirteen::class, Fourteen::class, Fifteen::class, Sixteen::class, Seventeen::class, Eighteen::class,
     Nineteen::class, Twenty::class, TwentyOne::class, TwentyTwo::class, TwentyThree::class, TwentyFour::class,
     TwentyFive::class, TwentySix::class, TwentySeven::class, TwentyEight::class, TwentyNine::class,
-    Thirty::class, OneLinks::class, TwoLinks::class,ThreeLinks::class,
+    Thirty::class, ThirtyOne::class,
+    ThirtyTwo::class, ThirtyThree::class, ThirtyFour::class, ThirtyFive::class, ThirtySix::class,
+    ThirtySeven::class, ThirtyEight::class, ThirtyNine::class, Forty::class, FortyOne::class,
+    FortyTwo::class, FortyThree::class, FortyFour::class, FortyFive::class, FortySix::class,
+    FortySeven::class, FortyEight::class, FortyNine::class,
+    Fifty::class, OneLinks::class, TwoLinks::class,ThreeLinks::class,
     FourLinks::class, FiveLinks::class, SixLinks::class, SevenLinks::class, EightLinks::class,
     NineLinks::class, TenLinks::class, ElevenLinks::class, TwelveLinks::class, ThirteenLinks::class,
     FourteenLinks::class, FifteenLinks::class, SixteenLinks::class, SeventeenLinks::class,
     EighteenLinks::class, NineteenLinks::class, TwentyLinks::class, TwentyOneLinks::class, TwentyTwoLinks::class,
     TwentyThreeLinks::class, TwentyFourLinks::class, TwentyFiveLinks::class, TwentySixLinks::class,
-    TwentySevenLinks::class, TwentyEightLinks::class, TwentyNineLinks::class, ThirtyLinks::class], version = 1)
+    TwentySevenLinks::class, TwentyEightLinks::class, TwentyNineLinks::class, ThirtyLinks::class,
+    ThirtyOneLinks::class, ThirtyTwoLinks::class, ThirtyThreeLinks::class, ThirtyFourLinks::class, ThirtyFiveLinks::class,
+    ThirtySixLinks::class, ThirtySevenLinks::class, ThirtyEightLinks::class, ThirtyNineLinks::class,
+    FortyLinks::class, FortyOneLinks::class, FortyTwoLinks::class, FortyThreeLinks::class,
+    FortyFourLinks::class, FortyFiveLinks::class, FortySixLinks::class, FortySevenLinks::class,
+    FortyEightLinks::class, FortyNineLinks::class, FiftyLinks::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun mainListDao(): MainListDao
     abstract fun favouritesDao(): FavouritesDao
@@ -50,6 +60,26 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun twentyEightDao(): TwentyEightDao
     abstract fun twentyNineDao(): TwentyNineDao
     abstract fun thirtyDao(): ThirtyDao
+    abstract fun thirtyOneDao(): ThirtyOneDao
+    abstract fun thirtyTwoDao(): ThirtyTwoDao
+    abstract fun thirtyThreeDao(): ThirtyThreeDao
+    abstract fun thirtyFourDao(): ThirtyFourDao
+    abstract fun thirtyFiveDao(): ThirtyFiveDao
+    abstract fun thirtySixDao(): ThirtySixDao
+    abstract fun thirtySevenDao(): ThirtySevenDao
+    abstract fun thirtyEightDao(): ThirtyEightDao
+    abstract fun thirtyNineDao(): ThirtyNineDao
+    abstract fun fortyDao(): FortyDao
+    abstract fun fortyOneDao(): FortyOneDao
+    abstract fun fortyTwoDao(): FortyTwoDao
+    abstract fun fortyThreeDao(): FortyThreeDao
+    abstract fun fortyFourDao(): FortyFourDao
+    abstract fun fortyFiveDao(): FortyFiveDao
+    abstract fun fortySixDao(): FortySixDao
+    abstract fun fortySevenDao(): FortySevenDao
+    abstract fun fortyEightDao(): FortyEightDao
+    abstract fun fortyNineDao(): FortyNineDao
+    abstract fun fiftyDao(): FiftyDao
     abstract fun oneLinksDao(): OneLinksDao
     abstract fun twoLinksDao(): TwoLinksDao
     abstract fun threeLinksDao(): ThreeLinksDao
@@ -80,6 +110,26 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun twentyEightLinksDao(): TwentyEightLinksDao
     abstract fun twentyNineLinksDao(): TwentyNineLinksDao
     abstract fun thirtyLinksDao(): ThirtyLinksDao
+    abstract fun thirtyOneLinksDao(): ThirtyOneLinksDao
+    abstract fun thirtyTwoLinksDao(): ThirtyTwoLinksDao
+    abstract fun thirtyThreeLinksDao(): ThirtyThreeLinksDao
+    abstract fun thirtyFourLinksDao(): ThirtyFourLinksDao
+    abstract fun thirtyFiveLinksDao(): ThirtyFiveLinksDao
+    abstract fun thirtySixLinksDao(): ThirtySixLinksDao
+    abstract fun thirtySevenLinksDao(): ThirtySevenLinksDao
+    abstract fun thirtyEightLinksDao(): ThirtyEightLinksDao
+    abstract fun thirtyNineLinksDao(): ThirtyNineLinksDao
+    abstract fun fortyLinksDao(): FortyLinksDao
+    abstract fun fortyOneLinksDao(): FortyOneLinksDao
+    abstract fun fortyTwoLinksDao(): FortyTwoLinksDao
+    abstract fun fortyThreeLinksDao(): FortyThreeLinksDao
+    abstract fun fortyFourLinksDao(): FortyFourLinksDao
+    abstract fun fortyFiveLinksDao(): FortyFiveLinksDao
+    abstract fun fortySixLinksDao(): FortySixLinksDao
+    abstract fun fortySevenLinksDao(): FortySevenLinksDao
+    abstract fun fortyEightLinksDao(): FortyEightLinksDao
+    abstract fun fortyNineLinksDao(): FortyNineLinksDao
+    abstract fun fiftyLinksDao(): FiftyLinksDao
 
     companion object {
         @Volatile

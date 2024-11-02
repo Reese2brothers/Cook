@@ -83,7 +83,12 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
         "eleven", "twelve", "thirteen", "fourteen", "fifteen",
         "sixteen", "seventeen", "eighteen", "nineteen", "twenty",
         "twentyone", "twentytwo", "twentythree", "twentyfour", "twentyfive",
-        "twentysix", "twentyseven", "twentyeight", "twentynine", "thirty")
+        "twentysix", "twentyseven", "twentyeight", "twentynine", "thirty",
+        "thirtyone", "thirtytwo", "thirtythree", "thirtyfour", "thirtyfive", "thirtysix",
+        "thirtyseven", "thirtyeight", "thirtynine", "forty", "fortyone", "fortytwo",
+        "fortythree", "fortyfour", "fortyfive", "fortysix", "fortyseven",
+        "fortyeight", "fortynine", "fifty"
+    )
 
         val images = listOf(
         R.drawable.bbq, R.drawable.bize, R.drawable.blini,
@@ -110,7 +115,12 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
         R.drawable.suppuretwo,R.drawable.teacup, R.drawable.testo, R.drawable.tikva,
         R.drawable.tikvatwo, R.drawable.tushen, R.drawable.tushentwo,
         R.drawable.tworog, R.drawable.vipechka, R.drawable.vipechkatwo,
-        R.drawable.zhele
+        R.drawable.zhele, R.drawable.blinisnachinkoi, R.drawable.buterbrodi, R.drawable.gorshok,
+            R.drawable.kanape, R.drawable.keks, R.drawable.kekstwo, R.drawable.kruasan,
+            R.drawable.marmelad, R.drawable.morkovpirog, R.drawable.ovoshnarezka, R.drawable.pechen,
+            R.drawable.seledka, R.drawable.sharlotka, R.drawable.sloenka, R.drawable.sushi,
+            R.drawable.sushitwo, R.drawable.tortdecor, R.drawable.tortdecortwo,
+            R.drawable.tortdecorthree, R.drawable.zharkoe
     )
 
     Box(modifier = Modifier

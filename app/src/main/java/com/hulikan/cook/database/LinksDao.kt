@@ -444,3 +444,303 @@ interface ThirtyLinksDao {
     @Query("DELETE FROM thirtyLinks")
     suspend fun deleteAll()
 }
+
+@Dao
+interface ThirtyOneLinksDao {
+    @Query("SELECT * FROM thirtyOneLinks")
+    fun getAll(): Flow<List<ThirtyOneLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyOneLinks(thirtyOneLinks: ThirtyOneLinks)
+
+    @Delete
+    suspend fun deleteThirtyOneLinks(thirtyOneLinks: ThirtyOneLinks)
+
+    @Query("DELETE FROM thirtyOneLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtyTwoLinksDao {
+    @Query("SELECT * FROM thirtyTwoLinks")
+    fun getAll(): Flow<List<ThirtyTwoLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyTwoLinks(thirtyTwoLinks: ThirtyTwoLinks)
+
+    @Delete
+    suspend fun deleteThirtyTwoLinks(thirtyTwoLinks: ThirtyTwoLinks)
+
+    @Query("DELETE FROM thirtyTwoLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtyThreeLinksDao {
+    @Query("SELECT * FROM thirtyThreeLinks")
+    fun getAll(): Flow<List<ThirtyThreeLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyThreeLinks(thirtyThreeLinks: ThirtyThreeLinks)
+
+    @Delete
+    suspend fun deleteThirtyThreeLinks(thirtyThreeLinks: ThirtyThreeLinks)
+
+    @Query("DELETE FROM thirtyThreeLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtyFourLinksDao {
+    @Query("SELECT * FROM thirtyFourLinks")
+    fun getAll(): Flow<List<ThirtyFourLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyFourLinks(thirtyFourLinks: ThirtyFourLinks)
+
+    @Delete
+    suspend fun deleteThirtyFourLinks(thirtyFourLinks: ThirtyFourLinks)
+
+    @Query("DELETE FROM thirtyFourLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtyFiveLinksDao {
+    @Query("SELECT * FROM thirtyFiveLinks")
+    fun getAll(): Flow<List<ThirtyFiveLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyFiveLinks(thirtyFiveLinks: ThirtyFiveLinks)
+
+    @Delete
+    suspend fun deleteThirtyFiveLinks(thirtyFiveLinks: ThirtyFiveLinks)
+
+    @Query("DELETE FROM thirtyFiveLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtySixLinksDao {
+    @Query("SELECT * FROM thirtySixLinks")
+    fun getAll(): Flow<List<ThirtySixLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtySixLinks(thirtySixLinks: ThirtySixLinks)
+
+    @Delete
+    suspend fun deleteThirtySixLinks(thirtySixLinks: ThirtySixLinks)
+
+    @Query("DELETE FROM thirtySixLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtySevenLinksDao {
+    @Query("SELECT * FROM thirtySevenLinks")
+    fun getAll(): Flow<List<ThirtySevenLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtySevenLinks(thirtySevenLinks: ThirtySevenLinks)
+
+    @Delete
+    suspend fun deleteThirtySevenLinks(thirtySevenLinks: ThirtySevenLinks)
+
+    @Query("DELETE FROM thirtySevenLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtyEightLinksDao {
+    @Query("SELECT * FROM thirtyEightLinks")
+    fun getAll(): Flow<List<ThirtyEightLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyEightLinks(thirtyEightLinks: ThirtyEightLinks)
+
+    @Delete
+    suspend fun deleteThirtyEightLinks(thirtyEightLinks: ThirtyEightLinks)
+
+    @Query("DELETE FROM thirtyEightLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface ThirtyNineLinksDao {
+    @Query("SELECT * FROM thirtyNineLinks")
+    fun getAll(): Flow<List<ThirtyNineLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertThirtyNineLinks(thirtyNineLinks: ThirtyNineLinks)
+
+    @Delete
+    suspend fun deleteThirtyNineLinks(thirtyNineLinks: ThirtyNineLinks)
+
+    @Query("DELETE FROM thirtyNineLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortyLinksDao {
+    @Query("SELECT * FROM fortyLinks")
+    fun getAll(): Flow<List<FortyLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyLinks(fortyLinks: FortyLinks)
+
+    @Delete
+    suspend fun deleteFortyLinks(fortyLinks: FortyLinks)
+
+    @Query("DELETE FROM fortyLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortyOneLinksDao {
+    @Query("SELECT * FROM fortyOneLinks")
+    fun getAll(): Flow<List<FortyOneLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyOneLinks(fortyOneLinks: FortyOneLinks)
+
+    @Delete
+    suspend fun deleteFortyOneLinks(fortyOneLinks: FortyOneLinks)
+
+    @Query("DELETE FROM fortyOneLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortyTwoLinksDao {
+    @Query("SELECT * FROM fortyTwoLinks")
+    fun getAll(): Flow<List<FortyTwoLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyTwoLinks(fortyTwoLinks: FortyTwoLinks)
+
+    @Delete
+    suspend fun deleteFortyTwoLinks(fortyTwoLinks: FortyTwoLinks)
+
+    @Query("DELETE FROM fortyTwoLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortyThreeLinksDao {
+    @Query("SELECT * FROM fortyThreeLinks")
+    fun getAll(): Flow<List<FortyThreeLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyThreeLinks(fortyThreeLinks: FortyThreeLinks)
+
+    @Delete
+    suspend fun deleteFortyThreeLinks(fortyThreeLinks: FortyThreeLinks)
+
+    @Query("DELETE FROM fortyThreeLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortyFourLinksDao {
+    @Query("SELECT * FROM fortyFourLinks")
+    fun getAll(): Flow<List<FortyFourLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyFourLinks(fortyFourLinks: FortyFourLinks)
+
+    @Delete
+    suspend fun deleteFortyFourLinks(fortyFourLinks: FortyFourLinks)
+
+    @Query("DELETE FROM fortyFourLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortyFiveLinksDao {
+    @Query("SELECT * FROM fortyFiveLinks")
+    fun getAll(): Flow<List<FortyFiveLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyFiveLinks(fortyFiveLinks: FortyFiveLinks)
+
+    @Delete
+    suspend fun deleteFortyFiveLinks(fortyFiveLinks: FortyFiveLinks)
+
+    @Query("DELETE FROM fortyFiveLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortySixLinksDao {
+    @Query("SELECT * FROM fortySixLinks")
+    fun getAll(): Flow<List<FortySixLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortySixLinks(fortySixLinks: FortySixLinks)
+
+    @Delete
+    suspend fun deleteFortySixLinks(fortySixLinks: FortySixLinks)
+
+    @Query("DELETE FROM fortySixLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortySevenLinksDao {
+    @Query("SELECT * FROM fortySevenLinks")
+    fun getAll(): Flow<List<FortySevenLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortySevenLinks(fortySevenLinks: FortySevenLinks)
+
+    @Delete
+    suspend fun deleteFortySevenLinks(fortySevenLinks: FortySevenLinks)
+
+    @Query("DELETE FROM fortySevenLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortyEightLinksDao {
+    @Query("SELECT * FROM fortyEightLinks")
+    fun getAll(): Flow<List<FortyEightLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyEightLinks(fortyEightLinks: FortyEightLinks)
+
+    @Delete
+    suspend fun deleteFortyEightLinks(fortyEightLinks: FortyEightLinks)
+
+    @Query("DELETE FROM fortyEightLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FortyNineLinksDao {
+    @Query("SELECT * FROM fortyNineLinks")
+    fun getAll(): Flow<List<FortyNineLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFortyNineLinks(fortyNineLinks: FortyNineLinks)
+
+    @Delete
+    suspend fun deleteFortyNineLinks(fortyNineLinks: FortyNineLinks)
+
+    @Query("DELETE FROM fortyNineLinks")
+    suspend fun deleteAll()
+}
+
+@Dao
+interface FiftyLinksDao {
+    @Query("SELECT * FROM fiftyLinks")
+    fun getAll(): Flow<List<FiftyLinks>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFiftyLinks(fiftyLinks: FiftyLinks)
+
+    @Delete
+    suspend fun deleteFiftyLinks(fiftyLinks: FiftyLinks)
+
+    @Query("DELETE FROM fiftyLinks")
+    suspend fun deleteAll()
+}
