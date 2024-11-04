@@ -148,45 +148,21 @@ fun NewOneRecepiesScreen(context : Context, navController: NavController){
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_save_24),
                         contentDescription = "save",
-                        modifier = Modifier
-                            .size(30.dp)
-                            .padding(end = 4.dp)
-                            .clickable {
-                                if (titleText.value.isBlank() && contentText.value.isBlank()) {
-                                    Toast
-                                        .makeText(
-                                            context,
-                                            context.getString(R.string.toast_full_empty_fields),
-                                            Toast.LENGTH_SHORT
-                                        )
-                                        .show()
+                        modifier = Modifier.size(30.dp).padding(end = 4.dp).clickable {
+                                if (titleText.value.isNullOrBlank() && contentText.value.isNullOrBlank()) {
+                                    Toast.makeText(context, context.getString(R.string.toast_full_empty_fields), Toast.LENGTH_SHORT).show()
                                 } else {
                                     scope.launch {
                                         val title = titleText.value
                                         val content = contentText.value
-                                        val images = selectedImageUri?.toString()
-                                            ?: R.drawable.baseline_add_photo_alternate_24.toString()
-
-                                        db
-                                            .oneDao()
-                                            .insertOne(
-                                                One(
-                                                    title = title,
-                                                    content = content,
-                                                    images = images,
-                                                    videos = ""
-                                                )
-                                            )
-
-                                        val encodedTitle = URLEncoder.encode(title, "UTF-8")
-                                        val encodedContent = URLEncoder.encode(content, "UTF-8")
+                                        val images = selectedImageUri?.toString() ?: R.drawable.baseline_add_photo_alternate_24.toString()
+                                        db.oneDao().insertOne(One(title = title, content = content, images = images, videos = ""))
+                                        val encodedTitle = URLEncoder.encode(title.ifEmpty { "empty" }, "UTF-8")
+                                        val encodedContent = URLEncoder.encode(content.ifEmpty { "empty" }, "UTF-8")
                                         val encodedImageUri = if (selectedImageUri != null) {
                                             URLEncoder.encode(selectedImageUri.toString(), "UTF-8")
                                         } else {
-                                            URLEncoder.encode(
-                                                R.drawable.baseline_add_photo_alternate_24.toString(),
-                                                "UTF-8"
-                                            )
+                                            URLEncoder.encode(R.drawable.baseline_add_photo_alternate_24.toString(), "UTF-8")
                                         }
                                         navController.navigate("OneScreen/$encodedTitle/$encodedContent/$encodedImageUri")
                                     }

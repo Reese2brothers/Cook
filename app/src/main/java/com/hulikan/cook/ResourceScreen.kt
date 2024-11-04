@@ -91,9 +91,10 @@ fun ResourceScreen(context : Context, navController: NavController, title : Stri
     )
 
         val images = listOf(
-        R.drawable.bbq, R.drawable.bize, R.drawable.blini,
-        R.drawable.blinsnachinkoi, R.drawable.borsch, R.drawable.brinza,
-        R.drawable.burger, R.drawable.buterbrot, R.drawable.cake,
+        R.drawable.smuzithree, R.drawable.stakani, R.drawable.specii, R.drawable.fruitssmuzi,
+            R.drawable.ovoshsmuzi, R.drawable.bbq, R.drawable.bize, R.drawable.blini,
+        R.drawable.blinsnachinkoi, R.drawable.moxito, R.drawable.moxitotwo, R.drawable.borsch,
+            R.drawable.brinza, R.drawable.burger, R.drawable.buterbrot, R.drawable.cake,
         R.drawable.caketwo,R.drawable.chainik, R.drawable.cheburek, R.drawable.cocktail,
         R.drawable.decor, R.drawable.duhovka, R.drawable.fish,
         R.drawable.fishtwo, R.drawable.fishthree, R.drawable.fri,

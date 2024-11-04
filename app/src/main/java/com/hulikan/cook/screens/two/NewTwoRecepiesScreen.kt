@@ -152,7 +152,7 @@ fun NewTwoRecepiesScreen(context : Context, navController: NavController){
                             .size(30.dp)
                             .padding(end = 4.dp)
                             .clickable {
-                                if (titleText.value.isBlank() && contentText.value.isBlank()) {
+                                if (titleText.value.isNullOrBlank() && contentText.value.isNullOrBlank()) {
                                     Toast
                                         .makeText(
                                             context,
@@ -178,8 +178,8 @@ fun NewTwoRecepiesScreen(context : Context, navController: NavController){
                                                 )
                                             )
 
-                                        val encodedTitle = URLEncoder.encode(title, "UTF-8")
-                                        val encodedContent = URLEncoder.encode(content, "UTF-8")
+                                        val encodedTitle = URLEncoder.encode(title.ifEmpty { "empty" }, "UTF-8")
+                                        val encodedContent = URLEncoder.encode(content.ifEmpty { "empty" }, "UTF-8")
                                         val encodedImageUri = if (selectedImageUri != null) {
                                             URLEncoder.encode(selectedImageUri.toString(), "UTF-8")
                                         } else {

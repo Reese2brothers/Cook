@@ -399,8 +399,16 @@ fun SixScreen(context : Context, navController: NavController, title : String, c
                     elevation = 5.dp,
                     border = BorderStroke(1.dp, color = colorResource(id = R.color.broun)),
                     onClick = {
-                        val encodedTitle = URLEncoder.encode(item.title, "UTF-8")
-                        val encodedContent = URLEncoder.encode(item.content, "UTF-8")
+                        val encodedTitle = if (item.title.isEmpty()) {
+                            "no_data"
+                        } else {
+                            URLEncoder.encode(item.title, "UTF-8")
+                        }
+                        val encodedContent = if (item.content.isEmpty()) {
+                            "no_data"
+                        } else {
+                            URLEncoder.encode(item.content, "UTF-8")
+                        }
                         val encodedImages = if (item.images.isEmpty()) {
                             R.drawable.baseline_add_photo_alternate_24.toString()
                         } else {

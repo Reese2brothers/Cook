@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -54,6 +55,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.room.Room
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.MainList
 import kotlinx.coroutines.flow.Flow
@@ -148,7 +151,8 @@ Box(modifier = Modifier
             .background(color = colorResource(R.color.broun))){}
         LazyColumn(modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight()) {
+            .fillMaxHeight()
+        ) {
             itemsIndexed(mainList) {index, item ->
                 Card(modifier = Modifier
                     .padding(top = 4.dp, start = 8.dp, end = 8.dp, bottom = 4.dp)
@@ -329,8 +333,12 @@ Box(modifier = Modifier
                                 .background(colorResource(R.color.white)),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center) {
+                                val painter = rememberAsyncImagePainter(
+                                    model = item.image,
+                                    error = painterResource(R.drawable.baseline_add_photo_alternate_24)
+                                )
                                 Image(
-                                    painter = painterResource(id = item.image),
+                                    painter = painter,
                                     contentDescription = "choise_image",
                                     modifier = Modifier
                                         .fillMaxHeight()
