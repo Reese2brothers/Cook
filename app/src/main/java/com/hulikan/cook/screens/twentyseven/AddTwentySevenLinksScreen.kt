@@ -1,4 +1,4 @@
-package com.hulikan.cook.screens.twentythree
+package com.hulikan.cook.screens.twentyseven
 
 import android.content.Context
 import android.widget.Toast
@@ -46,12 +46,12 @@ import androidx.room.Room
 import com.hulikan.cook.R
 import com.hulikan.cook.database.AppDatabase
 import com.hulikan.cook.database.OneLinks
-import com.hulikan.cook.database.TwentyThreeLinks
+import com.hulikan.cook.database.TwentySevenLinks
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddTwentyThreeLinksScreen(context : Context, navController: NavController){
+fun AddTwentySevenLinksScreen(context : Context, navController: NavController){
     val scope = rememberCoroutineScope()
     val db = remember { Room.databaseBuilder(context, AppDatabase::class.java, "database").build() }
     val focusManager = LocalFocusManager.current
@@ -181,14 +181,14 @@ fun AddTwentyThreeLinksScreen(context : Context, navController: NavController){
                         scope.launch {
                             if (titleText.value.isNotBlank() && linkText.value.isNotBlank()) {
                                 db
-                                    .twentyThreeLinksDao()
-                                    .insertTwentyThreeLinks(
-                                        TwentyThreeLinks(
+                                    .twentySevenLinksDao()
+                                    .insertTwentySevenLinks(
+                                        TwentySevenLinks(
                                             title = titleText.value,
                                             link = linkText.value
                                         )
                                     )
-                                navController.navigate("TwentyThreeScreen/${titleText.value}/\"no_data\"/\"no_data\"")
+                                navController.navigate("TwentySevenScreen/${titleText.value}/\"no_data\"/\"no_data\"")
                             } else {
                                 Toast
                                     .makeText(
