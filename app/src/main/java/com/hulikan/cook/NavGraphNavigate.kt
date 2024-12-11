@@ -27,6 +27,11 @@ import com.hulikan.cook.screens.fifteen.FifteenEditRecepiesScreen
 import com.hulikan.cook.screens.fifteen.FifteenRecepiesScreen
 import com.hulikan.cook.screens.fifteen.FifteenScreen
 import com.hulikan.cook.screens.fifteen.NewFifteenRecepiesScreen
+import com.hulikan.cook.screens.fifty.AddFiftyLinksScreen
+import com.hulikan.cook.screens.fifty.FiftyEditRecepiesScreen
+import com.hulikan.cook.screens.fifty.FiftyRecepiesScreen
+import com.hulikan.cook.screens.fifty.FiftyScreen
+import com.hulikan.cook.screens.fifty.NewFiftyRecepiesScreen
 import com.hulikan.cook.screens.five.AddFiveLinksScreen
 import com.hulikan.cook.screens.five.FiveEditRecepiesScreen
 import com.hulikan.cook.screens.five.FiveRecepiesScreen
@@ -47,6 +52,51 @@ import com.hulikan.cook.screens.fourty.FortyEditRecepiesScreen
 import com.hulikan.cook.screens.fourty.FortyRecepiesScreen
 import com.hulikan.cook.screens.fourty.FourtyScreen
 import com.hulikan.cook.screens.fourty.NewFortyRecepiesScreen
+import com.hulikan.cook.screens.fourtyeight.AddFortyEightLinksScreen
+import com.hulikan.cook.screens.fourtyeight.FortyEightEditRecepiesScreen
+import com.hulikan.cook.screens.fourtyeight.FortyEightRecepiesScreen
+import com.hulikan.cook.screens.fourtyeight.FortyEightScreen
+import com.hulikan.cook.screens.fourtyeight.NewFortyEightRecepiesScreen
+import com.hulikan.cook.screens.fourtyfive.AddFortyFiveLinksScreen
+import com.hulikan.cook.screens.fourtyfive.FortyFiveEditRecepiesScreen
+import com.hulikan.cook.screens.fourtyfive.FortyFiveRecepiesScreen
+import com.hulikan.cook.screens.fourtyfive.FortyFiveScreen
+import com.hulikan.cook.screens.fourtyfive.NewFortyFiveRecepiesScreen
+import com.hulikan.cook.screens.fourtyfour.AddFortyFourLinksScreen
+import com.hulikan.cook.screens.fourtyfour.FortyFourEditRecepiesScreen
+import com.hulikan.cook.screens.fourtyfour.FortyFourRecepiesScreen
+import com.hulikan.cook.screens.fourtyfour.FortyFourScreen
+import com.hulikan.cook.screens.fourtyfour.NewFortyFourRecepiesScreen
+import com.hulikan.cook.screens.fourtynine.AddFortyNineLinksScreen
+import com.hulikan.cook.screens.fourtynine.FortyNineEditRecepiesScreen
+import com.hulikan.cook.screens.fourtynine.FortyNineRecepiesScreen
+import com.hulikan.cook.screens.fourtynine.FortyNineScreen
+import com.hulikan.cook.screens.fourtynine.NewFortyNineRecepiesScreen
+import com.hulikan.cook.screens.fourtyone.AddFortyOneLinksScreen
+import com.hulikan.cook.screens.fourtyone.FortyOneEditRecepiesScreen
+import com.hulikan.cook.screens.fourtyone.FortyOneRecepiesScreen
+import com.hulikan.cook.screens.fourtyone.FortyOneScreen
+import com.hulikan.cook.screens.fourtyone.NewFortyOneRecepiesScreen
+import com.hulikan.cook.screens.fourtyseven.AddFortySevenLinksScreen
+import com.hulikan.cook.screens.fourtyseven.FortySevenEditRecepiesScreen
+import com.hulikan.cook.screens.fourtyseven.FortySevenRecepiesScreen
+import com.hulikan.cook.screens.fourtyseven.FortySevenScreen
+import com.hulikan.cook.screens.fourtyseven.NewFortySevenRecepiesScreen
+import com.hulikan.cook.screens.fourtysix.AddFortySixLinksScreen
+import com.hulikan.cook.screens.fourtysix.FortySixEditRecepiesScreen
+import com.hulikan.cook.screens.fourtysix.FortySixRecepiesScreen
+import com.hulikan.cook.screens.fourtysix.FortySixScreen
+import com.hulikan.cook.screens.fourtysix.NewFortySixRecepiesScreen
+import com.hulikan.cook.screens.fourtythree.AddFortyThreeLinksScreen
+import com.hulikan.cook.screens.fourtythree.FortyThreeEditRecepiesScreen
+import com.hulikan.cook.screens.fourtythree.FortyThreeRecepiesScreen
+import com.hulikan.cook.screens.fourtythree.FortyThreeScreen
+import com.hulikan.cook.screens.fourtythree.NewFortyThreeRecepiesScreen
+import com.hulikan.cook.screens.fourtytwo.AddFortyTwoLinksScreen
+import com.hulikan.cook.screens.fourtytwo.FortyTwoEditRecepiesScreen
+import com.hulikan.cook.screens.fourtytwo.FortyTwoRecepiesScreen
+import com.hulikan.cook.screens.fourtytwo.FortyTwoScreen
+import com.hulikan.cook.screens.fourtytwo.NewFotyTwoRecepiesScreen
 import com.hulikan.cook.screens.nine.AddNineLinksScreen
 import com.hulikan.cook.screens.nine.NewNineRecepiesScreen
 import com.hulikan.cook.screens.nine.NineEditRecepiesScreen
@@ -366,6 +416,36 @@ fun NavGraphNavigate(context : Context, navController: NavHostController, shared
         composable("NewFortyRecepiesScreen") {
             NewFortyRecepiesScreen(context, navController = navController)
         }
+        composable("NewFortyOneRecepiesScreen") {
+            NewFortyOneRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFotyTwoRecepiesScreen") {
+            NewFotyTwoRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFortyThreeRecepiesScreen") {
+            NewFortyThreeRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFortyFourRecepiesScreen") {
+            NewFortyFourRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFortyFiveRecepiesScreen") {
+            NewFortyFiveRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFortySixRecepiesScreen") {
+            NewFortySixRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFortySevenRecepiesScreen") {
+            NewFortySevenRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFortyEightRecepiesScreen") {
+            NewFortyEightRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFortyNineRecepiesScreen") {
+            NewFortyNineRecepiesScreen(context, navController = navController)
+        }
+        composable("NewFiftyRecepiesScreen") {
+            NewFiftyRecepiesScreen(context, navController = navController)
+        }
 
 
 
@@ -489,6 +569,36 @@ fun NavGraphNavigate(context : Context, navController: NavHostController, shared
         }
         composable("AddFortyLinksScreen") {
             AddFortyLinksScreen(context, navController = navController)
+        }
+        composable("AddFortyOneLinksScreen") {
+            AddFortyOneLinksScreen(context, navController = navController)
+        }
+        composable("AddFortyTwoLinksScreen") {
+            AddFortyTwoLinksScreen(context, navController = navController)
+        }
+        composable("AddFortyThreeLinksScreen") {
+            AddFortyThreeLinksScreen(context, navController = navController)
+        }
+        composable("AddFortyFourLinksScreen") {
+            AddFortyFourLinksScreen(context, navController = navController)
+        }
+        composable("AddFortyFiveLinksScreen") {
+            AddFortyFiveLinksScreen(context, navController = navController)
+        }
+        composable("AddFortySixLinksScreen") {
+            AddFortySixLinksScreen(context, navController = navController)
+        }
+        composable("AddFortySevenLinksScreen") {
+            AddFortySevenLinksScreen(context, navController = navController)
+        }
+        composable("AddFortyEightLinksScreen") {
+            AddFortyEightLinksScreen(context, navController = navController)
+        }
+        composable("AddFortyNineLinksScreen") {
+            AddFortyNineLinksScreen(context, navController = navController)
+        }
+        composable("AddFiftyLinksScreen") {
+            AddFiftyLinksScreen(context, navController = navController)
         }
 
 
@@ -972,6 +1082,126 @@ fun NavGraphNavigate(context : Context, navController: NavHostController, shared
             val content = backStackEntry.arguments?.getString("content") ?: ""
             val image = backStackEntry.arguments?.getString("image") ?: ""
             FourtyScreen(context, navController, title, content, image)
+        }
+        composable("FortyOneScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyOneScreen(context, navController, title, content, image)
+        }
+        composable("FortyTwoScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyTwoScreen(context, navController, title, content, image)
+        }
+        composable("FortyThreeScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyThreeScreen(context, navController, title, content, image)
+        }
+        composable("FortyFourScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyFourScreen(context, navController, title, content, image)
+        }
+        composable("FortyFiveScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyFiveScreen(context, navController, title, content, image)
+        }
+        composable("FortySixScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortySixScreen(context, navController, title, content, image)
+        }
+        composable("FortySevenScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortySevenScreen(context, navController, title, content, image)
+        }
+        composable("FortyEightScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyEightScreen(context, navController, title, content, image)
+        }
+        composable("FortyNineScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyNineScreen(context, navController, title, content, image)
+        }
+        composable("FiftyScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FiftyScreen(context, navController, title, content, image)
         }
 
 
@@ -1458,6 +1688,126 @@ fun NavGraphNavigate(context : Context, navController: NavHostController, shared
             val content = backStackEntry.arguments?.getString("content") ?: ""
             val image = backStackEntry.arguments?.getString("image") ?: ""
             FortyRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortyOneRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyOneRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortyTwoRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyTwoRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortyThreeRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyThreeRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortyFourRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyFourRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortyFiveRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyFiveRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortySixRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortySixRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortySevenRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortySevenRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortyEightRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyEightRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FortyNineRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyNineRecepiesScreen(sharedViewModel, context, navController, title, content, image)
+        }
+        composable("FiftyRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FiftyRecepiesScreen(sharedViewModel, context, navController, title, content, image)
         }
 
 
@@ -1946,6 +2296,126 @@ fun NavGraphNavigate(context : Context, navController: NavHostController, shared
             val content = backStackEntry.arguments?.getString("content") ?: ""
             val image = backStackEntry.arguments?.getString("image") ?: ""
             FortyEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortyOneEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyOneEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortyTwoEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyTwoEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortyThreeEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyThreeEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortyFourEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyFourEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortyFiveEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyFiveEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortySixEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortySixEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortySevenEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortySevenEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortyEightEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyEightEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FortyNineEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FortyNineEditRecepiesScreen(context, navController, title, content, image)
+        }
+        composable("FiftyEditRecepiesScreen/{title}/{content}/{image}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("image") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val image = backStackEntry.arguments?.getString("image") ?: ""
+            FiftyEditRecepiesScreen(context, navController, title, content, image)
         }
     }
 }
